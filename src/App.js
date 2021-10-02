@@ -57,7 +57,7 @@ export const App = () => {
                 <h3>CML</h3>
                 <Editor value={cmlOutput} onChange={setCmlOutput} />
                 <div className="jikkou-button">
-                    <Button variant="contained">実行</Button>
+                    <Button variant="contained" onClick={() => alert("実行されました")}>実行</Button>
                 </div>
             </section>
         </div>
