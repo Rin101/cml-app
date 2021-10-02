@@ -1,25 +1,65 @@
-import logo from './logo.svg';
-import './App.css';
+import { Button } from '@mui/material';
+import React, { useRef, useState } from 'react';
+import './App.css'
+import { IchigimeInput, inputToIchigimeCML } from './commands';
+import { Editor } from './Editor';
+import useLocalStorage from './useLocalStorage';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const App = () => {
+
+    const [cmlOutput, setCmlOutput] = useLocalStorage('CML', '')
+    const [userInputArr, setUserInputArr] = useState([])
+
+    const userInputArea = useRef()
+
+    const addCommand = (document) => {
+        let tmp = [...userInputArr]
+        tmp.push(document)
+        setUserInputArr(tmp)
+    }
+
+    const inputToCML = () => {
+        const commands = userInputArea.current.querySelectorAll('div')
+        let res = cmlOutput
+        Array.from(commands).map(command => {
+            switch (command.className) {
+                case 'ichigime-input':
+                    res += inputToIchigimeCML(command)
+                    break;
+                default:
+                    break;
+            }
+            return 0
+        })
+        setCmlOutput(res)
+    } 
+
+    return (
+        <div className="main">
+            <section className="command-selector-section">
+                <div className="command-selector unselectable" onClick={() => addCommand(<IchigimeInput key={new Date().getTime()}/>)}><p>位置決め</p><i className="fas fa-plus-circle"></i></div>
+                <div className="command-selector unselectable" onClick={() => addCommand(<IchigimeInput key={new Date().getTime()}/>)}><p>押し付け</p><i className="fas fa-plus-circle"></i></div>
+                <div className="command-selector unselectable" onClick={() => addCommand(<IchigimeInput key={new Date().getTime()}/>)}><p>タイマー</p><i className="fas fa-plus-circle"></i></div>
+                <div className="command-selector unselectable" onClick={() => addCommand(<IchigimeInput key={new Date().getTime()}/>)}><p>分岐</p><i className="fas fa-plus-circle"></i></div>
+                <div className="command-selector unselectable" onClick={() => addCommand(<IchigimeInput key={new Date().getTime()}/>)}><p>演算</p><i className="fas fa-plus-circle"></i></div>
+                <div className="command-selector unselectable" onClick={() => addCommand(<IchigimeInput key={new Date().getTime()}/>)}><p>繰り返し</p><i className="fas fa-plus-circle"></i></div>
+                <div className="command-selector unselectable" onClick={() => addCommand(<IchigimeInput key={new Date().getTime()}/>)}><p>停止</p><i className="fas fa-plus-circle"></i></div>
+            </section>
+            <section className="user-input-section">
+                <div className="user-input-area" ref={userInputArea}>
+                    {userInputArr}
+                </div>
+                <div className="enter-button">
+                    <Button variant="contained" onClick={() => inputToCML()}>入力</Button>
+                </div>
+            </section>
+            <section className="cml-output-section">
+                <h3>CML</h3>
+                <Editor value={cmlOutput} onChange={setCmlOutput} />
+                <div className="jikkou-button">
+                    <Button variant="contained">実行</Button>
+                </div>
+            </section>
+        </div>
+    )
 }
-
-export default App;
