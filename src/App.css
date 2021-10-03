@@ -85,19 +85,20 @@ input[type]:focus,
   letter-spacing: 1px;
 }
 
-.ichigime-input {
+.input-block {
   display: flex;
-  padding: 1rem;
+  padding: 1rem 2rem 1rem 1rem;
   margin: 1rem 0;
   border-radius: 5px;
   border: solid 1px rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 
-.ichigime-input p {
+.input-block p {
   font-size: 0.9rem;
 }
 
-.ichigime-input input {
+.input-block input {
   max-width: 6rem;
   margin: 0 0.2rem;
   border: solid 1px rgba(0, 0, 0, 0.2);
@@ -106,6 +107,16 @@ input[type]:focus,
 .tanni {
   font-weight: bold;
   margin: 0 2px;
+}
+
+.trash-input {
+  position: absolute;
+  top: 50%;
+  right: 0.3rem;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  color: rgb(136, 136, 136);
+  cursor: pointer;
 }
 
 .enter-button {
