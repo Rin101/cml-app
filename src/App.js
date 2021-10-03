@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import './App.css'
-import { IchigimeInput, inputToIchigimeCML, inputToOshitukeCML, inputToTimerCML, OshitukeInput, TimerInput } from './commands';
+import { BunkiInput, BunkiVInput, IchigimeInput, inputToIchigimeCML, inputToOshitukeCML, inputToTimerCML, OshitukeInput, TimerInput } from './commands';
 import { Editor } from './Editor';
 import useLocalStorage from './useLocalStorage';
 
@@ -57,8 +57,8 @@ export const App = () => {
                 <div className="command-selector unselectable" onClick={() => addCommand(<IchigimeInput trashInput={trashInput} key={new Date().getTime()}/>)}><p>位置決め</p><i className="fas fa-plus-circle"></i></div>
                 <div className="command-selector unselectable" onClick={() => addCommand(<OshitukeInput key={new Date().getTime()}/>)}><p>押し付け</p><i className="fas fa-plus-circle"></i></div>
                 <div className="command-selector unselectable" onClick={() => addCommand(<TimerInput key={new Date().getTime()}/>)}><p>タイマー</p><i className="fas fa-plus-circle"></i></div>
-                <div className="command-selector unselectable" onClick={() => addCommand(<IchigimeInput key={new Date().getTime()}/>)}><p>分岐</p><i className="fas fa-plus-circle"></i></div>
-                <div className="command-selector unselectable" onClick={() => addCommand(<IchigimeInput key={new Date().getTime()}/>)}><p>演算</p><i className="fas fa-plus-circle"></i></div>
+                <div className="command-selector unselectable" onClick={() => addCommand(<BunkiInput key={new Date().getTime()}/>)}><p>分岐(入力信号)</p><i className="fas fa-plus-circle"></i></div>
+                <div className="command-selector unselectable" onClick={() => addCommand(<BunkiVInput key={new Date().getTime()}/>)}><p>分岐(V変数)</p><i className="fas fa-plus-circle"></i></div>
                 <div className="command-selector unselectable" onClick={() => addCommand(<IchigimeInput key={new Date().getTime()}/>)}><p>繰り返し</p><i className="fas fa-plus-circle"></i></div>
                 <div className="command-selector unselectable" onClick={() => addCommand(<IchigimeInput key={new Date().getTime()}/>)}><p>停止</p><i className="fas fa-plus-circle"></i></div>
             </section>

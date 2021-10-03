@@ -33,7 +33,7 @@ export const inputToOshitukeCML = (document) => {
     )
 }
 
-export const OshitukeInput = () => {
+export const OshitukeInput = (props) => {
     return (
         <div className="oshituke-input input-block">
             <input type="text"></input>
@@ -42,6 +42,7 @@ export const OshitukeInput = () => {
             <p><span className="tanni">秒</span>で加速して</p>
             <input type="text"></input>
             <p><span className="tanni">秒</span>で押付け動作をする</p>
+            <div className="trash-input unselectable" onClick={(e) => props.trashInput(e)}><i class="fas fa-times"></i></div>
         </div>
     )
 }
@@ -57,11 +58,12 @@ export const inputToTimerCML = (document) => {
     )
 }
 
-export const TimerInput = () => {
+export const TimerInput = (props) => {
     return (
         <div className="timer-input input-block">
             <input type="text"></input>
             <p><span className="tanni">秒</span>待つ</p>
+            <div className="trash-input unselectable" onClick={(e) => props.trashInput(e)}><i class="fas fa-times"></i></div>
         </div>
     )
 }
@@ -77,7 +79,7 @@ export const inputToBunkiCML = (document) => {
     )
 }
 
-export const BunkiInput = () => {
+export const BunkiInput = (props) => {
     return (
         <div className="bunki-input input-block">
             <p>もし入力</p>
@@ -86,6 +88,7 @@ export const BunkiInput = () => {
             <input type="text"></input>
             <p><span className="tanni">オフ</span>のとき</p>
             <input type="text"></input>
+            <div className="trash-input unselectable" onClick={(e) => props.trashInput(e)}><i class="fas fa-times"></i></div>
         </div>
     )
 }
@@ -101,15 +104,17 @@ export const inputToBunkiVCML = (document) => {
     )
 }
 
-export const BunkiVInput = () => {
+export const BunkiVInput = (props) => {
+    const text = ">,=,<"
     return (
         <div className="bunkiv-input input-block">
             <p>もし</p>
             <input type="text"></input>
-            <p>が<span className="tanni">オン</span>のとき</p>
+            <p><span className="tanni">{text}</span></p>
             <input type="text"></input>
-            <p><span className="tanni">オフ</span>のとき</p>
+            <p>のとき</p>
             <input type="text"></input>
+            <div className="trash-input unselectable" onClick={(e) => props.trashInput(e)}><i class="fas fa-times"></i></div>
         </div>
     )
 }
