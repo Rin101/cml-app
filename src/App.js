@@ -13,19 +13,32 @@ export const App = () => {
     const [cmlOutput, setCmlOutput] = useLocalStorage('CML', '')
     const [isNyuryokuShingou, setIsNyuryokuShingou] = useState(false)
     const [jiku, setJiku] = useState(3)
+    const [tanniValue, setTanniValue] = useState(1)
     // const [programData, setProgramData] = useState([[[[]]]])
+    // const [programData, setProgramData] = useState([
+    //     [
+    //         [["位置決め", 1, [[100, "pps"], [100, "pps"], [100, "pps"]]], ["押付け", 1, [100, 100, 100]], ["位置決め", 2, [[100, "pps"], [100, "pps"], [100, "pps"]]]], 
+    //         [[], [], ["トルク制限", 1, [100, 100, 100]]],
+    //         [[], ["押付け", 2, [100, 100, 100]], ["トルク制限", 3, [100, 100, 100]]],
+    //         [[], ["押付け", 3, [100, 100, 100]], ["トルク制限", 2, [100, 100, 100]]],
+    //     ],
+    //     [
+    //         [[], ["タイマ", 2, [100, 100, 100]], []]
+    //     ]
+    // ])
     const [programData, setProgramData] = useState([
         [
-            [["位置決め", 1, [100, 100, 100]], ["押付け", 1, [100, 100, 100]], ["位置決め", 2, [100, 100, 100]]], 
-            [[], [], ["トルク制限", 1, [100, 100, 100]]],
-            [[], ["押付け", 2, [100, 100, 100]], ["トルク制限", 3, [100, 100, 100]]],
-            [[], ["押付け", 3, [100, 100, 100]], ["トルク制限", 2, [100, 100, 100]]],
+            [["位置決め", 1, [[100, "pps"], [100, "pps"], [100, "pps"]]], [], ["位置決め", 2, [[100, "pps"], [100, "pps"], [100, "pps"]]]], 
+            [[], [], []],
+            [[], [], []],
+            [[], [], []],
         ],
         [
-            [[], ["タイマ", 2, [100, 100, 100]], []]
+            [[], [], []]
         ]
     ])
 
+    // const [loopData, setLoopData] = useState([])
     const [loopData, setLoopData] = useState([[["0","0"], ["0","2"], 4]])
     const [currentDraggedCommand, setCurrentDraggedCommand] = useState("位置決め")
 
@@ -130,8 +143,8 @@ export const App = () => {
                 <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="kurikaeshi-selector" draggable="true">繰り返し</div>
             </div>
             <div className="center-section">
-                <TopMenu programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou}/>
-                <ProgramBlock isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
+                <TopMenu tanniValue={tanniValue} setTanniValue={setTanniValue} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
+                <ProgramBlock tanniValue={tanniValue} setTanniValue={setTanniValue} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
             </div>
             <div className="cml-output-section">
                 <h3 onClick={() => popMessage("FUCK OFF")}>CML</h3>

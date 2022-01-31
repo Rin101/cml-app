@@ -47,30 +47,13 @@ export const toCML = (programData, loopData, isNyuryokuShingou) => {
             }
             dousa_jikkou_of_group += loop_start + dousa_jikkou_row_arr.join(",") + "\n" + loop_end
         }
-        every_program_teigi += dousa_jikkou_of_group + "\n"
+        every_program_teigi += dousa_jikkou_of_group
     }
     
-    output += every_data_teigi + "\n"
-    output += every_program_teigi + "\n"
+    output += every_data_teigi
+    output += every_program_teigi
     if (isNyuryokuShingou) {
-        let nyuryokuTxt = `K81=1
-        K82=1
-        L1.1
-        I1.1,JL2.1,T0.1
-        I2.1,JL3.1,T0.1
-        I3.1,JL4.1,T0.1
-        I4.1,].1:].1,T0.1
-        L2.1
-        [1.1
-        I1.1,W0.1,JL1.1
-        L3.1
-        [2.1
-        I2.1,W0.1,JL1.1
-        L4.1
-        [3.1
-        I3.1,W0.1,JL1.1
-        END
-        `
+        let nyuryokuTxt = `K81=1\nK82=1\nL1.1\nI1.1,JL2.1,T0.1\nI2.1,JL3.1,T0.1\nI3.1,JL4.1,T0.1\nI4.1,].1:].1,T0.1\nL2.1\n[1.1\nI1.1,W0.1,JL1.1\nL3.1\n[2.1\nI2.1,W0.1,JL1.1\nL4.1\n[3.1\nI3.1,W0.1,JL1.1\nEND`
         return output + "END" + "\n" + nyuryokuTxt
     } else {
         return output + "END"

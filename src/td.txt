@@ -1,0 +1,19 @@
+
+-drpodown of type-data : mm & pulse
+
+-change the way [programdata] sets individual data
+
+-type-data input onchange handler: change state
+
+-add global state which contains tannikannsann values
+
+-change toCML
+
+-tannikannsann
+
+
+------ CHECK IMPORT FILE function -----------
+
+-----------------
+-----------------
+-----------------

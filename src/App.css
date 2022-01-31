@@ -209,7 +209,8 @@ input[type]:focus,
   padding: 1rem;
   display: none;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 }
 
 .close-popup {
@@ -227,26 +228,9 @@ input[type]:focus,
   transition: ease 0.1s;
 }
 
-.tannikannsann-main {
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  height: 100%;
-}
-
-.tannikannsann-main > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.tannikannsann-main > div > div {
-  margin: 2rem 0 4rem 0;
-}
-
-.tannikannsann-ok {
-  margin: 2rem 0;
-  align-self: center;
+/* -- */
+.tanni-wizard input[type="text"] {
+  text-align: center;
 }
 
 /* -------------------------- */

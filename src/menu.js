@@ -1,5 +1,7 @@
 import { Button } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardHyouji, WizardBunkai } from './tanni-funcs';
+import { toCML } from './toCml';
 
 // Function to download data to a file
 export const downloadFile = (data, filename, type) => {
@@ -30,8 +32,10 @@ export const TopMenu = (props) => {
             // const obj = JSON.parse(e.target.result)
             const obj = JSON.parse(reader.result)
             try {
+                props.setJiku(obj.data.jiku)
                 props.setProgramData(obj.data.programData)
                 props.setLoopData(obj.data.loopData)
+                props.setCmlOutput(toCML(obj.data.programData, obj.data.loopData, obj.data.isNyuryokuShingou))
             } catch (err) {
                 alert('ファイルが間違っています')
             }
@@ -59,7 +63,7 @@ export const TopMenu = (props) => {
     }
 
     const handleFileSave = () => {
-        let obj = {"name":"cml-import","data":{"programData":props.programData,"loopData":props.loopData}}
+        let obj = {"name":"cml-import","data":{"jiku":props.jiku,"programData":props.programData,"loopData":props.loopData,"isNyuryokuShingou":props.isNyuryokuShingou}}
         const data = JSON.stringify(obj)
         const filename = "CML-途中保存"
         const type = ".txt"
@@ -71,30 +75,14 @@ export const TopMenu = (props) => {
         props.layerRef.current.style.display = "block"
     }
 
-    const closeTanni = (topMenuRef,　layerRef) => {
+    const closeTanni = (topMenuRef, layerRef) => {
         topMenuRef.current.querySelector('.tannikannsann-popup').style.display = "none"
         layerRef.current.style.display = "none"
     }
 
     const toggleNyuryokuShingou = (e) => {
-        const nyuryokuText = 
-        `K81=1
-        K82=1
-        L1.1
-        I1.1,JL2.1,T0.1
-        I2.1,JL3.1,T0.1
-        I3.1,JL4.1,T0.1
-        I4.1,].1:].1,T0.1
-        L2.1
-        [1.1
-        I1.1,W0.1,JL1.1
-        L3.1
-        [2.1
-        I2.1,W0.1,JL1.1
-        L4.1
-        [3.1
-        I3.1,W0.1,JL1.1
-        END`
+        const nyuryokuText = `K81=1\nK82=1\nL1.1\nI1.1,JL2.1,T0.1\nI2.1,JL3.1,T0.1\nI3.1,JL4.1,T0.1\nI4.1,].1:].1,T0.1\nL2.1\n[1.1\nI1.1,W0.1,JL1.1\nL3.1\n[2.1\nI2.1,W0.1,JL1.1\nL4.1\n[3.1\nI3.1,W0.1,JL1.1\nEND`
+
         let isPressed = e.currentTarget.classList.contains("pressed-nyuryoku-shingou")
         if (isPressed) {
             if (props.cmlOutput.includes(nyuryokuText)) {
@@ -128,9 +116,9 @@ export const TopMenu = (props) => {
                     <input id="top-menu-file-upload" accept=".txt" type="file" onChange={(e) => handleFileImport(e)}/>
                 </label>
             </div>
-            <div className="top-menu-button tannikannsann" onClick={() => openTanni()}>単位換算</div>
-            <Tannikannsann layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
-            <div className="top-menu-button unpressed-nyuryoku-shingou" onClick={(e) => toggleNyuryokuShingou(e)}>入力信号: {isNyuryoku}</div>
+            <div className="top-menu-button tannikannsann unselectable" onClick={() => openTanni()}>単位換算</div>
+            <Tannikannsann tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
+            <div className="top-menu-button unpressed-nyuryoku-shingou unselectable" onClick={(e) => toggleNyuryokuShingou(e)}>入力信号: {isNyuryoku}</div>
         </div>
     )
 }
@@ -144,7 +132,7 @@ const Tannikannsann = (props) => {
     const susumiInput = useRef()
     const pulseText = useRef()
 
-    const getPulse = () => {
+    const getPulse = (tanniValue) => {
         let kyori = 100
         let nyuryoku = parseInt(nyuryokuInput.current.value.trim())
         let shuturyoku = parseInt(shuturyokuInput.current.value.trim())
@@ -174,65 +162,51 @@ const Tannikannsann = (props) => {
         }
     }
 
+    const WizardController = () => {
+        const [history, setHistory] = useState([])
+        const [wizardInput, setWizardInput] = useState(["kikou", "モータ単体"])
+
+        useEffect(() => {
+            console.log(wizardInput)
+        }, [wizardInput])
+
+        const inputForm = () => {
+            const params = {
+                wizardInput: wizardInput[1], history, setHistory, setWizardInput
+            }
+        
+            switch (wizardInput[0]) {
+                case "kikou":
+                    return <WizardKikou params={params} />
+                case "susumiryou":
+                    return <WizardSusumiryou params={params} />
+                case "gensoku":
+                    return <WizardGensoku params={params} />
+                case "hyouji":
+                    return <WizardHyouji params={params} />
+                case "bunkai":
+                    return <WizardBunkai getPulse={getPulse} setTanniValue={props.setTanniValue} params={params} />
+            }
+        }
+
+        return (
+            <div className='wizard-controller'>
+                <div className='wizard-input'>
+                    {inputForm()}
+                </div>
+                <div className='wizard-buttons'>
+                </div>
+            </div>
+        )
+    } 
+
     return (
         <div className="tannikannsann-popup">
             <div className="close-popup close-tannikannsann" onClick={() => props.closeTanni(props.topMenuRef, props.layerRef)}><i className="fas fa-times-circle"></i></div>
-            <div className="tannikannsann-main">
-                <div>
-                    <div className="select-bunnkainou">
-                        <p>分解能: </p>
-                        <Dropdown setItem={setBunkainou} itemArr={[300, 600, 1000, 1200, 2000, 3000, 5000, 6000, 10000, 12000]} />
-                        <p>ppr</p>
-                    </div>
-                    <div className="type-gensoku-hiritu">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>入力</th>
-                                    <th> : </th>
-                                    <th>出力</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>減速比率: </td>
-                                    <td><input ref={nyuryokuInput} type="text" className="nyu-shutu-input"/></td>
-                                    <td></td>
-                                    <td><input ref={shuturyokuInput} type="text" className="nyu-shutu-input"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div>
-                    <div className="select-application">
-                        <p>アプリケーション: </p>
-                        <Dropdown setItem={setApplication} itemArr={["ボールねじ", "タイミングベルト", "ラック&ピニオン"]} />
-                    </div>
-                    <div className="type-susumi-ryou">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th>モータ1回転の進み量</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{getApplicationType()[0]}: </td>
-                                    <td><input ref={susumiInput} type="text" className="susumi-ryou-input"/></td>
-                                    <td>mm</td>
-                                    <td>{getApplicationType()[1]}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div className="tannikannsann-wrapper">
+                <WizardController />
             </div>
-            <Button className="tannikannsann-ok" variant="contained" onClick={() => getPulse()}>OK</Button>
+            
             {/* <div>パルス　=　<p ref={pulseText}></p></div> */}
             {/* <div className="pulse-formula-box"> */}
                 {/* <p>パルス　=　距離[𝑚𝑚] × (1/進み量[𝑚𝑚⁄回転]) × 分解能[パルス/回転] × (入力/出力)</p> */}
@@ -241,40 +215,3 @@ const Tannikannsann = (props) => {
     )
 }
 
-const Dropdown = (props) => {
-    const itemArr = props.itemArr
-    const setItem = props.setItem
-
-    const [selectedItem, setSelectedItem] = useState(itemArr[0])
-
-    const dropdownItems = useRef()
-    const selectedItemRef = useRef()
-
-    const dropdowns = () => {
-        return itemArr.map(item => {
-            return (
-                <div className="dropdown-item unselectable" onClick={(e) => clickItem(e)} key={item}>{item}</div>
-            )
-        })
-    }
-
-    const showItems = () => {
-        dropdownItems.current.style.display = "block"
-    }
-    
-    const clickItem = (e) => {
-        setSelectedItem(e.target.innerText)
-        dropdownItems.current.style.display = "none"
-        setItem(e.target.innerText)
-    }
-
-
-    return (
-        <div className="dropdown-selector">
-            <div ref={selectedItemRef} className="selected-item unselectable" onClick={() => showItems()}>{selectedItem}<i className="fas fa-angle-down"></i></div>
-            <div ref={dropdownItems} className="dropdown-items unselectable">
-                {dropdowns()}
-            </div>
-        </div>
-    )
-}

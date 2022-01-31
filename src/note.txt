@@ -10,3 +10,6 @@
 - wierd layout behaviour when added multiple rows, then delete rows
 
 - design
+
+data-input -> ok -> set data -> 変換 -> toCML
+data-input -> setdata -> 変換 -> toCML

@@ -1,6 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, gridClasses } from '@mui/material';
 import { toCML } from './toCml';
+import { Dropdown } from './tanni-funcs';
 
 export const ProgramBlock = (props) => {
 
@@ -143,16 +144,20 @@ export const ProgramBlock = (props) => {
     }
 
     const addJiku = (e) => {
-        const indexArr = e.currentTarget.id.split('-')
-        indexArr.shift()
-        let tmp = [...props.programData]
-        for (let dousa_group of tmp) {
-            for (let dousa_row of dousa_group) {
-                dousa_row.splice(parseInt(indexArr[0])-1, 0, [])
+        if (props.jiku <= 14) {
+            const indexArr = e.currentTarget.id.split('-')
+            indexArr.shift()
+            let tmp = [...props.programData]
+            for (let dousa_group of tmp) {
+                for (let dousa_row of dousa_group) {
+                    dousa_row.splice(parseInt(indexArr[0])-1, 0, [])
+                }
             }
+            props.setProgramData(tmp) 
+            props.setJiku(props.jiku + 1)
+        } else {
+            alert("軸は最大で15軸設定できます。")
         }
-        props.setProgramData(tmp) 
-        props.setJiku(props.jiku + 1)
     }
 
     const showOnHoverJiku = (e) => {
@@ -368,17 +373,22 @@ export const ProgramBlock = (props) => {
     }
     
     function addGroupDragDrop(e) {
-        const indexArr = e.currentTarget.id.split('-')
-        indexArr.shift()
         let tmp = [...props.programData]
-        if (props.currentDraggedCommand === "動作グループを追加") {
-            let emptyGroup = [[]]
-            for (let z = 0; z < props.jiku; z++) emptyGroup[0].push([]);
-            tmp.splice((indexArr[0]+1), 0, emptyGroup); 
-            props.setProgramData(tmp)
-        } 
-        e.currentTarget.style.backgroundColor = "white"
-        e.currentTarget.querySelector(".add-row-plus-cont").style.display = "none"
+        if (tmp.length <= 29) {
+
+            const indexArr = e.currentTarget.id.split('-')
+            indexArr.shift()
+            if (props.currentDraggedCommand === "動作グループを追加") {
+                let emptyGroup = [[]]
+                for (let z = 0; z < props.jiku; z++) emptyGroup[0].push([]);
+                tmp.splice((indexArr[0]+1), 0, emptyGroup); 
+                props.setProgramData(tmp)
+            } 
+            e.currentTarget.style.backgroundColor = "white"
+            e.currentTarget.querySelector(".add-row-plus-cont").style.display = "none"
+        } else {
+            alert("動作グループは最大30まで設定できます。")
+        }
     }
 
     const dataToHTML = (programData) => {
@@ -388,6 +398,8 @@ export const ProgramBlock = (props) => {
         while (jiku_i <= props.jiku) {
             if (jiku_i === 1) {
                 main_grid.push(<div className="jiku-number" id={"jiku-"+jiku_i} key={"jiku"+jiku_i}><div className="add-jiku-left" id={"addJiku-"+jiku_i} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><div className="add-jiku-right" id={"addJiku-"+(jiku_i+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_i}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
+            } else if (jiku_i === 15) {
+                main_grid.push(<div className="jiku-number" id={"jiku-"+jiku_i} key={"jiku"+jiku_i}><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_i}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             } else {
                 main_grid.push(<div className="jiku-number" id={"jiku-"+jiku_i} key={"jiku"+jiku_i}><div className="add-jiku-right" id={"addJiku-"+(jiku_i+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_i}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             }
@@ -417,7 +429,7 @@ export const ProgramBlock = (props) => {
                         }
                         pg_l_arr.push(
                         <div className="pg-l-loop unselectable" style={{height:loopStyleHeight+"rem"}} id={"loop-"+dousa_group_i+"-"+dousa_row_i} key={"pglloop"+dousa_row}>
-                            <TypeDataInDousa loopData={props.loopData} setLoopData={props.setLoopData} dousaType="繰り返し" dousaNum={0}/>
+                            {/* <TypeDataInDousa parentId={"loop-"+dousa_group_i+"-"+dousa_row_i} loopData={props.loopData} setLoopData={props.setLoopData} dousaType="繰り返し" dousaNum={0}/> */}
                             {dragArrows.map(dragArrow => {return dragArrow})}
                             <p className="loop-title" onClick={(e) => showTypeData(e)}>繰り返し{loopCount}回</p>
                             <i className="fas fa-trash trash-block" onClick={(e) => trashLoop(e, props.loopData, props.setLoopData)}></i>
@@ -437,9 +449,9 @@ export const ProgramBlock = (props) => {
                 for (let dousa of dousa_row) {
                     if (dousa.length !== 0) {
                         if (dousa[2].includes("initial")) {
-                            main_grid.push(<div className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><div className='no-value-circle'></div><TypeDataInDousa programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
+                            main_grid.push(<div className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><div className='no-value-circle'></div><TypeDataInDousa parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         } else {
-                            main_grid.push(<div className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><TypeDataInDousa programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
+                            main_grid.push(<div className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><TypeDataInDousa parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         }
                     } else {
                         // main_grid.push(<div className="dousa-box"></div>)
@@ -477,7 +489,7 @@ export const ProgramBlock = (props) => {
         <div className="program-block">
             {dataToHTML(props.programData)}
             <div className="enter-button">
-                <Button variant="contained" onClick={() => changeCML(props.programData, props.loopData, props.isNyuryokuShingou)}>入力</Button>
+                <Button variant="contained" onClick={() => changeCML(props.programData, props.loopData, props.isNyuryokuShingou)}>CMLへ変換</Button>
             </div>
         </div>
     )
@@ -486,95 +498,146 @@ export const ProgramBlock = (props) => {
 const TypeDataInDousa = (props) => {
     // let dousaType = props.dousaType
     // let dousaNum = props.dousaNum
-
-    const closeTypeData = (e) => {
-        e.target.parentNode.parentNode.style.display = "none"
+    // let parentId = props.parentId
+    const popupRef = useRef()
+    // --
+    let indexArr = props.parentId.split('-')
+    indexArr.shift()
+    // -
+    let tmp = [...props.programData]
+    const [valueArr, setValueArr] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2])
+    // --
+    const closeTypeData = () => {
+        popupRef.current.style.display = "none"
     }
 
-    const setTypeData = (e) => {
-        let isAllNumber = true
-        e.target.parentNode.querySelectorAll('.type-data-input').forEach(input => {
-            if (isNaN(parseInt(input.value))) {
-                isAllNumber = false
-            }
-        })
-        if (isAllNumber) {
-            let indexArr = e.target.parentNode.parentNode.id.split('-')
-            indexArr.shift()
-            let valueArr = []
-            e.target.parentNode.querySelectorAll('.type-data-input').forEach(input => {
-                valueArr.push(input.value)
-            })
-            let programNum = valueArr[0]
-            valueArr.shift()
-            if (props.dousaType !== "繰り返し") {
-                let tmp = [...props.programData]
-                tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2] = valueArr
-                tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][1] = programNum
-                props.setProgramData(tmp)
-            } else {
-                let tmp = props.loopData
-                tmp = tmp.map(loop => {
-                    if (loop[0][0] === indexArr[0] && loop[0][1] === indexArr[1]) {
-                        loop[2] = valueArr[0]
-                        return loop
-                    } else {
-                        return loop
-                    }
-                })
-                props.setLoopData(tmp)
-            }
-            e.target.parentNode.style.display = "none"
-        } else {
-            alert('数字を入力してください') 
+    const DataInput = (props) => {
+        // const data = [100, "pps"]
+        const index = props.index
+        const tanni = props.tanni
+        let tanniArr = props.valueArr[index][1] !== "pps" ? [tanni, "pps"] : ["pps", tanni]
+        // ---
+        const setTanni = (tanni) => {
+            let tmp = [...props.valueArr]
+            tmp[index][1] = tanni
+            props.setValueArr(tmp)
         }
+
+        const [inputValue, setInputValue] = useState(100)
+        useEffect(() => {
+            let tmp = [...props.valueArr]
+            tmp[index][0] = inputValue
+            props.setValueArr(tmp)
+        }, [inputValue])
+
+        // const handleDataInput = (e, value) => {
+            // e.preventDefault()
+        // }
+    
+        return (
+            <>
+                {/* <input className="type-data-input" required onChange={(e) => handleDataInput(e)} key={1} defaultValue={props.valueArr[index][0]}/> */}
+                <input className="type-data-input" required onChange={(e) => setInputValue(e.target.value)} key={1} value={inputValue}/>
+                <p className="type-data-tanni" key={2}><Dropdown setItem={setTanni} itemArr={tanniArr} /></p>
+            </>
+        )
+    }
+
+    const setTypeData = () => {
+        // let isAllNumber = true
+        // e.target.parentNode.querySelectorAll('.type-data-input').forEach(input => {
+        //     if (isNaN(parseInt(input.value))) {
+        //         isAllNumber = false
+        //     }
+        // })
+        // if (isAllNumber) {
+        //     closeTypeData()
+        // } else {
+        //     alert('数値を入力してください') 
+        // }
+        alert("再設計中")
+        let tmp = [...props.programData]
+        tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2] = valueArr
+        props.setProgramData([...tmp])
     } 
 
-    let dousaInput
-
-    switch (props.dousaType) {
-        case "位置決め":
-            dousaInput = [
-                [<p className="typedata-var" key={0}>速度データ{props.dousaNum}</p>,<input className="type-data-input" key={1}/>,<p className="type-data-tanni" key={2}>mm/s<span>と</span></p>],
-                [<p className="typedata-var" key={0}>加速度データ{props.dousaNum}</p>,<input className="type-data-input" key={1}/>,<p className="type-data-tanni" key={2}>mm/s2<span>で</span></p>],
-                [<p className="typedata-var" key={0}>位置データ{props.dousaNum}</p>,<input className="type-data-input" key={1}/>,<p className="type-data-tanni" key={2}>mm<span>へ移動する</span></p>]
-            ]
-            break
-        case "押付け":
-            dousaInput = [
-                [<p className="typedata-var" key={0}>速度データ{props.dousaNum}</p>,<input className="type-data-input" key={1}/>,<p className="type-data-tanni" key={2}>mm/s<span>と</span></p>],
-                [<p className="typedata-var" key={0}>加速度データ{props.dousaNum}</p>,<input className="type-data-input" key={1}/>,<p className="type-data-tanni" key={2}>mm/s2<span>で</span></p>],
-                [<p className="typedata-var" key={0}>位置データ{props.dousaNum}</p>,<input className="type-data-input" key={1}/>,<p className="type-data-tanni" key={2}>mm<span>へ押付け動作する</span></p>]
-            ]
-            break
-        case "トルク制限":
-            dousaInput = [
-                [<p className="typedata-var" key={0}>トルク制限データ{props.dousaNum}<span>を</span></p>,<input className="type-data-input" key={1}/>,<p className="type-data-tanni" key={2}>%<span>に設定する</span></p>]
-            ]
-            break
-        case "タイマ":
-            dousaInput = [
-                [<p className="typedata-var" key={0}>タイマデータ{props.dousaNum}<span>を</span></p>,<input className="type-data-input" key={1}/>,<p className="type-data-tanni" key={2}>msec<span>に設定する</span></p>]
-            ]
-            break
-        case "繰り返し":
-            dousaInput = [
-               [<input className="type-data-input" key={0}/>,<p className="type-data-tanni" key={1}>回<span>繰り返す</span></p>]
-            ]
-            break
-        default:
-            dousaInput = [[<div>NOPE</div>]]
-            break
-    }
+    const dataNum = (props.dousaType !== "繰り返し") ? 
+        <div className='typedata-input-line' key={"input-num-line"}>
+            {/* <p className='typedata-var'>番号:</p><NumDropDown programData={props.programData} setProgramData={props.programData} indexArr={indexArr}/> */}
+        </div> : ""
 
     return (
-        <div className="typeDataInDousa">
-            <div className="close-typedata"><i onClick={(e) => closeTypeData(e)} className="fas fa-times-circle"></i></div>
-            <div className='typedata-input-line' key={"input-num-line"}>
-                <p className='typedata-var'>番号:</p><input className="type-data-input" key={"input-num"}/>
+        <div className="typeDataInDousa" ref={popupRef}>
+            <div className="close-typedata"><i onClick={() => closeTypeData()} className="fas fa-times-circle"></i></div>
+            {dataNum}
+            <div className="typedata-input-line">
+                <p className="typedata-var">速度データ</p>
+                <DataInput index={0} tanni={"mm/s"} valueArr={valueArr} setValueArr={setValueArr} />
+                <p>と</p>
             </div>
-            {dousaInput.map(inputLine => {return <div className="typedata-input-line" key={dousaInput.indexOf(inputLine)+inputLine}>{inputLine}</div>})}
-            <Button className="type-data-button" variant="contained" onClick={(e) => setTypeData(e)}>OK</Button>
+            <div className="typedata-input-line">
+                <p className="typedata-var">加速度データ</p>
+                <DataInput index={1} tanni={"mm/s2"} valueArr={valueArr} setValueArr={setValueArr} />
+                <p>で</p>
+            </div>
+            <div className="typedata-input-line">
+                <p className="typedata-var">位置データ</p>
+                <DataInput index={2} tanni={"mm"} valueArr={valueArr} setValueArr={setValueArr} />
+                <p>へ移動する</p>
+            </div>
+            <Button className="type-data-button" variant="contained" onClick={() => setTypeData()}>OK</Button>
         </div>
     )
 }
+
+// const NumDropDown = () => {
+//     const tmp = [...props.programData]
+    
+//     const [currentNum, setCurrentNum] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][1])
+//     const numItemRef = useRef()
+//     const currentNumRef = useRef()
+    
+    
+//     const selectItem = (e) => {
+//         let indexArr = e.target.parentNode.parentNode.id.split('-')
+//         indexArr.shift()
+//         const value = parseInt(e.currentTarget.id.split("-")[2])
+//         setCurrentNum(value)
+//         numItemRef.current.style.display = "none"
+//         for (let dousa_group of tmp[parseInt(indexArr[0])]) {
+//             for (let dousa of dousa_group) {
+//                 if (dousa[1] === value) {
+//                     tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2] = dousa[2]
+//                 }
+//             }
+//         }
+//         tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][1] = value
+//         props.setProgramData(tmp)
+//     }
+
+//     const getNumItems = () => {
+//         let res = []
+//         let i = 1
+//         while (i <= 250) {
+//             res.push(<div className='num-dropdown-item' key={i} id={"num-dropdown-"+i} onClick={(e) => selectItem(e)}><p>{i}</p></div>)
+//             i += 1
+//         }
+//         return res
+//     }
+
+//     const showItems = () => {
+//         let isItemsShown = numItemRef.current.style.display !== "block" ? false : true
+//         if (!isItemsShown) {
+//             numItemRef.current.style.display = "block"
+//         } else {
+//             numItemRef.current.style.display = "none"
+//         }
+//     }
+
+//     return (
+//         <div className='num-dropdown'>
+//             <div className='currentNum-container' onClick={() => showItems()}><p ref={currentNumRef} className='currentNum'>{currentNum}</p><i className='fas fa-caret-down'></i></div>
+//             <div ref={numItemRef} className='num-dropdown-item-container'>{getNumItems()}</div>
+//         </div>
+//     )
+// }
