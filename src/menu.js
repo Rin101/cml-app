@@ -167,7 +167,7 @@ const Tannikannsann = (props) => {
         const [wizardInput, setWizardInput] = useState(["kikou", "モータ単体"])
 
         useEffect(() => {
-            console.log(wizardInput)
+            // console.log(wizardInput)
         }, [wizardInput])
 
         const inputForm = () => {

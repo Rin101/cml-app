@@ -1,9 +1,9 @@
 
--drpodown of type-data : mm & pulse
+numdropdown props and functions
 
--change the way [programdata] sets individual data
+setTypeData: check same numbered dousa, set same data
 
--type-data input onchange handler: change state
+----------------
 
 -add global state which contains tannikannsann values
 
@@ -12,7 +12,7 @@
 -tannikannsann
 
 
------- CHECK IMPORT FILE function -----------
+------ change output cml when file is imported
 
 -----------------
 -----------------

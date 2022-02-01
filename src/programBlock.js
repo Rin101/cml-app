@@ -269,7 +269,7 @@ export const ProgramBlock = (props) => {
         indexArr.shift()
         let tmp = [...props.programData]
         if (props.currentDraggedCommand !== "繰り返し" && props.currentDraggedCommand !== "動作グループを追加" && props.currentDraggedCommand !== "NOPE" && !props.currentDraggedCommand.includes("-")) {
-            tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])] = [props.currentDraggedCommand, 1, ["initial", "initial", "initial"]]
+            tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])] = [props.currentDraggedCommand, 1, [["数値を入力してください", "pps"], ["数値を入力してください", "pps"], ["数値を入力してください", "pps"]]]
             props.setProgramData(tmp)
         } else if (props.currentDraggedCommand.includes("-")) {
             let draggedIndexArr = props.currentDraggedCommand.split("-")
@@ -448,10 +448,10 @@ export const ProgramBlock = (props) => {
                 let dousa_i = 0
                 for (let dousa of dousa_row) {
                     if (dousa.length !== 0) {
-                        if (dousa[2].includes("initial")) {
-                            main_grid.push(<div className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><div className='no-value-circle'></div><TypeDataInDousa parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
+                        if (dousa[2].includes("数値を入力してください")) {
+                            main_grid.push(<div className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><div className='no-value-circle'></div><TypeDataInDousa jiku={dousa_i} parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         } else {
-                            main_grid.push(<div className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><TypeDataInDousa parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
+                            main_grid.push(<div className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><TypeDataInDousa jiku={dousa_i} parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         }
                     } else {
                         // main_grid.push(<div className="dousa-box"></div>)
@@ -505,7 +505,6 @@ const TypeDataInDousa = (props) => {
     indexArr.shift()
     // -
     let tmp = [...props.programData]
-    const [valueArr, setValueArr] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2])
     // --
     const closeTypeData = () => {
         popupRef.current.style.display = "none"
@@ -515,55 +514,62 @@ const TypeDataInDousa = (props) => {
         // const data = [100, "pps"]
         const index = props.index
         const tanni = props.tanni
-        let tanniArr = props.valueArr[index][1] !== "pps" ? [tanni, "pps"] : ["pps", tanni]
+        const [value, setValue] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2][index][0])
+        const [tanniState, setTanniState] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2][index][1])
+
         // ---
-        const setTanni = (tanni) => {
-            let tmp = [...props.valueArr]
-            tmp[index][1] = tanni
-            props.setValueArr(tmp)
-        }
 
-        const [inputValue, setInputValue] = useState(100)
-        useEffect(() => {
-            let tmp = [...props.valueArr]
-            tmp[index][0] = inputValue
-            props.setValueArr(tmp)
-        }, [inputValue])
-
-        // const handleDataInput = (e, value) => {
-            // e.preventDefault()
-        // }
-    
         return (
             <>
-                {/* <input className="type-data-input" required onChange={(e) => handleDataInput(e)} key={1} defaultValue={props.valueArr[index][0]}/> */}
-                <input className="type-data-input" required onChange={(e) => setInputValue(e.target.value)} key={1} value={inputValue}/>
-                <p className="type-data-tanni" key={2}><Dropdown setItem={setTanni} itemArr={tanniArr} /></p>
+                <input className="type-data-input" required value={value} onChange={(e) => setValue(e.target.value)} />
+                <div className="type-data-tanni">
+                    <select className='select-tanni' value={tanniState} onChange={(e) => setTanniState(e.target.value)} >
+                        <option value="pps">pps</option>
+                        <option value={tanni}>{tanni}</option>
+                    </select>
+                </div>
             </>
         )
     }
 
     const setTypeData = () => {
-        // let isAllNumber = true
-        // e.target.parentNode.querySelectorAll('.type-data-input').forEach(input => {
-        //     if (isNaN(parseInt(input.value))) {
-        //         isAllNumber = false
-        //     }
-        // })
-        // if (isAllNumber) {
-        //     closeTypeData()
-        // } else {
-        //     alert('数値を入力してください') 
-        // }
-        alert("再設計中")
-        let tmp = [...props.programData]
-        tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2] = valueArr
-        props.setProgramData([...tmp])
+        let isAllNumber = []
+        popupRef.current.querySelectorAll('.type-data-input').forEach(input => {
+            if (isNaN(parseInt(input.value))) {
+                isAllNumber.push("NAN")
+            }
+        })
+        if (isAllNumber.length === 0) {
+            let tmp = [...props.programData]
+            let valueArr = []
+            let inputs = popupRef.current.querySelectorAll(".type-data-input")
+            let tanniSelectors = popupRef.current.querySelectorAll(".select-tanni")
+            let i = 0
+            while (i < inputs.length) {
+                valueArr.push([inputs[i].value, tanniSelectors[i].value])
+                i++
+            }
+            for (let dousa_group of tmp) {
+                for (let dousa_row of dousa_group) {
+                    let dousa = dousa_row[props.jiku]
+                    if (dousa[1] === props.dousaNum && dousa[0] === props.dousaType) {
+                        dousa[2] = valueArr
+                    }
+                }
+            }
+            tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2] = valueArr
+            props.setProgramData(tmp)
+            // --
+            closeTypeData()
+        } else {
+            isAllNumber = []
+            alert('数値を入力してください') 
+        }
     } 
 
     const dataNum = (props.dousaType !== "繰り返し") ? 
         <div className='typedata-input-line' key={"input-num-line"}>
-            {/* <p className='typedata-var'>番号:</p><NumDropDown programData={props.programData} setProgramData={props.programData} indexArr={indexArr}/> */}
+            <p className='typedata-var'>番号:</p><NumDropDown jiku={props.jiku} dousaType={props.dousaType} dousaNum={props.dousaNum} popupRef={popupRef} programData={props.programData} setProgramData={props.setProgramData} indexArr={indexArr}/>
         </div> : ""
 
     return (
@@ -572,17 +578,17 @@ const TypeDataInDousa = (props) => {
             {dataNum}
             <div className="typedata-input-line">
                 <p className="typedata-var">速度データ</p>
-                <DataInput index={0} tanni={"mm/s"} valueArr={valueArr} setValueArr={setValueArr} />
+                <DataInput index={0} tanni={"mm/s"} />
                 <p>と</p>
             </div>
             <div className="typedata-input-line">
                 <p className="typedata-var">加速度データ</p>
-                <DataInput index={1} tanni={"mm/s2"} valueArr={valueArr} setValueArr={setValueArr} />
+                <DataInput index={1} tanni={"mm/s2"} />
                 <p>で</p>
             </div>
             <div className="typedata-input-line">
                 <p className="typedata-var">位置データ</p>
-                <DataInput index={2} tanni={"mm"} valueArr={valueArr} setValueArr={setValueArr} />
+                <DataInput index={2} tanni={"mm"} />
                 <p>へ移動する</p>
             </div>
             <Button className="type-data-button" variant="contained" onClick={() => setTypeData()}>OK</Button>
@@ -590,54 +596,65 @@ const TypeDataInDousa = (props) => {
     )
 }
 
-// const NumDropDown = () => {
-//     const tmp = [...props.programData]
+const NumDropDown = (props) => {
+    // props: programData, setProgramData, dataType, dataNum, popupRef, jiku, indexArr
+    const popupRef = props.popupRef
+    const indexArr = props.indexArr
+    let tmp = [...props.programData]
     
-//     const [currentNum, setCurrentNum] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][1])
-//     const numItemRef = useRef()
-//     const currentNumRef = useRef()
+    const [currentNum, setCurrentNum] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][1])
+    const numItemRef = useRef()
+    const currentNumRef = useRef()
     
-    
-//     const selectItem = (e) => {
-//         let indexArr = e.target.parentNode.parentNode.id.split('-')
-//         indexArr.shift()
-//         const value = parseInt(e.currentTarget.id.split("-")[2])
-//         setCurrentNum(value)
-//         numItemRef.current.style.display = "none"
-//         for (let dousa_group of tmp[parseInt(indexArr[0])]) {
-//             for (let dousa of dousa_group) {
-//                 if (dousa[1] === value) {
-//                     tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2] = dousa[2]
-//                 }
-//             }
-//         }
-//         tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][1] = value
-//         props.setProgramData(tmp)
-//     }
-
-//     const getNumItems = () => {
-//         let res = []
-//         let i = 1
-//         while (i <= 250) {
-//             res.push(<div className='num-dropdown-item' key={i} id={"num-dropdown-"+i} onClick={(e) => selectItem(e)}><p>{i}</p></div>)
-//             i += 1
-//         }
-//         return res
-//     }
-
-//     const showItems = () => {
-//         let isItemsShown = numItemRef.current.style.display !== "block" ? false : true
-//         if (!isItemsShown) {
-//             numItemRef.current.style.display = "block"
-//         } else {
-//             numItemRef.current.style.display = "none"
-//         }
-//     }
-
-//     return (
-//         <div className='num-dropdown'>
-//             <div className='currentNum-container' onClick={() => showItems()}><p ref={currentNumRef} className='currentNum'>{currentNum}</p><i className='fas fa-caret-down'></i></div>
-//             <div ref={numItemRef} className='num-dropdown-item-container'>{getNumItems()}</div>
-//         </div>
-//     )
-// }
+    const selectItem = (e) => {
+        const value = parseInt(e.currentTarget.id.split("-")[2])
+        setCurrentNum(value)
+        numItemRef.current.style.display = "none"
+        let sameDataArr = []
+        for (let dousa_group of tmp) {
+            for (let dousa_row of dousa_group) {
+                let dousa = dousa_row[props.jiku]
+                if (dousa[1] === value && dousa[0] === props.dousaType) {
+                    sameDataArr.push(dousa[2])
+                    console.log("hi")
+                }
+            }
+        }
+        if (sameDataArr.length > 0) {
+            tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2] = sameDataArr[0]
+            let inputs = popupRef.current.querySelectorAll(".type-data-input")
+            let tanniSelectors = popupRef.current.querySelectorAll(".select-tanni")
+            let i = 0
+            while (i < inputs.length) {
+                inputs[i].value = sameDataArr[0][i][0]
+                tanniSelectors[i].value = sameDataArr[0][i][1]
+                i++
+            }
+        }
+        tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][1] = value
+        props.setProgramData(tmp)
+    }
+    const getNumItems = () => {
+        let res = []
+        let i = 1
+        while (i <= 250) {
+            res.push(<div className='num-dropdown-item' key={i} id={"num-dropdown-"+i} onClick={(e) => selectItem(e)}><p>{i}</p></div>)
+            i += 1
+        }
+        return res
+    }
+    const showItems = () => {
+        let isItemsShown = numItemRef.current.style.display !== "block" ? false : true
+        if (!isItemsShown) {
+            numItemRef.current.style.display = "block"
+        } else {
+            numItemRef.current.style.display = "none"
+        }
+    }
+    return (
+        <div className='num-dropdown'>
+            <div className='currentNum-container' onClick={() => showItems()}><p ref={currentNumRef} className='currentNum'>{currentNum}</p><i className='fas fa-caret-down'></i></div>
+            <div ref={numItemRef} className='num-dropdown-item-container'>{getNumItems()}</div>
+        </div>
+    )
+}

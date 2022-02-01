@@ -8,7 +8,7 @@ const TypeDataInDousa = (props) => {
     indexArr.shift()
     // -
     let tmp = [...props.programData]
-    const [tanniArr, setTanniArr] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2].map(d => {return d[1]}))
+    const [valueArr, setValueArr] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2])
     // --
     const closeTypeData = () => {
         popupRef.current.style.display = "none"
@@ -18,19 +18,25 @@ const TypeDataInDousa = (props) => {
         // const data = [100, "pps"]
         const index = props.index
         const tanni = props.tanni
-        const [value, setValue] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2][index][0])
-        let tanniItemArr = props.tanniArr[index] !== "pps" ? [tanni, "pps"] : ["pps", tanni]
+        let tanniArr = props.valueArr[index][1] !== "pps" ? [tanni, "pps"] : ["pps", tanni]
         // ---
         const setTanni = (tanni) => {
-            let tmp = [...props.tanniArr]
-            tmp[index] = tanni
-            props.setTanniArr(tmp)
+            let tmp = [...props.valueArr]
+            tmp[index][1] = tanni
+            props.setValueArr(tmp)
         }
 
+        const [inputValue, setInputValue] = useState(100)
+
+        // const handleDataInput = (e, value) => {
+            // e.preventDefault()
+        // }
+    
         return (
             <>
-                <input className="type-data-input" required value={value} onChange={(e) => setValue(e.target.value)} />
-                <div className="type-data-tanni"><Dropdown setItem={setTanni} itemArr={tanniItemArr} /></div>
+                {/* <input className="type-data-input" required onChange={(e) => handleDataInput(e)} key={1} defaultValue={props.valueArr[index][0]}/> */}
+                <input className="type-data-input" required onChange={(e) => props.setValueArr([[e.target.value, tanni], props.valueArr[1], props.valueArr[2]])} value={props.valueArr[index][0]}/>
+                <div className="type-data-tanni"><Dropdown setItem={setTanni} itemArr={tanniArr} /></div>
             </>
         )
     }
@@ -47,16 +53,9 @@ const TypeDataInDousa = (props) => {
         // } else {
         //     alert('数値を入力してください') 
         // }
-        let valueArr = []
-        let inputs = popupRef.current.querySelectorAll("type-data-input")
-        let i = 0
-        while (i < inputs.length) {
-            valueArr.push([inputs[i].value, tanniArr[i]])
-            i++
-        }
         let tmp = [...props.programData]
         tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2] = valueArr
-        props.setProgramData(tmp)
+        props.setProgramData([...tmp])
     } 
 
     const dataNum = (props.dousaType !== "繰り返し") ? 
@@ -70,17 +69,17 @@ const TypeDataInDousa = (props) => {
             {dataNum}
             <div className="typedata-input-line">
                 <p className="typedata-var">速度データ</p>
-                <DataInput index={0} tanni={"mm/s"} tanniArr={tanniArr} setTanniArr={setTanniArr} />
+                <DataInput index={0} tanni={"mm/s"} valueArr={valueArr} setValueArr={setValueArr} />
                 <p>と</p>
             </div>
             <div className="typedata-input-line">
                 <p className="typedata-var">加速度データ</p>
-                <DataInput index={1} tanni={"mm/s2"} tanniArr={tanniArr} setTanniArr={setTanniArr} />
+                <DataInput index={1} tanni={"mm/s2"} valueArr={valueArr} setValueArr={setValueArr} />
                 <p>で</p>
             </div>
             <div className="typedata-input-line">
                 <p className="typedata-var">位置データ</p>
-                <DataInput index={2} tanni={"mm"} tanniArr={tanniArr} setTanniArr={setTanniArr} />
+                <DataInput index={2} tanni={"mm"} valueArr={valueArr} setValueArr={setValueArr} />
                 <p>へ移動する</p>
             </div>
             <Button className="type-data-button" variant="contained" onClick={() => setTypeData()}>OK</Button>
