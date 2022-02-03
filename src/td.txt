@@ -13,6 +13,7 @@ setTypeData: check same numbered dousa, set same data
 
 
 ------ change output cml when file is imported
+------ change output cml when tannikannsann is changed
 
 -----------------
 -----------------

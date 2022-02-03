@@ -13,7 +13,7 @@ export const App = () => {
     const [cmlOutput, setCmlOutput] = useLocalStorage('CML', '')
     const [isNyuryokuShingou, setIsNyuryokuShingou] = useState(false)
     const [jiku, setJiku] = useState(3)
-    const [tanniValue, setTanniValue] = useState(1)
+    const [tanniValue, setTanniValue] = useState(100)
     // const [programData, setProgramData] = useState([[[[]]]])
     // const [programData, setProgramData] = useState([
     //     [
@@ -38,8 +38,8 @@ export const App = () => {
         ]
     ])
 
-    const [loopData, setLoopData] = useState([])
-    // const [loopData, setLoopData] = useState([[["0","0"], ["0","2"], 4]])
+    // const [loopData, setLoopData] = useState([])
+    const [loopData, setLoopData] = useState([[["0","0"], ["0","2"], 4]])
     const [currentDraggedCommand, setCurrentDraggedCommand] = useState("位置決め")
 
     const expCopy = useRef()

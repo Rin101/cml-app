@@ -78,6 +78,7 @@ export const WizardSusumiryou = (props) => {
         tmp.push(["susumiryou", input])
         params.setHistory(tmp)
         params.setWizardInput(["gensoku", input])
+        params.setValueArr([input, params.valueArr[1], params.valueArr[2]])
     }
 
     const goBack = () => {
@@ -125,6 +126,7 @@ export const WizardGensoku = (props) => {
         tmp.push(["gensoku", input])
         params.setHistory(tmp)
         params.setWizardInput(["hyouji", input])
+        params.setValueArr([params.valueArr[0], params.valueArr[1], input])
     }
 
     const goBack = () => {
@@ -262,8 +264,11 @@ export const WizardBunkai = (props) => {
         tmp.push(["hyouji", input])
         params.setHistory(tmp)
         params.setWizardInput(["bunkai", input])
-        props.setTanniValue(props.getPulse(params.history))
-        alert("未完成")
+        let valueArr = [...params.valueArr]
+        valueArr[1] = input
+        props.getTanniValue(props.setTanniValue, valueArr)
+        console.log(props.tanniValue)
+        params.setValueArr(valueArr)
     }
 
     const goBack = () => {

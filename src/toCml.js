@@ -1,4 +1,4 @@
-export const toCML = (programData, loopData, isNyuryokuShingou) => {
+export const toCML = (programData, loopData, isNyuryokuShingou, tanniValue) => {
     let output = ""
     let every_data_teigi = ""
     let every_program_teigi = ""
@@ -14,23 +14,23 @@ export const toCML = (programData, loopData, isNyuryokuShingou) => {
                     let cml_numbers = dousa[1].toString() + "." + dousa_jiku.toString()
                     switch (dousa[0]) {
                         case "位置決め":
-                            every_data_teigi += "S"+cml_numbers+"="+dousa[2][0].toString()+"\nA"+cml_numbers+"="+dousa[2][1].toString()+"\nP"+cml_numbers+"="+dousa[2][2].toString()+"\n"
+                            every_data_teigi += "S"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue).toString()+"\nA"+cml_numbers+"="+getPulseValue(dousa[2][1], tanniValue).toString()+"\nP"+cml_numbers+"="+getPulseValue(dousa[2][2], tanniValue).toString()+"\n"
                             dousa_jikkou_row_arr.push(`S${cml_numbers},A${cml_numbers},P${cml_numbers}`)
                             break
                         case "押付け":
-                            every_data_teigi += "S"+cml_numbers+"="+dousa[2][0].toString()+"\nA"+cml_numbers+"="+dousa[2][1].toString()+"\nP"+cml_numbers+"="+dousa[2][2].toString()+"\n"
+                            every_data_teigi += "S"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue).toString()+"\nA"+cml_numbers+"="+getPulseValue(dousa[2][1], tanniValue).toString()+"\nP"+cml_numbers+"="+getPulseValue(dousa[2][2], tanniValue).toString()+"\n"
                             dousa_jikkou_row_arr.push(`S${cml_numbers},A${cml_numbers},Q${cml_numbers}`)
                             break
                         case "トルク制限":
-                            every_data_teigi += "M"+cml_numbers+"="+dousa[2][0].toString()+"\n"
+                            every_data_teigi += "M"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue).toString()+"\n"
                             dousa_jikkou_row_arr.push(`M${cml_numbers}`)
                             break
                         case "タイマ":
-                            every_data_teigi += "T"+cml_numbers+"="+dousa[2][0].toString()+"\n"
+                            every_data_teigi += "T"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue).toString()+"\n"
                             dousa_jikkou_row_arr.push(`T${cml_numbers}`)
                             break
                         default:
-                            alert('wrong')
+                            alert('ERROR')
                             break
                     }
                 }
@@ -42,10 +42,10 @@ export const toCML = (programData, loopData, isNyuryokuShingou) => {
                     loop_start = `X${loop[2]}.1\n`
                 }
                 if (loop[1][0] === programData.indexOf(dousa_group).toString() && loop[1][1] === dousa_group.indexOf(dousa_row).toString()) {
-                    loop_end = `X.1-\n`
+                    loop_end = `\nX.1-\n`
                 }
             }
-            dousa_jikkou_of_group += loop_start + dousa_jikkou_row_arr.join(",") + "\n" + loop_end
+            dousa_jikkou_of_group += loop_start + dousa_jikkou_row_arr.join(",") + loop_end
         }
         every_program_teigi += dousa_jikkou_of_group
     }
@@ -57,5 +57,16 @@ export const toCML = (programData, loopData, isNyuryokuShingou) => {
         return output + "END" + "\n" + nyuryokuTxt
     } else {
         return output + "END"
+    }
+}
+
+const getPulseValue = (valueArr, tanniValue) => {
+    let value = valueArr[0]
+    const tanni = valueArr[1]
+
+    if (tanni.includes("pps" || "%" || "msec")) {
+        return value
+    } else {
+        return value * tanniValue
     }
 }

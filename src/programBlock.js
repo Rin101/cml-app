@@ -228,8 +228,8 @@ export const ProgramBlock = (props) => {
         props.setProgramData(tmp)
     }
 
-    const changeCML = (programData, loopData, isNyuryokuShingou) => {
-        props.setCmlOutput(toCML(programData, loopData, isNyuryokuShingou))
+    const changeCML = (programData, loopData, isNyuryokuShingou, tanniValue) => {
+        props.setCmlOutput(toCML(programData, loopData, isNyuryokuShingou, tanniValue))
     }
 
     const showTypeData = (e) => {
@@ -429,7 +429,7 @@ export const ProgramBlock = (props) => {
                         }
                         pg_l_arr.push(
                         <div className="pg-l-loop unselectable" style={{height:loopStyleHeight+"rem"}} id={"loop-"+dousa_group_i+"-"+dousa_row_i} key={"pglloop"+dousa_row}>
-                            {/* <TypeDataInDousa parentId={"loop-"+dousa_group_i+"-"+dousa_row_i} loopData={props.loopData} setLoopData={props.setLoopData} dousaType="繰り返し" dousaNum={0}/> */}
+                            <LoopInputBox parentId={"loop-"+dousa_group_i+"-"+dousa_row_i} loopData={props.loopData} setLoopData={props.setLoopData} />
                             {dragArrows.map(dragArrow => {return dragArrow})}
                             <p className="loop-title" onClick={(e) => showTypeData(e)}>繰り返し{loopCount}回</p>
                             <i className="fas fa-trash trash-block" onClick={(e) => trashLoop(e, props.loopData, props.setLoopData)}></i>
@@ -489,7 +489,7 @@ export const ProgramBlock = (props) => {
         <div className="program-block">
             {dataToHTML(props.programData)}
             <div className="enter-button">
-                <Button variant="contained" onClick={() => changeCML(props.programData, props.loopData, props.isNyuryokuShingou)}>CMLへ変換</Button>
+                <Button variant="contained" onClick={() => changeCML(props.programData, props.loopData, props.isNyuryokuShingou, props.tanniValue)}>CMLへ変換</Button>
             </div>
         </div>
     )
@@ -510,13 +510,118 @@ const TypeDataInDousa = (props) => {
         popupRef.current.style.display = "none"
     }
 
+    const ichigimeData = {
+        bangouRange: 250,
+        inputForm: [
+            ["速度データ", ["mm/s", "pps/s"], "と"],
+            ["加速度データ", ["mm/s2", "pps/s2"], "で"],
+            ["位置データ", ["mm", "pps"], "へ移動する"],
+        ]
+    }
+    const oshitukeData = {
+        bangouRange: 250,
+        inputForm: [
+            ["速度データ", ["mm/s", "pps/s"], "と"],
+            ["加速度データ", ["mm/s2", "pps/s2"], "で"],
+            ["位置データ", ["mm", "pps"], "へ押付け動作する"],
+        ]
+    }
+    const torukuData = {
+        bangouRange: 8,
+        inputForm: [
+            ["トルク制限データ", ["%"], "に設定する"],
+        ]
+    }
+    const timerData = {
+        bangouRange: 5,
+        inputForm: [
+            ["タイマデータ", ["msec"], "に設定する"],
+        ]
+    }
+
+    let dataFormat
+    switch(props.dousaType) {
+        case "位置決め":
+            dataFormat = ichigimeData
+            break
+        case "押付け":
+            dataFormat = oshitukeData
+            break
+        case "トルク制限":
+            dataFormat = torukuData
+            break
+        case "タイマ":
+            dataFormat = timerData
+            break
+        default:
+            dataFormat = ichigimeData
+    }
+
+    const DousaInputBox = (props) => {
+        // props: dataFormat, numdropdown params
+        const dataFormat = props.dataFormat
+
+        const setTypeData = () => {
+            let isAllNumber = []
+            popupRef.current.querySelectorAll('.type-data-input').forEach(input => {
+                if (isNaN(parseInt(input.value))) {
+                    isAllNumber.push("NAN")
+                }
+            })
+            if (isAllNumber.length === 0) {
+                let tmp = [...props.programData]
+                let valueArr = []
+                let inputs = popupRef.current.querySelectorAll(".type-data-input")
+                let tanniSelectors = popupRef.current.querySelectorAll(".select-tanni")
+                let i = 0
+                while (i < inputs.length) {
+                    valueArr.push([inputs[i].value, tanniSelectors[i].value])
+                    i++
+                }
+                for (let dousa_group of tmp) {
+                    for (let dousa_row of dousa_group) {
+                        let dousa = dousa_row[props.jiku]
+                        if (dousa[1] === props.dousaNum && dousa[0] === props.dousaType) {
+                            dousa[2] = valueArr
+                        }
+                    }
+                }
+                tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2] = valueArr
+                props.setProgramData(tmp)
+                // --
+                closeTypeData()
+            } else {
+                isAllNumber = []
+                alert('数値を入力してください') 
+            }
+        } 
+    
+        return (
+            <div className="typeDataInDousa" ref={popupRef}>
+                <div className="close-typedata"><i onClick={() => closeTypeData()} className="fas fa-times-circle"></i></div>
+                <div className='typedata-input-line' key={"input-num-line"}>
+                    <p className='typedata-var'>番号:</p><NumDropDown range={dataFormat.bangouRange} jiku={props.jiku} dousaType={props.dousaType} dousaNum={props.dousaNum} popupRef={props.popupRef} programData={props.programData} setProgramData={props.setProgramData} indexArr={props.indexArr}/>
+                </div>
+                { dataFormat.inputForm.map(inputLine => {
+                    return (
+                        <div className="typedata-input-line">
+                            <p className="typedata-var">{inputLine[0]}</p>
+                            <DataInput index={dataFormat.inputForm.indexOf(inputLine)} tanniArr={inputLine[1]} />
+                            <p>{inputLine[2]}</p>
+                        </div>
+                    )
+                }) }
+                <Button className="type-data-button" variant="contained" onClick={() => setTypeData()}>OK</Button>
+            </div>
+        )
+    }
+
     const DataInput = (props) => {
         // const data = [100, "pps"]
         const index = props.index
-        const tanni = props.tanni
+        const tanniArr = props.tanniArr
         const [value, setValue] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2][index][0])
         const [tanniState, setTanniState] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2][index][1])
-
         // ---
 
         return (
@@ -524,41 +629,41 @@ const TypeDataInDousa = (props) => {
                 <input className="type-data-input" required value={value} onChange={(e) => setValue(e.target.value)} />
                 <div className="type-data-tanni">
                     <select className='select-tanni' value={tanniState} onChange={(e) => setTanniState(e.target.value)} >
-                        <option value="pps">pps</option>
-                        <option value={tanni}>{tanni}</option>
+                        { tanniArr.map(tanni => {
+                            return <option key={tanni} value={tanni}>{tanni}</option>
+                        }) }
                     </select>
                 </div>
             </>
         )
     }
 
+    return (<DousaInputBox dataFormat={dataFormat} jiku={props.jiku} dousaType={props.dousaType} dousaNum={props.dousaNum} popupRef={popupRef} programData={props.programData} setProgramData={props.setProgramData} indexArr={indexArr}/>)
+}
+
+const LoopInputBox = (props) => {
+    // props: parentId, loopData, setLoopData
+    const popupRef = useRef()
+    let indexArr = props.parentId.split('-')
+    indexArr.shift()
+    // --
+    let tmp = [...props.loopData]
+    const [value, setValue] = useState(tmp[parseInt(indexArr[0])][2])
+    // --
+    const closeTypeData = () => {
+        popupRef.current.style.display = "none"
+    }
+
     const setTypeData = () => {
         let isAllNumber = []
-        popupRef.current.querySelectorAll('.type-data-input').forEach(input => {
-            if (isNaN(parseInt(input.value))) {
+        if (isNaN(popupRef.current.querySelector('.type-data-input').value)) {
                 isAllNumber.push("NAN")
-            }
-        })
+        }
         if (isAllNumber.length === 0) {
-            let tmp = [...props.programData]
-            let valueArr = []
-            let inputs = popupRef.current.querySelectorAll(".type-data-input")
-            let tanniSelectors = popupRef.current.querySelectorAll(".select-tanni")
-            let i = 0
-            while (i < inputs.length) {
-                valueArr.push([inputs[i].value, tanniSelectors[i].value])
-                i++
-            }
-            for (let dousa_group of tmp) {
-                for (let dousa_row of dousa_group) {
-                    let dousa = dousa_row[props.jiku]
-                    if (dousa[1] === props.dousaNum && dousa[0] === props.dousaType) {
-                        dousa[2] = valueArr
-                    }
-                }
-            }
-            tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2] = valueArr
-            props.setProgramData(tmp)
+            let tmp = [...props.loopData]
+            let value = popupRef.current.querySelector(".type-data-input").value
+            tmp[parseInt(indexArr[0])][2] = value
+            props.setLoopData(tmp)
             // --
             closeTypeData()
         } else {
@@ -567,29 +672,12 @@ const TypeDataInDousa = (props) => {
         }
     } 
 
-    const dataNum = (props.dousaType !== "繰り返し") ? 
-        <div className='typedata-input-line' key={"input-num-line"}>
-            <p className='typedata-var'>番号:</p><NumDropDown jiku={props.jiku} dousaType={props.dousaType} dousaNum={props.dousaNum} popupRef={popupRef} programData={props.programData} setProgramData={props.setProgramData} indexArr={indexArr}/>
-        </div> : ""
-
     return (
         <div className="typeDataInDousa" ref={popupRef}>
             <div className="close-typedata"><i onClick={() => closeTypeData()} className="fas fa-times-circle"></i></div>
-            {dataNum}
             <div className="typedata-input-line">
-                <p className="typedata-var">速度データ</p>
-                <DataInput index={0} tanni={"mm/s"} />
-                <p>と</p>
-            </div>
-            <div className="typedata-input-line">
-                <p className="typedata-var">加速度データ</p>
-                <DataInput index={1} tanni={"mm/s2"} />
-                <p>で</p>
-            </div>
-            <div className="typedata-input-line">
-                <p className="typedata-var">位置データ</p>
-                <DataInput index={2} tanni={"mm"} />
-                <p>へ移動する</p>
+                <input className="type-data-input" required value={value} onChange={(e) => setValue(e.target.value)} />
+                <p>回繰り返す</p>
             </div>
             <Button className="type-data-button" variant="contained" onClick={() => setTypeData()}>OK</Button>
         </div>
@@ -597,7 +685,7 @@ const TypeDataInDousa = (props) => {
 }
 
 const NumDropDown = (props) => {
-    // props: programData, setProgramData, dataType, dataNum, popupRef, jiku, indexArr
+    // props: programData, setProgramData, dataType, dataNum, popupRef, jiku, indexArr, range
     const popupRef = props.popupRef
     const indexArr = props.indexArr
     let tmp = [...props.programData]
@@ -637,7 +725,7 @@ const NumDropDown = (props) => {
     const getNumItems = () => {
         let res = []
         let i = 1
-        while (i <= 250) {
+        while (i <= props.range) {
             res.push(<div className='num-dropdown-item' key={i} id={"num-dropdown-"+i} onClick={(e) => selectItem(e)}><p>{i}</p></div>)
             i += 1
         }

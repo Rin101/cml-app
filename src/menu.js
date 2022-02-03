@@ -124,55 +124,25 @@ export const TopMenu = (props) => {
 }
 
 const Tannikannsann = (props) => {
-    const [application, setApplication] = useState("ねじリード")
-    const [bunkainou, setBunkainou] = useState(300)
-
-    const nyuryokuInput = useRef()
-    const shuturyokuInput = useRef()
-    const susumiInput = useRef()
-    const pulseText = useRef()
-
-    const getPulse = (tanniValue) => {
-        let kyori = 100
-        let nyuryoku = parseInt(nyuryokuInput.current.value.trim())
-        let shuturyoku = parseInt(shuturyokuInput.current.value.trim())
-        let susumiryou = parseInt(susumiInput.current.value.trim())
-        switch(application) {
-            case "ねじリード":
-                break;
-            default:
-                susumiryou = parseInt(susumiInput.current.value.trim()) * Math.PI
-        }
-        let pulse = kyori * (1/susumiryou) * parseInt(bunkainou) * (nyuryoku/shuturyoku)
-
-        // pulseText.current.innerText = pulse
+    // props: tanniValue, setTanniValue
+    
+    const getTanniValue = (setTanniValue, valueArr) => {
+        // let tanniValue =  (1/susumiryou) * parseInt(bunkainou) * (nyuryoku/shuturyoku)
+        // {/* <p>パルス　=　距離[𝑚𝑚] × (1/進み量[𝑚𝑚⁄回転]) × 分解能[パルス/回転] × (入力/出力)</p> */}
+        setTanniValue((1/valueArr[0]) * parseInt(valueArr[1]) * (valueArr[2][0]/valueArr[2][1]))
         props.closeTanni(props.topMenuRef, props.layerRef)
     }
-
-    const getApplicationType = () => {
-        switch (application) {
-            case "ボールねじ":
-                return ["ねじリード", "ねじリード"]
-            case "タイミングベルト":
-                return ["ブーリ直径", "ブーリ直径xπ"]
-            case "ラック&ピニオン":
-                return ["ピニオン直径", "ピニオン直径xπ"]
-            default:
-                return ["ねじリード", "ねじリード"]
-        }
-    }
-
+    
     const WizardController = () => {
         const [history, setHistory] = useState([])
         const [wizardInput, setWizardInput] = useState(["kikou", "モータ単体"])
-
-        useEffect(() => {
-            // console.log(wizardInput)
-        }, [wizardInput])
+        const [valueArr, setValueArr] = useState([1, 1, [1, 1]])
 
         const inputForm = () => {
             const params = {
-                wizardInput: wizardInput[1], history, setHistory, setWizardInput
+                wizardInput: wizardInput[1], 
+                history, setHistory, setWizardInput,
+                valueArr, setValueArr
             }
         
             switch (wizardInput[0]) {
@@ -185,7 +155,7 @@ const Tannikannsann = (props) => {
                 case "hyouji":
                     return <WizardHyouji params={params} />
                 case "bunkai":
-                    return <WizardBunkai getPulse={getPulse} setTanniValue={props.setTanniValue} params={params} />
+                    return <WizardBunkai getTanniValue={getTanniValue} setTanniValue={props.setTanniValue} params={params} />
             }
         }
 
@@ -206,11 +176,6 @@ const Tannikannsann = (props) => {
             <div className="tannikannsann-wrapper">
                 <WizardController />
             </div>
-            
-            {/* <div>パルス　=　<p ref={pulseText}></p></div> */}
-            {/* <div className="pulse-formula-box"> */}
-                {/* <p>パルス　=　距離[𝑚𝑚] × (1/進み量[𝑚𝑚⁄回転]) × 分解能[パルス/回転] × (入力/出力)</p> */}
-            {/* </div> */}
         </div>
     )
 }
