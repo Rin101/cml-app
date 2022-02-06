@@ -4,6 +4,7 @@ import { toCML } from './toCml';
 import { Dropdown } from './tanni-funcs';
 
 export const ProgramBlock = (props) => {
+    'use strict'
 
     const addRowRef = useRef()
     const pgEmptyBox = useRef()
@@ -234,6 +235,22 @@ export const ProgramBlock = (props) => {
 
     const showTypeData = (e) => {
         e.target.parentNode.querySelector('.typeDataInDousa').style.display = "flex"
+        // 'use strict';
+        var obj = {};
+        obj.draggable = false // add property first and only then prevent extensions
+        Object.preventExtensions(obj);
+        console.log(dousaBoxRef.current.draggable)
+        dousaBoxRef.current.draggable = false
+        console.log(dousaBoxRef.current.draggable)
+        // dousaBoxRef.current.draggable = "false"
+        // dousaBoxRef.current.draggable = "true"
+        // dousaBoxRef.current.style["user-select"] = "none"
+            // "user-drag": "none",
+            // "-webkit-user-drag": "none",
+            // "user-select": "none",
+            // "-moz-user-select": "none",
+            // "-webkit-user-select": "none",
+            // "-ms-user-select": "none",
     }
 
         
@@ -241,10 +258,12 @@ export const ProgramBlock = (props) => {
     const emptyBoxDragStart = (e) => {
         // e.currentTarget.className += "dousa-box"
         // setTimeout(() => (e.currentTarget.className = 'dragged-box'), 0);
+        e.currentTarget.style.cursor = "grabbing"
     }
     
     const emptyBoxDragEnd = (e) => {
         e.currentTarget.className = "dousa-box"
+        e.currentTarget.style.cursor = "grab"
     }
 
     function emptyBoxDragOver(e) {
@@ -391,6 +410,8 @@ export const ProgramBlock = (props) => {
         }
     }
 
+    const dousaBoxRef = useRef()
+
     const dataToHTML = (programData) => {
         let pg_l_arr = [<div className="pg-l-empty pglemp0" key={"first-pg-l-empty-box"}></div>]
         let main_grid = []
@@ -449,9 +470,9 @@ export const ProgramBlock = (props) => {
                 for (let dousa of dousa_row) {
                     if (dousa.length !== 0) {
                         if (dousa[2].includes("数値を入力してください")) {
-                            main_grid.push(<div className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><div className='no-value-circle'></div><TypeDataInDousa jiku={dousa_i} parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
+                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><div className='no-value-circle'></div><TypeDataInDousa dousaBoxRef={dousaBoxRef} jiku={dousa_i} parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         } else {
-                            main_grid.push(<div className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><TypeDataInDousa jiku={dousa_i} parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
+                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><TypeDataInDousa dousaBoxRef={dousaBoxRef} jiku={dousa_i} parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         }
                     } else {
                         // main_grid.push(<div className="dousa-box"></div>)
@@ -508,6 +529,8 @@ const TypeDataInDousa = (props) => {
     // --
     const closeTypeData = () => {
         popupRef.current.style.display = "none"
+        console.log(props.dousaBoxRef.current.draggable)
+        props.dousaBoxRef.current.draggable = "true"
     }
 
     const ichigimeData = {
@@ -652,6 +675,7 @@ const LoopInputBox = (props) => {
     // --
     const closeTypeData = () => {
         popupRef.current.style.display = "none"
+        props.dousaBoxRef.current.draggable = "true"
     }
 
     const setTypeData = () => {

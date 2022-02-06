@@ -329,7 +329,7 @@
   box-shadow: 0 2px 4px 1px rgba(255, 105, 135, 0.2);
   padding: 1rem;
   border-radius: 0.3rem;
-  z-index: 10000 !important;
+  z-index: 20000 !important;
   width: fit-content;
 }
 

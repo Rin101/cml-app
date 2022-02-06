@@ -56,7 +56,7 @@ export const WizardSusumiryou = (props) => {
     const params = props.params
     const mode = params.wizardInput
     let susumiryouText = ""
-    const [input, setInput] = useState([0, 0])
+    const [input, setInput] = useState(0)
 
     switch (mode) {
         case "ボールねじ":
@@ -88,25 +88,17 @@ export const WizardSusumiryou = (props) => {
         params.setWizardInput(["kikou", kikouValue])
     }
 
-    const changeInput = (e, index) => {
-        let tmp = [...input]
-        tmp[index-1] = e.currentTarget.value
-        setInput(tmp)
-    }
-
     return (
         <div className="tanni-wizard">
             <p className="tanni-wizard-title">モータ1回転あたりの進み量</p>
             <div className="tanni-wizard-selector">
                 <div>
                     <p className='tanni-susumi-p'>{susumiryouText} : </p>
-                    <input type="text" placeholder={0} onChange={(e) => changeInput(e, 1)}/>
+                    <input type="text" placeholder={0} onChange={(e) => setInput(e.currentTarget.value)}/>
                     <p className='tanni-susumi-tanni'> mm</p>
                 </div>
                 <div>
-                    <p className='tanni-susumi-p'>進み量 : </p>
-                    <input type="text" placeholder={0} onChange={(e) => changeInput(e, 2)}/>
-                    <p className='tanni-susumi-tanni'> mm</p>
+                    <p className='tanni-susumi-p'>進み量 : {input} mm</p>
                 </div>
             </div>
             <div className="tanni-wizard-buttons">

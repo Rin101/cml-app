@@ -135,12 +135,12 @@ export const App = () => {
             <div ref={layerRef} className="layer"></div>
             <div className="command-list-width-box"></div>
             <div className="command-list">
-                <div onMouseEnter={(e) => commandHover(e)} className="command-selector" id="dousaGroup-selector" draggable="true">動作グループを追加</div>
-                <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="ichigime-selector" draggable="true">位置決め</div>
-                <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="oshituke-selector" draggable="true">押付け</div>
-                <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="toruku-selector" draggable="true">トルク制限</div>
-                <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="taima-selector" draggable="true">タイマ</div>
-                <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="kurikaeshi-selector" draggable="true">繰り返し</div>
+                <div onMouseEnter={(e) => commandHover(e)} className="command-selector" id="dousaGroup-selector" draggable="true"><i class="fas fa-grip-vertical"></i>動作グループを追加</div>
+                <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="ichigime-selector" draggable="true"><i class="fas fa-grip-vertical"></i>位置決め</div>
+                <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="oshituke-selector" draggable="true"><i class="fas fa-grip-vertical"></i>押付け</div>
+                <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="toruku-selector" draggable="true"><i class="fas fa-grip-vertical"></i>トルク制限</div>
+                <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="taima-selector" draggable="true"><i class="fas fa-grip-vertical"></i>タイマ</div>
+                <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="kurikaeshi-selector" draggable="true"><i class="fas fa-grip-vertical"></i>繰り返し</div>
             </div>
             <div className="center-section">
                 <TopMenu tanniValue={tanniValue} setTanniValue={setTanniValue} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
@@ -155,8 +155,8 @@ export const App = () => {
                     </Button>
                     <div className="copy-cml-container">
                         <div className="copy-cml" onMouseEnter={() => display(expCopy)} onMouseLeave={() => hide(expCopy)} onClick={() => copyCML(cmlOutput)}><i className="fas fa-copy"></i></div>
-                        <div ref={expCopy} className="exp-box exp-copy hidden">コピー</div>
-                        <div ref={expCopyDone} className="exp-box exp-copy-done hidden">コピーされました</div>
+                        <div ref={expCopy} className="exp-copy hidden">コピー</div>
+                        <div ref={expCopyDone} className="exp-copy-done hidden">コピーされました</div>
                     </div>
                 </div>
             </div>

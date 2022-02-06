@@ -70,6 +70,22 @@ export const TopMenu = (props) => {
         downloadFile(data, filename, type)
     }
 
+    const display = (ref) => {
+        ref.current.classList.add("shown")
+        ref.current.classList.remove("hidden")
+        setTimeout(() => {
+            if (!ref.current.classList.contains("hidden")) {
+                ref.current.style.display = "block"
+            }
+        }, 500)
+    }
+
+    const hide = (ref) => {
+        ref.current.classList.remove('shown')
+        ref.current.classList.add('hidden')
+        ref.current.style.display = "none"
+    }
+
     const openTanni = () => {
         topMenuRef.current.querySelector('.tannikannsann-popup').style.display = "flex"
         props.layerRef.current.style.display = "block"
@@ -81,7 +97,7 @@ export const TopMenu = (props) => {
     }
 
     const toggleNyuryokuShingou = (e) => {
-        const nyuryokuText = `K81=1\nK82=1\nL1.1\nI1.1,JL2.1,T0.1\nI2.1,JL3.1,T0.1\nI3.1,JL4.1,T0.1\nI4.1,].1:].1,T0.1\nL2.1\n[1.1\nI1.1,W0.1,JL1.1\nL3.1\n[2.1\nI2.1,W0.1,JL1.1\nL4.1\n[3.1\nI3.1,W0.1,JL1.1\nEND`
+        const nyuryokuText = `\nK81=1\nK82=1\nL1.1\nI1.1,JL2.1,T0.1\nI2.1,JL3.1,T0.1\nI3.1,JL4.1,T0.1\nI4.1,].1:].1,T0.1\nL2.1\n[1.1\nI1.1,W0.1,JL1.1\nL3.1\n[2.1\nI2.1,W0.1,JL1.1\nL4.1\n[3.1\nI3.1,W0.1,JL1.1\nEND`
 
         let isPressed = e.currentTarget.classList.contains("pressed-nyuryoku-shingou")
         if (isPressed) {
@@ -95,7 +111,7 @@ export const TopMenu = (props) => {
         } else {
             if (!props.cmlOutput.includes(nyuryokuText)) {
                 let tmpstr = props.cmlOutput
-                props.setCmlOutput(tmpstr+"\n"+nyuryokuText)
+                props.setCmlOutput(tmpstr+nyuryokuText)
             }
             e.target.classList.remove("unpressed-nyuryoku-shingou")
             e.target.classList.add("pressed-nyuryoku-shingou")
@@ -103,22 +119,36 @@ export const TopMenu = (props) => {
         }
     }
 
-    const isNyuryoku = props.isNyuryokuShingou ? "オン" : "オフ"
+    const isNyuryoku = props.isNyuryokuShingou ? "実行" : "停止"
+    // --
+    const expSave = useRef() 
+    const expImp = useRef() 
+    const expTanni = useRef() 
+    const expNyuryoku = useRef() 
 
     return (
         <div ref={topMenuRef} className="top-menu">
-            <div className="top-menu-button save-file unselectable" onClick={() => handleFileSave()}>
+            <div className="top-menu-button save-file unselectable" onMouseEnter={() => display(expSave)} onMouseLeave={() => hide(expSave)} onClick={() => handleFileSave()}>
                 プロジェクトファイルを保存
+                <div ref={expSave} className="exp-box hidden">作成途中のプロジェクトを保存します</div>
             </div>
-            <div className="top-menu-button import-file unselectable">
+            
+            <div className="top-menu-button import-file unselectable" onMouseEnter={() => display(expImp)} onMouseLeave={() => hide(expImp)}>
                 <label htmlFor="top-menu-file-upload">
                     プロジェクトファイルを開く
                     <input id="top-menu-file-upload" accept=".txt" type="file" onChange={(e) => handleFileImport(e)}/>
                 </label>
+                <div ref={expImp} className="exp-box hidden">保存したプロジェクトを開きます</div>
             </div>
-            <div className="top-menu-button tannikannsann unselectable" onClick={() => openTanni()}>単位換算</div>
+            <div className="top-menu-button tannikannsann unselectable" onMouseEnter={() => display(expTanni)} onMouseLeave={() => hide(expTanni)} onClick={() => openTanni()}>
+                単位換算
+                <div ref={expTanni} className="exp-box hidden">表示単位と分解能を設定します</div>
+            </div>
             <Tannikannsann tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
-            <div className="top-menu-button unpressed-nyuryoku-shingou unselectable" onClick={(e) => toggleNyuryokuShingou(e)}>入力信号: {isNyuryoku}</div>
+            <div className="top-menu-button unpressed-nyuryoku-shingou unselectable" onMouseEnter={() => display(expNyuryoku)} onMouseLeave={() => hide(expNyuryoku)} onClick={(e) => toggleNyuryokuShingou(e)}>
+                入力点からの{isNyuryoku}
+                <div ref={expNyuryoku} className="exp-box hidden">入力点1～3の機能を動作グループ1～3の実行に、入力点4を停止に割付けます。</div>
+            </div>
         </div>
     )
 }
