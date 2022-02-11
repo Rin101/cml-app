@@ -12,6 +12,7 @@ export const WizardKikou = (props) => {
             tmp.push(["kikou", input])
             params.setHistory(tmp)
             params.setWizardInput(["susumiryou", input])
+            params.setApplication(input)
         } else {
             let tmp = [...params.history]
             tmp.push(["kikou", input])
@@ -21,9 +22,9 @@ export const WizardKikou = (props) => {
     }
 
     return (
-        <div className="tanni-wizard unselectable">
+        <div className="tanni-wizard">
             <p className="tanni-wizard-title">機構の選択</p>
-            <div className="tanni-wizard-selector tanni-kikou">
+            <div className="tanni-wizard-selector">
                 <div>
                     <input type="radio" onClick={(e) => setInput(e.currentTarget.value)} id="kikou-1" name="kikou-sentaku" value="ボールねじ"/>
                     <label htmlFor="kikou-1">ボールねじ</label>
@@ -52,13 +53,11 @@ export const WizardSusumiryou = (props) => {
     const params = props.params
     const mode = params.wizardInput
     let susumiryouText = ""
-    let susumiryouVar = 3.1415926535 // or Math.PI
     const [input, setInput] = useState(0)
 
     switch (mode) {
         case "ボールねじ":
             susumiryouText = "ボールねじリード"
-            susumiryouVar = 1
             break
         case "ベルト駆動":
             susumiryouText = "プーリ直径"
@@ -73,10 +72,10 @@ export const WizardSusumiryou = (props) => {
 
     const goNext = () => {
         let tmp = [...params.history]
-        tmp.push(["susumiryou", parseInt(input)*susumiryouVar])
+        tmp.push(["susumiryou", input])
         params.setHistory(tmp)
         params.setWizardInput(["gensoku", input])
-        params.setValueArr([parseInt(input)*susumiryouVar, params.valueArr[1], params.valueArr[2]])
+        params.setValueArr([input, params.valueArr[1], params.valueArr[2]])
     }
 
     const goBack = () => {
@@ -88,18 +87,18 @@ export const WizardSusumiryou = (props) => {
 
     return (
         <div className="tanni-wizard">
-            <p className="tanni-wizard-title unselectable">モータ1回転あたりの進み量</p>
-            <div className="tanni-wizard-selector tanni-susumi">
-                <div className="susumi-1">
+            <p className="tanni-wizard-title">モータ1回転あたりの進み量</p>
+            <div className="tanni-wizard-selector">
+                <div>
                     <p className='tanni-susumi-p'>{susumiryouText} : </p>
-                    <input type="number" placeholder={0} onChange={(e) => setInput(e.currentTarget.value)}/>
+                    <input type="text" placeholder={0} onChange={(e) => setInput(e.currentTarget.value)}/>
                     <p className='tanni-susumi-tanni'> mm</p>
                 </div>
-                <div className="susumi-2">
-                    <p className='tanni-susumi-p'>進み量 : <span>{parseInt(input)*susumiryouVar}</span> mm</p>
+                <div>
+                    <p className='tanni-susumi-p'>進み量 : {input} mm</p>
                 </div>
             </div>
-            <div className="tanni-wizard-buttons unselectable">
+            <div className="tanni-wizard-buttons">
                 <Button className="tanni-back" variant="contained" onClick={() => goBack()}>BACK</Button>
                 <Button className="tanni-next" variant="contained" onClick={() => goNext()}>NEXT</Button>
             </div>
@@ -109,14 +108,13 @@ export const WizardSusumiryou = (props) => {
 
 export const WizardGensoku = (props) => {
     const params = props.params
-    const [input, setInput] = useState([1, 1])
-    const selectorRef = useRef()
+    const [input, setInput] = useState([0, 0])
 
     const goNext = () => {
         let tmp = [...params.history]
         tmp.push(["gensoku", input])
         params.setHistory(tmp)
-        params.setWizardInput(["bunkai", input])
+        params.setWizardInput(["hyouji", input])
         params.setValueArr([params.valueArr[0], params.valueArr[1], input])
     }
 
@@ -133,25 +131,14 @@ export const WizardGensoku = (props) => {
 
     const changeInput = (e, index) => {
         let tmp = [...input]
-        tmp[index-1] = parseInt(e.currentTarget.value)
+        tmp[index-1] = e.currentTarget.value
         setInput(tmp)
     }
 
-    const handleToggle = (e) => {
-        if (e.currentTarget.checked) {
-            selectorRef.current.style.opacity = "1"
-            selectorRef.current.querySelectorAll("input").forEach(input => {
-                input.readOnly = false
-            })
-        } else {
-            selectorRef.current.style.opacity = "0.4"
-        }
-    }
-
     return (
-        <div className="tanni-wizard unselectable">
-            <div className="tanni-wizard-title gensoku-title"><input type="checkbox" onChange={(e) => handleToggle(e)} />減速比率</div>
-            <div ref={selectorRef} className="tanni-wizard-selector gensoku-selector">
+        <div className="tanni-wizard">
+            <div className="tanni-wizard-title gensoku-title"><input type="checkbox" />減速比率</div>
+            <div className="tanni-wizard-selector">
                 <table>
                     <thead>
                         <tr>
@@ -162,9 +149,9 @@ export const WizardGensoku = (props) => {
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input type="number" readOnly value={input[0]} onChange={(e) => changeInput(e, 1)}/></td>
+                            <td><input type="text" onChange={(e) => changeInput(e, 1)}/></td>
                             <td>  :  </td>
-                            <td><input type="number" readOnly value={input[1]} onChange={(e) => changeInput(e, 2)}/></td>
+                            <td><input type="text" onChange={(e) => changeInput(e, 2)}/></td>
                         </tr>
                     </tbody>
                 </table>
@@ -177,34 +164,100 @@ export const WizardGensoku = (props) => {
     )
 }
 
+export const WizardHyouji = (props) => {
+    const params = props.params
+    const [input, setInput] = useState("パルス")
+
+    const goNext = () => {
+        let tmp = [...params.history]
+        tmp.push(["hyouji", input])
+        params.setHistory(tmp)
+        params.setWizardInput(["bunkai", input])
+    }
+
+    const goBack = () => {
+        let tmp = [...params.history]
+        let index = tmp.length - 1
+        const previousMove = tmp[index][0]
+        if (index > -1) {
+            tmp.splice(index, 1)
+        }
+        params.setHistory(tmp)
+        params.setWizardInput([previousMove, 0])
+    }
+
+    const radios = () => {
+        switch (params.history[0][1]) {
+            case "ボールねじ" || "ベルト駆動" || "ラックアンドピニオン":
+                return (
+                    <><div>
+                        <input type="radio" onClick={(e) => setInput(e.currentTarget.value)} id="hyouji-1" name="hyouji-sentaku" value="パルス" defaultChecked />
+                        <label htmlFor="hyouji-1">パルス</label>
+                    </div>
+                    <div>
+                        <input type="radio" onClick={(e) => setInput(e.currentTarget.value)} id="hyouji-2" name="hyouji-sentaku" value="mm" />
+                        <label htmlFor="hyouji-2">mm</label>
+                    </div></>
+                )
+            default: 
+                return (
+                    <><div>
+                        <input type="radio" onClick={(e) => setInput(e.currentTarget.value)} id="hyouji-1" name="hyouji-sentaku" value="パルス" defaultChecked />
+                        <label htmlFor="hyouji-1">パルス</label>
+                    </div>
+                    <div>
+                        <input type="radio" onClick={(e) => setInput(e.currentTarget.value)} id="hyouji-3" name="hyouji-sentaku" value="角度" />
+                        <label htmlFor="hyouji-3">角度</label>
+                    </div></>
+                )
+        }
+    }
+
+    return (
+        <div className="tanni-wizard">
+            <p className="tanni-wizard-title">表示単位</p>
+            <div className="tanni-wizard-selector">
+                {radios()}
+            </div>
+            <div className="tanni-wizard-buttons">
+                <Button className="tanni-back" variant="contained" onClick={() => goBack()}>BACK</Button>
+                <Button className="tanni-next" variant="contained" onClick={() => goNext()}>NEXT</Button>
+            </div>
+        </div>
+    )
+}
+
 export const WizardBunkai = (props) => {
     const params = props.params
-    const mode = params.history[0][1]
+    const mode = params.wizardInput
     let bunkaiText = ""
-    let bunkaiVar = 1
-    const [input, setInput] = useState(1)
+    const [input, setInput] = useState("0")
 
     switch (mode) {
-        case "インデックステーブル":
+        case "パルス":
+            bunkaiText = "パルス"
+            break
+        case "mm":
+            bunkaiText = "mm"
+            break
+        case "角度":
             bunkaiText = "°"
-            bunkaiVar = 360 / (params.history[1][1][0]/params.history[1][1][1])
             break
         default:
-            bunkaiText = "mm"
-            bunkaiVar = params.history[1][1] / (params.history[2][1][0]/params.history[2][1][1])
+            bunkaiText = "パルス"
             break
     }
 
     const goOK = () => {
         let tmp = [...params.history]
-        tmp.push(["bunkai", bunkaiVar/parseInt(input)])
+        tmp.push(["hyouji", input])
         params.setHistory(tmp)
-        params.setWizardInput(["bunkai", bunkaiVar/parseInt(input)])
+        params.setWizardInput(["bunkai", input])
         let valueArr = [...params.valueArr]
         valueArr[1] = input
         props.getTanniValue(props.setTanniValue, valueArr)
+        console.log(props.tanniValue)
         params.setValueArr(valueArr)
-        params.setApplication(params.history[0][1])
     }
 
     const goBack = () => {
@@ -219,17 +272,11 @@ export const WizardBunkai = (props) => {
     }
 
     return (
-        <div className="tanni-wizard unselectable">
-            <p className="tanni-wizard-title">最小位置決め単位</p>
-            <div className="tanni-wizard-selector tanni-bunkai">
-                <div className="bunkai-1">
-                    <p className="tanni-bunkai-text">モータ分解能: </p>
-                    <Dropdown setItem={setInput} itemArr={[300, 600, 1000, 1200, 2000, 3000, 5000, 6000, 10000, 12000]} />
-                    <p className="tanni-bunkai-text">パルス/回転</p>
-                </div>
-                <div className="bunkai-2">
-                    <p className="tanni-bunkai-text">最小位置決め単位: <span>{bunkaiVar/parseInt(input)}</span> {bunkaiText}</p>
-                </div>
+        <div className="tanni-wizard">
+            <p className="tanni-wizard-title">分解能</p>
+            <div className="tanni-wizard-selector">
+                <Dropdown setItem={setInput} itemArr={[300, 600, 1000, 1200, 2000, 3000, 5000, 6000, 10000, 12000]} />
+                <p className="tanni-bunkai-text">{bunkaiText}</p>
             </div>
             <div className="tanni-wizard-buttons">
                 <Button className="tanni-back" variant="contained" onClick={() => goBack()}>BACK</Button>

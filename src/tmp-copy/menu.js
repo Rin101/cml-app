@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardBunkai } from './tanni-funcs';
+import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardHyouji, WizardBunkai } from './tanni-funcs';
 import { toCML } from './toCml';
 
 // Function to download data to a file
@@ -63,7 +63,7 @@ export const TopMenu = (props) => {
     }
 
     const handleFileSave = () => {
-        let obj = {"name":"cml-import","data":{"jiku":props.jiku,"programData":props.programData,"loopData":props.loopData,"isNyuryokuShingou":props.isNyuryokuShingou}}
+        let obj = {"name":"cml-import","data":{"jiku":props.jiku,"tanniData":props.tanniData,"programData":props.programData,"loopData":props.loopData,"isNyuryokuShingou":props.isNyuryokuShingou}}
         const data = JSON.stringify(obj)
         const filename = "CML-途中保存"
         const type = ".txt"
@@ -144,7 +144,7 @@ export const TopMenu = (props) => {
                 単位換算
                 <div ref={expTanni} className="exp-box hidden">表示単位と分解能を設定します</div>
             </div>
-            <Tannikannsann application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
+            <Tannikannsann tanniData={props.tanniData} setTanniData={props.setTanniData} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
             <div className="top-menu-button unpressed-nyuryoku-shingou unselectable" onMouseEnter={() => display(expNyuryoku)} onMouseLeave={() => hide(expNyuryoku)} onClick={(e) => toggleNyuryokuShingou(e)}>
                 入力点からの{isNyuryoku}
                 <div ref={expNyuryoku} className="exp-box hidden">入力点1～3の機能を動作グループ1～3の実行に、入力点4を停止に割付けます。</div>
@@ -154,18 +154,20 @@ export const TopMenu = (props) => {
 }
 
 const Tannikannsann = (props) => {
-    // props: tanniValue, setTanniValue, application, setApplication
+    // props: tanniData, setTanniData
+    const tanniData = props.tanniData
+    const setTanniData = props.setTanniData
     
     const getTanniValue = (setTanniValue, valueArr) => {
         // let tanniValue =  (1/susumiryou) * parseInt(bunkainou) * (nyuryoku/shuturyoku)
         // {/* <p>パルス　=　距離[𝑚𝑚] × (1/進み量[𝑚𝑚⁄回転]) × 分解能[パルス/回転] × (入力/出力)</p> */}
-        setTanniValue((1/valueArr[0]) * parseInt(valueArr[1]) * (valueArr[2][0]/valueArr[2][1]))
+        // setTanniValue((1/valueArr[0]) * parseInt(valueArr[1]) * (valueArr[2][0]/valueArr[2][1]))
         props.closeTanni(props.topMenuRef, props.layerRef)
     }
     
     const WizardController = (props) => {
         const [history, setHistory] = useState([])
-        const [wizardInput, setWizardInput] = useState(["kikou", "ボールねじ"])
+        const [wizardInput, setWizardInput] = useState(["kikou", "モータ単体"])
         const [valueArr, setValueArr] = useState([1, 1, [1, 1]])
 
         const inputForm = () => {
@@ -173,7 +175,7 @@ const Tannikannsann = (props) => {
                 wizardInput: wizardInput[1], 
                 history, setHistory, setWizardInput,
                 valueArr, setValueArr,
-                application:props.application, setApplication:props.setApplication
+                tanniData: props.tanniData, setTanniData: props.setTanniData
             }
         
             switch (wizardInput[0]) {
@@ -183,20 +185,20 @@ const Tannikannsann = (props) => {
                     return <WizardSusumiryou params={params} />
                 case "gensoku":
                     return <WizardGensoku params={params} />
+                case "hyouji":
+                    return <WizardHyouji params={params} />
                 case "bunkai":
-                    return <WizardBunkai getTanniValue={getTanniValue} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} params={params} />
-                default:
-                    return <WizardKikou params={params} />
+                    return <WizardBunkai getTanniValue={getTanniValue} params={params} />
             }
         }
 
         return (
             <div className='wizard-controller'>
-                {/* <div className='wizard-input'> */}
+                <div className='wizard-input'>
                     {inputForm()}
-                {/* </div> */}
-                {/* <div className='wizard-buttons'> */}
-                {/* </div> */}
+                </div>
+                <div className='wizard-buttons'>
+                </div>
             </div>
         )
     } 
@@ -204,7 +206,10 @@ const Tannikannsann = (props) => {
     return (
         <div className="tannikannsann-popup">
             <div className="close-popup close-tannikannsann" onClick={() => props.closeTanni(props.topMenuRef, props.layerRef)}><i className="fas fa-times-circle"></i></div>
-            <WizardController application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} />
+            <div className="tannikannsann-wrapper">
+                <WizardController tanniData={tanniData} setTanniData={setTanniData} />
+            </div>
         </div>
     )
 }
+

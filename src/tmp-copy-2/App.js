@@ -15,6 +15,9 @@ export const App = () => {
     const [jiku, setJiku] = useState(3)
     const [tanniValue, setTanniValue] = useState(100)
     const [application, setApplication] = useState("initial")
+    useEffect(() => {
+        console.log(application)
+    }, [application])
     // const [programData, setProgramData] = useState([[[[]]]])
     // const [programData, setProgramData] = useState([
     //     [
@@ -48,18 +51,18 @@ export const App = () => {
     const layerRef = useRef()
     const commandSelectorRef = useRef()
 
-    // const popMessage = (message) => {
-    //     const id = "pop-message-"+Date.now()
-    //     document.innerHTML += 
-    //     <div id={id} className="pop-message message-success">
-    //         <p className="message-text">{message}</p>
-    //         <i className="fas fa-times">agdsfdgfhkgjfhkdgsfa</i>
-    //     </div>
+    const popMessage = (message) => {
+        const id = "pop-message-"+Date.now()
+        document.innerHTML += 
+        <div id={id} className="pop-message message-success">
+            <p className="message-text">{message}</p>
+            <i className="fas fa-times">agdsfdgfhkgjfhkdgsfa</i>
+        </div>
         
-    //     setTimeout(() => {
-    //         document.querySelector(`#${id}`).remove()
-    //     }, 4000)
-    // }
+        setTimeout(() => {
+            document.querySelector(`#${id}`).remove()
+        }, 4000)
+    }
 
     const getIndex = (document) => {
         let res = document.id.split('-')
@@ -148,8 +151,7 @@ export const App = () => {
                 <ProgramBlock application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
             </div>
             <div className="cml-output-section">
-                {/* <h3 onClick={() => popMessage("what")}>CML</h3> */}
-                <h3 className='unselectable'>CML</h3>
+                <h3 onClick={() => popMessage("FUCK OFF")}>CML</h3>
                 <Editor value={cmlOutput} onChange={setCmlOutput} />
                 <div className="jikkou-button">
                     <Button variant="contained" onClick={() => handleFileExport()}>

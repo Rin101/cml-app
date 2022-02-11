@@ -1,3 +1,13 @@
+TANNIKANNSANN TODO
+
+-toggle gensoku gray out, make it unchangable
+-limit users to only type numbers
+-unselectable
+-set application in last wizard
+-style
+-consider Math.PI in susumiryou
+
+----------------------
 
 numdropdown props and functions
 

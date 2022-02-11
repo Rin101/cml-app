@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './App.css'
 import './program-grid.css'
 import { Editor } from './Editor';
@@ -14,7 +14,7 @@ export const App = () => {
     const [isNyuryokuShingou, setIsNyuryokuShingou] = useState(false)
     const [jiku, setJiku] = useState(3)
     const [tanniValue, setTanniValue] = useState(100)
-    const [application, setApplication] = useState("initial")
+    const [tanniData, setTanniData] = useState({application: "initial", tanniValue: 1})
     // const [programData, setProgramData] = useState([[[[]]]])
     // const [programData, setProgramData] = useState([
     //     [
@@ -48,18 +48,18 @@ export const App = () => {
     const layerRef = useRef()
     const commandSelectorRef = useRef()
 
-    // const popMessage = (message) => {
-    //     const id = "pop-message-"+Date.now()
-    //     document.innerHTML += 
-    //     <div id={id} className="pop-message message-success">
-    //         <p className="message-text">{message}</p>
-    //         <i className="fas fa-times">agdsfdgfhkgjfhkdgsfa</i>
-    //     </div>
+    const popMessage = (message) => {
+        const id = "pop-message-"+Date.now()
+        document.innerHTML += 
+        <div id={id} className="pop-message message-success">
+            <p className="message-text">{message}</p>
+            <i className="fas fa-times">agdsfdgfhkgjfhkdgsfa</i>
+        </div>
         
-    //     setTimeout(() => {
-    //         document.querySelector(`#${id}`).remove()
-    //     }, 4000)
-    // }
+        setTimeout(() => {
+            document.querySelector(`#${id}`).remove()
+        }, 4000)
+    }
 
     const getIndex = (document) => {
         let res = document.id.split('-')
@@ -130,7 +130,7 @@ export const App = () => {
         const type = ".txt"
         downloadFile(data, filename, type)
     }
-    
+
     return (
         <div className="main">
             <div ref={layerRef} className="layer"></div>
@@ -144,12 +144,11 @@ export const App = () => {
                 <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="kurikaeshi-selector" draggable="true"><i className="fas fa-grip-vertical"></i>繰り返し</div>
             </div>
             <div className="center-section">
-                <TopMenu application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
-                <ProgramBlock application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
+                <TopMenu tanniData={tanniData} setTanniData={setTanniData} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
+                <ProgramBlock tanniData={tanniData} setTanniData={setTanniData} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
             </div>
             <div className="cml-output-section">
-                {/* <h3 onClick={() => popMessage("what")}>CML</h3> */}
-                <h3 className='unselectable'>CML</h3>
+                <h3 onClick={() => popMessage("FUCK OFF")}>CML</h3>
                 <Editor value={cmlOutput} onChange={setCmlOutput} />
                 <div className="jikkou-button">
                     <Button variant="contained" onClick={() => handleFileExport()}>

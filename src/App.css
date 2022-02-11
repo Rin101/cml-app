@@ -142,6 +142,7 @@ input[type]:focus,
   cursor: grab;
   /* cursor: grabbing; */
   font-weight: 600;
+  opacity: 0.8;
 }
 
 .command-selector:hover {
@@ -207,10 +208,10 @@ input[type]:focus,
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fafafb;
-  width: 60%;
-  height: 70%;
+  width: 40%;
+  height: 50%;
   border-radius: 0.7rem;
-  z-index: 1500;
+  z-index: 150000;
   padding: 1rem;
   display: none;
   flex-direction: column;
@@ -234,7 +235,86 @@ input[type]:focus,
 }
 
 /* -- */
-.tanni-wizard input[type="text"] {
+.wizard-controller {
+  height: 100%;
+  width: 100%;
+}
+
+.tanni-wizard {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.tanni-wizard input[type="number"] {
+  text-align: center;
+}
+
+.tanni-wizard-title {
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  font-weight: bold;
+}
+
+.tanni-wizard-selector {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  padding: 0.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.tanni-wizard-buttons {
+  position: absolute;
+  bottom: 5%;
+  right: 10%;
+}
+
+.tanni-back {
+  margin-right: 0.3rem !important;
+}
+
+/* -- */
+.tanni-kikou {
+  margin-left: 30%;
+}
+/* -- */
+.tanni-susumi,
+.tanni-bunkai {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.susumi-1,
+.bunkai-1 {
+  display: flex;
+  align-items: center;
+}
+.susumi-1 p,
+.bunkai-1 p {
+  margin: 0 0.3rem;
+}
+.susumi-2,
+.bunkai-2 {
+  margin: 3rem 0 0 0;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+.susumi-2 span,
+.bunkai-2 span {
+  font-weight: bold;
+  font-size: 1rem;
+}
+/* -- */
+.gensoku-selector {
+  opacity: 0.4;
+}
+
+.gensoku-selector td {
   text-align: center;
 }
 
@@ -296,46 +376,6 @@ input[type]:focus,
   transition: ease 0.2s;
 }
 
-/* -------------------------- */
-.select-bunnkainou {
-  display: flex;
-  align-items: center;
-}
-
-.select-bunnkainou > * {
-  margin-right: 0.3rem;
-}
-
-.type-gensoku-hiritu table,
-.type-susumi-ryou table {
-  border: solid 1.5px rgba(0, 0, 0, 0.2);
-}
-
-.type-gensoku-hiritu thead th,
-.type-susumi-ryou thead th {
-  font-size: 0.8rem;
-}
-
-.type-gensoku-hiritu input,
-.type-susumi-ryou input {
-  max-width: 7rem;
-  text-align: center;
-}
-
-.select-application {
-  display: flex;
-  align-items: center;
-}
-
-.select-application > p {
-  margin-right: 1rem;
-}
-
-.pulse-formula-box {
-  width: 100%;
-  text-align: center;
-}
-
 /* ------------------------ */
 .program-block {
   width: 100%;
@@ -353,6 +393,7 @@ input[type]:focus,
 .cml-output-section {
   width: 20%;
   margin: 3rem auto;
+  position: relative;
   /* display: flex;
   flex-direction: column;
   align-items: center; */
@@ -376,7 +417,9 @@ input[type]:focus,
 }
 
 .copy-cml-container {
-  position: relative;
+  position: absolute;
+  top: 70%;
+  right: 10%;
 }
 
 .copy-cml {
@@ -415,12 +458,12 @@ input[type]:focus,
   color: rgba(0, 0, 0, 0.7);
   border-radius: 2px;
   padding: 0.1rem 0.2rem;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .exp-box {
   top: 115% !important;
-  left: 60% !important;
+  left: 40% !important;
 }
 
 .exp-copy-done {

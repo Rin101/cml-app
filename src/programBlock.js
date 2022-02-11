@@ -418,11 +418,11 @@ export const ProgramBlock = (props) => {
         let jiku_i = 1
         while (jiku_i <= props.jiku) {
             if (jiku_i === 1) {
-                main_grid.push(<div className="jiku-number" id={"jiku-"+jiku_i} key={"jiku"+jiku_i}><div className="add-jiku-left" id={"addJiku-"+jiku_i} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><div className="add-jiku-right" id={"addJiku-"+(jiku_i+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_i}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
+                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_i} key={"jiku"+jiku_i}><div className="add-jiku-left" id={"addJiku-"+jiku_i} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><div className="add-jiku-right" id={"addJiku-"+(jiku_i+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_i}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             } else if (jiku_i === 15) {
-                main_grid.push(<div className="jiku-number" id={"jiku-"+jiku_i} key={"jiku"+jiku_i}><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_i}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
+                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_i} key={"jiku"+jiku_i}><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_i}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             } else {
-                main_grid.push(<div className="jiku-number" id={"jiku-"+jiku_i} key={"jiku"+jiku_i}><div className="add-jiku-right" id={"addJiku-"+(jiku_i+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_i}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
+                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_i} key={"jiku"+jiku_i}><div className="add-jiku-right" id={"addJiku-"+(jiku_i+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_i}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             }
             jiku_i += 1
         }
@@ -470,9 +470,9 @@ export const ProgramBlock = (props) => {
                 for (let dousa of dousa_row) {
                     if (dousa.length !== 0) {
                         if (dousa[2].includes("数値を入力してください")) {
-                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><div className='no-value-circle'></div><TypeDataInDousa dousaBoxRef={dousaBoxRef} jiku={dousa_i} parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
+                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><div className='no-value-circle'></div><TypeDataInDousa application={props.application} dousaBoxRef={dousaBoxRef} jiku={dousa_i} parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         } else {
-                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><TypeDataInDousa dousaBoxRef={dousaBoxRef} jiku={dousa_i} parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
+                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><TypeDataInDousa application={props.application} dousaBoxRef={dousaBoxRef} jiku={dousa_i} parentId={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i} programData={props.programData} setProgramData={props.setProgramData} dousaType={dousa[0]} dousaNum={dousa[1]}/><p className='dousa-title' onClick={(e) => showTypeData(e)} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         }
                     } else {
                         // main_grid.push(<div className="dousa-box"></div>)
@@ -533,20 +533,25 @@ const TypeDataInDousa = (props) => {
         props.dousaBoxRef.current.draggable = "true"
     }
 
+    let subTanni = "mm"
+    if (props.application === "インデックステーブル") {
+        subTanni = "°"
+    }
+
     const ichigimeData = {
         bangouRange: 250,
         inputForm: [
-            ["速度データ", ["mm/s", "pps/s"], "と"],
-            ["加速度データ", ["mm/s2", "pps/s2"], "で"],
-            ["位置データ", ["mm", "pps"], "へ移動する"],
+            ["速度データ", ["pps/s", subTanni+"/s"], "と"],
+            ["加速度データ", ["pps/s\u00b2", subTanni+"/s\u00b2"], "で"],
+            ["位置データ", ["pps", subTanni], "へ移動する"],
         ]
     }
     const oshitukeData = {
         bangouRange: 250,
         inputForm: [
-            ["速度データ", ["mm/s", "pps/s"], "と"],
-            ["加速度データ", ["mm/s2", "pps/s2"], "で"],
-            ["位置データ", ["mm", "pps"], "へ押付け動作する"],
+            ["速度データ", ["pps/s", subTanni+"/s"], "と"],
+            ["加速度データ", ["pps/s\u00b2", subTanni+"/s\u00b2"], "で"],
+            ["位置データ", ["pps", subTanni], "へ押付け動作する"],
         ]
     }
     const torukuData = {
@@ -627,7 +632,7 @@ const TypeDataInDousa = (props) => {
                 </div>
                 { dataFormat.inputForm.map(inputLine => {
                     return (
-                        <div className="typedata-input-line">
+                        <div className="typedata-input-line" key={inputLine[0]}>
                             <p className="typedata-var">{inputLine[0]}</p>
                             <DataInput index={dataFormat.inputForm.indexOf(inputLine)} tanniArr={inputLine[1]} />
                             <p>{inputLine[2]}</p>

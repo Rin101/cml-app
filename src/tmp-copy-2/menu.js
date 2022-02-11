@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardBunkai } from './tanni-funcs';
+import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardHyouji, WizardBunkai } from './tanni-funcs';
 import { toCML } from './toCml';
 
 // Function to download data to a file
@@ -165,7 +165,7 @@ const Tannikannsann = (props) => {
     
     const WizardController = (props) => {
         const [history, setHistory] = useState([])
-        const [wizardInput, setWizardInput] = useState(["kikou", "ボールねじ"])
+        const [wizardInput, setWizardInput] = useState(["kikou", "モータ単体"])
         const [valueArr, setValueArr] = useState([1, 1, [1, 1]])
 
         const inputForm = () => {
@@ -183,20 +183,20 @@ const Tannikannsann = (props) => {
                     return <WizardSusumiryou params={params} />
                 case "gensoku":
                     return <WizardGensoku params={params} />
+                case "hyouji":
+                    return <WizardHyouji params={params} />
                 case "bunkai":
-                    return <WizardBunkai getTanniValue={getTanniValue} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} params={params} />
-                default:
-                    return <WizardKikou params={params} />
+                    return <WizardBunkai getTanniValue={getTanniValue} setTanniValue={props.setTanniValue} params={params} />
             }
         }
 
         return (
             <div className='wizard-controller'>
-                {/* <div className='wizard-input'> */}
+                <div className='wizard-input'>
                     {inputForm()}
-                {/* </div> */}
-                {/* <div className='wizard-buttons'> */}
-                {/* </div> */}
+                </div>
+                <div className='wizard-buttons'>
+                </div>
             </div>
         )
     } 
@@ -204,7 +204,9 @@ const Tannikannsann = (props) => {
     return (
         <div className="tannikannsann-popup">
             <div className="close-popup close-tannikannsann" onClick={() => props.closeTanni(props.topMenuRef, props.layerRef)}><i className="fas fa-times-circle"></i></div>
-            <WizardController application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} />
+            <div className="tannikannsann-wrapper">
+                <WizardController application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} />
+            </div>
         </div>
     )
 }
