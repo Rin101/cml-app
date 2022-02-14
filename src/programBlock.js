@@ -236,12 +236,12 @@ export const ProgramBlock = (props) => {
     const showTypeData = (e) => {
         e.target.parentNode.querySelector('.typeDataInDousa').style.display = "flex"
         // 'use strict';
-        var obj = {};
-        obj.draggable = false // add property first and only then prevent extensions
-        Object.preventExtensions(obj);
-        console.log(dousaBoxRef.current.draggable)
-        dousaBoxRef.current.draggable = false
-        console.log(dousaBoxRef.current.draggable)
+        // var obj = {};
+        // obj.draggable = false // add property first and only then prevent extensions
+        // Object.preventExtensions(obj);
+        // console.log(dousaBoxRef.current.draggable)
+        // dousaBoxRef.current.draggable = false
+        // console.log(dousaBoxRef.current.draggable)
         // dousaBoxRef.current.draggable = "false"
         // dousaBoxRef.current.draggable = "true"
         // dousaBoxRef.current.style["user-select"] = "none"
