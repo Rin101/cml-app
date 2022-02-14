@@ -33,9 +33,11 @@ export const TopMenu = (props) => {
             const obj = JSON.parse(reader.result)
             try {
                 props.setJiku(obj.data.jiku)
+                props.setTanniValue(parseInt(obj.data.tanniValue))
+                props.setApplication(obj.data.application)
                 props.setProgramData(obj.data.programData)
                 props.setLoopData(obj.data.loopData)
-                props.setCmlOutput(toCML(obj.data.programData, obj.data.loopData, obj.data.isNyuryokuShingou))
+                props.setCmlOutput(toCML(obj.data.programData, obj.data.loopData, obj.data.isNyuryokuShingou, obj.data.tanniValue))
             } catch (err) {
                 alert('ファイルが間違っています')
             }
@@ -63,7 +65,7 @@ export const TopMenu = (props) => {
     }
 
     const handleFileSave = () => {
-        let obj = {"name":"cml-import","data":{"jiku":props.jiku,"programData":props.programData,"loopData":props.loopData,"isNyuryokuShingou":props.isNyuryokuShingou}}
+        let obj = {"name":"cml-import","data":{"jiku":props.jiku,"tanniValue":props.tanniValue,"application":props.application,"programData":props.programData,"loopData":props.loopData,"isNyuryokuShingou":props.isNyuryokuShingou}}
         const data = JSON.stringify(obj)
         const filename = "CML-途中保存"
         const type = ".txt"
