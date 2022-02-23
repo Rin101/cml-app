@@ -1,5 +1,4 @@
-import { Button } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardBunkai } from './tanni-funcs';
 import { toCML } from './toCml';
 

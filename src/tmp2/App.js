@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './App.css'
 import './program-grid.css'
 import { Editor } from './Editor';
-import { ProgramBlock } from './programBlock';
+import { ProgramBlock, TypeDataInDousa, LoopInputBox } from './programBlock';
 import useLocalStorage from './useLocalStorage';
 import { TopMenu, downloadFile } from './menu';
 import { toCML } from './toCml';
@@ -15,54 +15,47 @@ export const App = () => {
     const [jiku, setJiku] = useState(3)
     const [tanniValue, setTanniValue] = useState(100)
     const [application, setApplication] = useState("initial")
-    useEffect(() => {
-        console.log(application)
-    }, [application])
     // const [programData, setProgramData] = useState([[[[]]]])
+    const [programData, setProgramData] = useState([[[["位置決め", 1, [[98899898, "pps"], [100, "pps"], [100, "pps"]]],[],[]]]])
     // const [programData, setProgramData] = useState([
     //     [
-    //         [["位置決め", 1, [[100, "pps"], [100, "pps"], [100, "pps"]]], ["押付け", 1, [100, 100, 100]], ["位置決め", 2, [[100, "pps"], [100, "pps"], [100, "pps"]]]], 
-    //         [[], [], ["トルク制限", 1, [100, 100, 100]]],
-    //         [[], ["押付け", 2, [100, 100, 100]], ["トルク制限", 3, [100, 100, 100]]],
-    //         [[], ["押付け", 3, [100, 100, 100]], ["トルク制限", 2, [100, 100, 100]]],
+    //         [["位置決め", 1, [[98899898, "pps"], [100, "pps"], [100, "pps"]]], [], ["位置決め", 2, [[100, "pps"], [100, "pps"], [100, "pps"]]]], 
+    //         [[], [], []],
+    //         [[], [], []],
+    //         [[], [], []],
     //     ],
     //     [
-    //         [[], ["タイマ", 2, [100, 100, 100]], []]
+    //         [[], [], []]
     //     ]
     // ])
-    const [programData, setProgramData] = useState([
-        [
-            [["位置決め", 1, [[98899898, "pps"], [100, "pps"], [100, "pps"]]], [], ["位置決め", 2, [[100, "pps"], [100, "pps"], [100, "pps"]]]], 
-            [[], [], []],
-            [[], [], []],
-            [[], [], []],
-        ],
-        [
-            [[], [], []]
-        ]
-    ])
-
-    // const [loopData, setLoopData] = useState([])
-    const [loopData, setLoopData] = useState([[["0","0"], ["0","2"], 4]])
+    const [loopData, setLoopData] = useState([])
+    // const [loopData, setLoopData] = useState([[["0","0"], ["0","2"], 4]])
     const [currentDraggedCommand, setCurrentDraggedCommand] = useState("位置決め")
 
+    // typeDataObj: [dousaBoxRef, jiku, parentId, dousaType, dousaNum, isInitial]
+    // loopInputObj: [parentId, isInitial]
+    const [typeDataObj, setTypeDataObj] = useState(new Array(6))
+    const [loopInputObj, setLoopInputObj] = useState(new Array(2))
+
+    const typeDataRef = useRef()
+    const loopInputRef = useRef()
     const expCopy = useRef()
     const expCopyDone = useRef()
     const layerRef = useRef()
     const commandSelectorRef = useRef()
 
-    const popMessage = (message) => {
-        const id = "pop-message-"+Date.now()
-        document.innerHTML += 
-        <div id={id} className="pop-message message-success">
-            <p className="message-text">{message}</p>
-            <i className="fas fa-times">agdsfdgfhkgjfhkdgsfa</i>
-        </div>
+    // const popMessage = (message) => {
+    //     const id = "pop-message-"+Date.now()
+    //     document.innerHTML += 
+    //     <div id={id} className="pop-message message-success">
+    //         <p className="message-text">{message}</p>
+    //         <i className="fas fa-times">agdsfdgfhkgjfhkdgsfa</i>
+    //     </div>
         
-        setTimeout(() => {
-            document.querySelector(`#${id}`).remove()
-        }, 4000)
-    }
+    //     setTimeout(() => {
+    //         document.querySelector(`#${id}`).remove()
+    //     }, 4000)
+    // }
 
     const getIndex = (document) => {
         let res = document.id.split('-')
@@ -136,6 +129,8 @@ export const App = () => {
     
     return (
         <div className="main">
+            <TypeDataInDousa ref={typeDataRef} isInitial={typeDataObj[5]} dousaBoxRef={typeDataObj[0]} jiku={typeDataObj[1]} parentId={typeDataObj[2]} dousaType={typeDataObj[3]} dousaNum={typeDataObj[4]} application={application} programData={programData} setProgramData={setProgramData}/>
+            <LoopInputBox ref={loopInputRef} isInitial={typeDataObj[5]} parentId={loopInputObj[0]} loopData={loopData} setLoopData={setLoopData} />
             <div ref={layerRef} className="layer"></div>
             <div className="command-list-width-box"></div>
             <div className="command-list">
@@ -148,10 +143,11 @@ export const App = () => {
             </div>
             <div className="center-section">
                 <TopMenu application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
-                <ProgramBlock application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
+                <ProgramBlock loopInputObj={loopInputObj} setLoopInputObj={setLoopInputObj} typeDataObj={typeDataObj} setTypeDataObj={setTypeDataObj} typeDataRef={typeDataRef} loopInputRef={loopInputRef} application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
             </div>
             <div className="cml-output-section">
-                <h3 onClick={() => popMessage("FUCK OFF")}>CML</h3>
+                {/* <h3 onClick={() => popMessage("what")}>CML</h3> */}
+                <h3 className='unselectable'>CML</h3>
                 <Editor value={cmlOutput} onChange={setCmlOutput} />
                 <div className="jikkou-button">
                     <Button variant="contained" onClick={() => handleFileExport()}>

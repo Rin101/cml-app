@@ -318,12 +318,13 @@
 }
 
 .typeDataInDousa {
-  display: flex;
+  display: none;
   flex-direction: column;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 100%;
+  /* left: 50%; */
+  left: 0%;
+  /* transform: translate(-50%, 0); */
   background-color: white;
   box-shadow: 0 2px 4px 1px rgba(255, 105, 135, 0.2);
   padding: 1rem;
@@ -333,14 +334,9 @@
 }
 
 /* -- */
-.fa-caret-down {
-  color: rgba(0, 0, 0, 0.6);
-}
-
 .num-dropdown {
   margin-left: 0.2rem;
   position: relative;
-  cursor: pointer;
 }
 
 .currentNum-container {
@@ -441,15 +437,9 @@
   cursor: pointer;
 }
 
-.type-times-circle {
-  color: rgb(185, 185, 185);
-  cursor: pointer;
-}
-
 /* .dousa-box i:hover,
 .dousa-group-kaishi i:hover { */
-.fa-trash:hover,
-.type-times-circle:hover {
+.fa-trash:hover {
   color: rgb(221, 63, 63);
   transition: ease-in-out 0.1s;
 }

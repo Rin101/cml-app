@@ -1,29 +1,7 @@
-TANNIKANNSANN TODO
 
--toggle gensoku gray out, make it unchangable
--limit users to only type numbers
--unselectable
--set application in last wizard
--style
--consider Math.PI in susumiryou
+tannikannsann decimal point malfunction
 
-----------------------
-
-numdropdown props and functions
-
-setTypeData: check same numbered dousa, set same data
-
-----------------
-
--add global state which contains tannikannsann values
-
--change toCML
-
--tannikannsann
-
-
------- change output cml when file is imported
------- change output cml when tannikannsann is changed
+no value circle
 
 -----------------
 -----------------

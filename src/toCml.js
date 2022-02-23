@@ -14,11 +14,11 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tanniValue) => {
                     let cml_numbers = dousa[1].toString() + "." + dousa_jiku.toString()
                     switch (dousa[0]) {
                         case "位置決め":
-                            every_data_teigi += "S"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue).toString()+"\nA"+cml_numbers+"="+getPulseValue(dousa[2][1], tanniValue).toString()+"\nP"+cml_numbers+"="+getPulseValue(dousa[2][2], tanniValue).toString()+"\n"
+                            every_data_teigi += "S"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue,100).toString()+"\nA"+cml_numbers+"="+getPulseValue(dousa[2][1], tanniValue,1000).toString()+"\nP"+cml_numbers+"="+getPulseValue(dousa[2][2], tanniValue).toString()+`\n`
                             dousa_jikkou_row_arr.push(`S${cml_numbers},A${cml_numbers},P${cml_numbers}`)
                             break
                         case "押付け":
-                            every_data_teigi += "S"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue).toString()+"\nA"+cml_numbers+"="+getPulseValue(dousa[2][1], tanniValue).toString()+"\nP"+cml_numbers+"="+getPulseValue(dousa[2][2], tanniValue).toString()+"\n"
+                            every_data_teigi += "S"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue,100).toString()+"\nA"+cml_numbers+"="+getPulseValue(dousa[2][1], tanniValue,1000).toString()+"\nP"+cml_numbers+"="+getPulseValue(dousa[2][2], tanniValue).toString()+"\n"
                             dousa_jikkou_row_arr.push(`S${cml_numbers},A${cml_numbers},Q${cml_numbers}`)
                             break
                         case "トルク制限":
@@ -54,19 +54,19 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tanniValue) => {
     output += every_program_teigi
     if (isNyuryokuShingou) {
         let nyuryokuTxt = `\nK81=1\nK82=1\nL1.1\nI1.1,JL2.1,T0.1\nI2.1,JL3.1,T0.1\nI3.1,JL4.1,T0.1\nI4.1,].1:].1,T0.1\nL2.1\n[1.1\nI1.1,W0.1,JL1.1\nL3.1\n[2.1\nI2.1,W0.1,JL1.1\nL4.1\n[3.1\nI3.1,W0.1,JL1.1\nEND`
-        return output + "END" + nyuryokuTxt
+        return output + "\nEND" + nyuryokuTxt
     } else {
-        return output + "END"
+        return output + "\nEND"
     }
 }
 
-const getPulseValue = (valueArr, tanniValue) => {
-    let value = valueArr[0]
+const getPulseValue = (valueArr, tanniValue, divideVar=1) => {
+    let value = parseInt(valueArr[0])
     const tanni = valueArr[1]
 
     if (tanni.includes("pps" || "%" || "msec")) {
-        return value
+        return Math.round(value)
     } else {
-        return value * tanniValue
+        return Math.round(value * tanniValue / divideVar)
     }
 }

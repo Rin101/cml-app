@@ -1,12 +1,11 @@
 import { Button } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './App.css'
 import './program-grid.css'
 import { Editor } from './Editor';
-import { ProgramBlock } from './programBlock';
+import { ProgramBlock, TypeDataInDousa, LoopInputBox } from './programBlock';
 import useLocalStorage from './useLocalStorage';
 import { TopMenu, downloadFile } from './menu';
-import { toCML } from './toCml';
 
 export const App = () => {
 
@@ -16,33 +15,30 @@ export const App = () => {
     const [tanniValue, setTanniValue] = useState(100)
     const [application, setApplication] = useState("initial")
     // const [programData, setProgramData] = useState([[[[]]]])
+    const [programData, setProgramData] = useState([[[["位置決め", 1, [[98899898, "pps"], [100, "pps"], [100, "pps"]]],[],[]]]])
     // const [programData, setProgramData] = useState([
     //     [
-    //         [["位置決め", 1, [[100, "pps"], [100, "pps"], [100, "pps"]]], ["押付け", 1, [100, 100, 100]], ["位置決め", 2, [[100, "pps"], [100, "pps"], [100, "pps"]]]], 
-    //         [[], [], ["トルク制限", 1, [100, 100, 100]]],
-    //         [[], ["押付け", 2, [100, 100, 100]], ["トルク制限", 3, [100, 100, 100]]],
-    //         [[], ["押付け", 3, [100, 100, 100]], ["トルク制限", 2, [100, 100, 100]]],
+    //         [["位置決め", 1, [[98899898, "pps"], [100, "pps"], [100, "pps"]]], [], ["位置決め", 2, [[100, "pps"], [100, "pps"], [100, "pps"]]]], 
+    //         [[], [], []],
+    //         [[], [], []],
+    //         [[], [], []],
     //     ],
     //     [
-    //         [[], ["タイマ", 2, [100, 100, 100]], []]
+    //         [[], [], []]
     //     ]
     // ])
-    const [programData, setProgramData] = useState([
-        [
-            [["位置決め", 1, [[98899898, "pps"], [100, "pps"], [100, "pps"]]], [], ["位置決め", 2, [[100, "pps"], [100, "pps"], [100, "pps"]]]], 
-            [[], [], []],
-            [[], [], []],
-            [[], [], []],
-        ],
-        [
-            [[], [], []]
-        ]
-    ])
-
-    // const [loopData, setLoopData] = useState([])
-    const [loopData, setLoopData] = useState([[["0","0"], ["0","2"], 4]])
+    const [loopData, setLoopData] = useState([])
+    // const [loopData, setLoopData] = useState([[["0","0"], ["0","2"], 4]])
     const [currentDraggedCommand, setCurrentDraggedCommand] = useState("位置決め")
 
+    // typeDataObj: [jiku, parentId, dousaType, dousaNum, isInitial]
+    // loopInputObj: [parentId, isInitial]
+    const [typeDataObj, setTypeDataObj] = useState(new Array(5))
+    const [loopInputObj, setLoopInputObj] = useState(new Array(2))
+    const [inputBoxType, setInputBoxType] = useState("none")
+
+    const typeDataRef = useRef()
+    const loopInputRef = useRef()
     const expCopy = useRef()
     const expCopyDone = useRef()
     const layerRef = useRef()
@@ -61,11 +57,11 @@ export const App = () => {
     //     }, 4000)
     // }
 
-    const getIndex = (document) => {
-        let res = document.id.split('-')
-        res.shift()
-        return res
-    }
+    // const getIndex = (document) => {
+    //     let res = document.id.split('-')
+    //     res.shift()
+    //     return res
+    // }
 
     // const commandDragStart = (e) => {
     const commandHover = (e) => {
@@ -130,9 +126,21 @@ export const App = () => {
         const type = ".txt"
         downloadFile(data, filename, type)
     }
+
+    const DataInputBox = (props) => {
+        switch (props.inputBoxType) {
+            case "typedata":
+                return <TypeDataInDousa setInputBoxType={setInputBoxType} isInitial={typeDataObj[4]} jiku={typeDataObj[0]} parentId={typeDataObj[1]} dousaType={typeDataObj[2]} dousaNum={typeDataObj[3]} application={application} programData={programData} setProgramData={setProgramData}/>
+            case "loop":
+                return <LoopInputBox setInputBoxType={setInputBoxType} isInitial={loopInputObj[1]} parentId={loopInputObj[0]} loopData={loopData} setLoopData={setLoopData} />
+            default:
+                return <></>
+        }
+    }
     
     return (
         <div className="main">
+            <DataInputBox inputBoxType={inputBoxType} />
             <div ref={layerRef} className="layer"></div>
             <div className="command-list-width-box"></div>
             <div className="command-list">
@@ -145,7 +153,7 @@ export const App = () => {
             </div>
             <div className="center-section">
                 <TopMenu application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
-                <ProgramBlock application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
+                <ProgramBlock setInputBoxType={setInputBoxType} inputBoxType={inputBoxType} loopInputObj={loopInputObj} setLoopInputObj={setLoopInputObj} typeDataObj={typeDataObj} setTypeDataObj={setTypeDataObj} typeDataRef={typeDataRef} loopInputRef={loopInputRef} application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
             </div>
             <div className="cml-output-section">
                 {/* <h3 onClick={() => popMessage("what")}>CML</h3> */}

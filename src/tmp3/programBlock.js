@@ -1,8 +1,11 @@
-import React, { useRef, useState } from 'react'
-import { Button } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react'
+import { Button, gridClasses } from '@mui/material';
 import { toCML } from './toCml';
+import { Dropdown } from './tanni-funcs';
 
 export const ProgramBlock = (props) => {
+    'use strict'
+
     const addRowRef = useRef()
     const pgEmptyBox = useRef()
 
@@ -230,15 +233,32 @@ export const ProgramBlock = (props) => {
         props.setCmlOutput(toCML(programData, loopData, isNyuryokuShingou, tanniValue))
     }
 
-    const showTypeData = (isLoop, parentId, jiku, dousaType, dousaNum) => {
+    const showTypeData = (isLoop, parentId, dousaBoxRef, jiku, dousaType, dousaNum) => {
         if (!isLoop) {
-            const typeDataObj = [jiku, parentId, dousaType, dousaNum, false]
+            const typeDataObj = [dousaBoxRef, jiku, parentId, dousaType, dousaNum, false]
             props.setTypeDataObj(typeDataObj)
-            props.setInputBoxType("typedata")
+            // props.typeDataRef.current.style.display = "flex"
+            // <TypeDataInDousa ref={typeDataRef} isInitial={typeDataObj[5]} dousaBoxRef={typeDataObj[0]} jiku={typeDataObj[1]} parentId={typeDataObj[2]} dousaType={typeDataObj[3]} dousaNum={typeDataObj[4]} application={application} programData={programData} setProgramData={setProgramData}/>
         } else {
             props.setLoopInputObj([parentId, false])
-            props.setInputBoxType("loop")
+            props.loopInputRef.current.style.display = "flex"
         }
+        // 'use strict';
+        // var obj = {};
+        // obj.draggable = false // add property first and only then prevent extensions
+        // Object.preventExtensions(obj);
+        // console.log(dousaBoxRef.current.draggable)
+        // dousaBoxRef.current.draggable = false
+        // console.log(dousaBoxRef.current.draggable)
+        // dousaBoxRef.current.draggable = "false"
+        // dousaBoxRef.current.draggable = "true"
+        // dousaBoxRef.current.style["user-select"] = "none"
+            // "user-drag": "none",
+            // "-webkit-user-drag": "none",
+            // "user-select": "none",
+            // "-moz-user-select": "none",
+            // "-webkit-user-select": "none",
+            // "-ms-user-select": "none",
     }
 
     // Drag Functions
@@ -437,6 +457,7 @@ export const ProgramBlock = (props) => {
                         }
                         pg_l_arr.push(
                         <div className="pg-l-loop unselectable" style={{height:loopStyleHeight+"rem"}} id={"loop-"+dousa_group_i+"-"+dousa_row_i} key={"pglloop"+dousa_row}>
+                            <LoopInputBox parentId={"loop-"+dousa_group_i+"-"+dousa_row_i} loopData={props.loopData} setLoopData={props.setLoopData} />
                             {dragArrows.map(dragArrow => {return dragArrow})}
                             <p className="loop-title" onClick={() => showTypeData(true, "loop-"+dousa_group_i+"-"+dousa_row_i)}>繰り返し{loopCount}回</p>
                             <i className="fas fa-trash trash-block" onClick={(e) => trashLoop(e, props.loopData, props.setLoopData)}></i>
@@ -457,12 +478,10 @@ export const ProgramBlock = (props) => {
                     if (dousa.length !== 0) {
                         let noValueArr = []
                         dousa[2].forEach(value => {if (value.includes("数値を入力してください")) noValueArr.push("nope")})
-                        const dousaId = "dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i
-                        const jikuOfDousa = dousa_i
                         if (noValueArr.length > 0) {
-                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={dousaId}><div className='no-value-circle'></div><p className='dousa-title' onClick={() => showTypeData(false, dousaId, jikuOfDousa, dousa[0], dousa[1])} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
+                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><div className='no-value-circle'></div><p className='dousa-title' onClick={() => showTypeData(false, "dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i, dousaBoxRef, dousa_i,dousa[0], dousa[1])} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         } else {
-                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={dousaId}><p className='dousa-title' onClick={() => showTypeData(false, dousaId, jikuOfDousa, dousa[0], dousa[1])} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
+                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}><p className='dousa-title' onClick={() => showTypeData(false, "dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i, dousaBoxRef, dousa_i, dousa[0], dousa[1])} >{dousa[0]}{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         }
                     } else {
                         // main_grid.push(<div className="dousa-box"></div>)
@@ -506,11 +525,23 @@ export const ProgramBlock = (props) => {
     )
 }
 
+const DataInputBox = (props) => {
+    switch (props.inputType) {
+        case "typedata":
+            return 
+        case "loop":
+            return
+        default:
+            return <></>
+    }
+}
+
 export const TypeDataInDousa = (props) => {
     // let dousaType = props.dousaType
     // let dousaNum = props.dousaNum
     // let parentId = props.parentId
     const popupRef = useRef()
+    // if (props.isInitial) return (<></>)
     // --
     let indexArr = props.parentId.split('-')
     indexArr.shift()
@@ -518,25 +549,19 @@ export const TypeDataInDousa = (props) => {
     let tmp = [...props.programData]
     // --
     const closeTypeData = () => {
-        props.setInputBoxType("none")
+        popupRef.current.style.display = "none"
+        // console.log(props.dousaBoxRef.current.draggable)
+        // props.dousaBoxRef.current.draggable = "true"
     }
 
-    let subTanni = "initial"
-    if (props.application !== "initial") {
-        if (props.application === "インデックステーブル") {
-            subTanni = "°"
-        } else {
-            subTanni = "mm"
-        }
+    let subTanni = "mm"
+    if (props.application === "インデックステーブル") {
+        subTanni = "°"
     }
 
     const ichigimeData = {
         bangouRange: 250,
-        inputForm: subTanni==="initial" ? [
-            ["速度データ", ["pps/s"], "と"],
-            ["加速度データ", ["pps/s\u00b2"], "で"],
-            ["位置データ", ["pps"], "へ移動する"],
-        ] : [
+        inputForm: [
             ["速度データ", ["pps/s", subTanni+"/s"], "と"],
             ["加速度データ", ["pps/s\u00b2", subTanni+"/s\u00b2"], "で"],
             ["位置データ", ["pps", subTanni], "へ移動する"],
@@ -544,11 +569,7 @@ export const TypeDataInDousa = (props) => {
     }
     const oshitukeData = {
         bangouRange: 250,
-        inputForm: subTanni==="initial" ? [
-            ["速度データ", ["pps/s"], "と"],
-            ["加速度データ", ["pps/s\u00b2"], "で"],
-            ["位置データ", ["pps"], "へ押付け動作する"],
-        ] : [
+        inputForm: [
             ["速度データ", ["pps/s", subTanni+"/s"], "と"],
             ["加速度データ", ["pps/s\u00b2", subTanni+"/s\u00b2"], "で"],
             ["位置データ", ["pps", subTanni], "へ押付け動作する"],
@@ -609,15 +630,13 @@ export const TypeDataInDousa = (props) => {
                 for (let dousa_group of tmp) {
                     for (let dousa_row of dousa_group) {
                         let dousa = dousa_row[props.jiku]
-                        if (dousa.length > 0) {
-                            if (props.dousaType !== ("位置決め"||"押付け")) {
-                                if (dousa[1] === props.dousaNum && dousa[0] === props.dousaType) {
-                                    dousa[2] = valueArr
-                                }
-                            } else {
-                                if (dousa[1] === props.dousaNum) {
-                                    dousa[2] = valueArr
-                                }
+                        if (props.dousaType !== ("位置決め"||"押付け")) {
+                            if (dousa[1] === props.dousaNum && dousa[0] === props.dousaType) {
+                                dousa[2] = valueArr
+                            }
+                        } else {
+                            if (dousa[1] === props.dousaNum) {
+                                dousa[2] = valueArr
                             }
                         }
                     }
@@ -634,7 +653,7 @@ export const TypeDataInDousa = (props) => {
     
         return (
             <div className="typeDataInDousa" ref={popupRef}>
-                <div className="close-typedata"><i onClick={() => closeTypeData()} className="fas fa-times-circle type-times-circle"></i></div>
+                <div className="close-typedata"><i onClick={() => closeTypeData()} className="fas fa-times-circle"></i></div>
                 <div className='typedata-input-line' key={"input-num-line"}>
                     <p className='typedata-var'>番号:</p><NumDropDown range={dataFormat.bangouRange} jiku={props.jiku} dousaType={props.dousaType} dousaNum={props.dousaNum} popupRef={props.popupRef} programData={props.programData} setProgramData={props.setProgramData} indexArr={props.indexArr}/>
                 </div>
@@ -662,7 +681,7 @@ export const TypeDataInDousa = (props) => {
 
         return (
             <>
-                <input className="type-data-input" required value={value} onChange={(e) => setValue(e.target.value)} />
+                <input className="type-data-input" required defaultValue={value} value={value} onChange={(e) => setValue(e.target.value)} />
                 <div className="type-data-tanni">
                     <select className='select-tanni' value={tanniState} onChange={(e) => setTanniState(e.target.value)} >
                         { tanniArr.map(tanni => {
@@ -681,13 +700,15 @@ export const LoopInputBox = (props) => {
     // props: parentId, loopData, setLoopData
     const popupRef = useRef()
     const [value, setValue] = useState(tmp[parseInt(indexArr[0])][2])
+    if (props.isInitial) return (<></>)
     let indexArr = props.parentId.split('-')
     indexArr.shift()
     // --
     let tmp = [...props.loopData]
     // --
     const closeTypeData = () => {
-        props.setInputBoxType("none")
+        popupRef.current.style.display = "none"
+        props.dousaBoxRef.current.draggable = "true"
     }
 
     const setTypeData = () => {
@@ -710,7 +731,7 @@ export const LoopInputBox = (props) => {
 
     return (
         <div className="typeDataInDousa" ref={popupRef}>
-            <div className="close-typedata"><i onClick={() => closeTypeData()} className="fas fa-times-circle type-times-circle"></i></div>
+            <div className="close-typedata"><i onClick={() => closeTypeData()} className="fas fa-times-circle"></i></div>
             <div className="typedata-input-line">
                 <input className="type-data-input" required value={value} onChange={(e) => setValue(e.target.value)} />
                 <p>回繰り返す</p>
@@ -725,7 +746,7 @@ const NumDropDown = (props) => {
     const popupRef = props.popupRef
     const indexArr = props.indexArr
     let tmp = [...props.programData]
-    // console.log(tmp[parseInt(indexArr[0])])
+    
     const [currentNum, setCurrentNum] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][1])
     const numItemRef = useRef()
     const currentNumRef = useRef()
