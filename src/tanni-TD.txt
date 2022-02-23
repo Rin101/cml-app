@@ -1,0 +1,4 @@
+update data in the line where I commented out tmp.push([100])
+-> you need to UPDATE the data goddamn it
+
+why the state doesn't change on the first click in kikou wizard

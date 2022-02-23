@@ -292,7 +292,8 @@
   align-items: center;
   position: relative;
   height: 2.3rem;
-  background-color: rgb(216, 221, 231);
+  /* background-color: rgb(216, 221, 231); */
+  background-color: rgb(192, 204, 226);
   min-width: 7rem;
   cursor: pointer;
 }
@@ -457,7 +458,8 @@
 .pg-empty-box {
   border-radius: 0.2rem;
   height: 2.3rem;
-  background-color: rgb(250, 250, 251);
+  /* background-color: rgb(250, 250, 251); */
+  background-color: rgb(231, 231, 235);
   min-width: 7rem;
 }
 

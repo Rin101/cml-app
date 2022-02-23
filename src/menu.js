@@ -32,7 +32,7 @@ export const TopMenu = (props) => {
             const obj = JSON.parse(reader.result)
             try {
                 props.setJiku(obj.data.jiku)
-                props.setTanniValue(parseInt(obj.data.tanniValue))
+                props.setTanniValue(parseFloat(obj.data.tanniValue))
                 props.setApplication(obj.data.application)
                 props.setProgramData(obj.data.programData)
                 props.setLoopData(obj.data.loopData)
@@ -158,9 +158,9 @@ const Tannikannsann = (props) => {
     // props: tanniValue, setTanniValue, application, setApplication
     
     const getTanniValue = (setTanniValue, valueArr) => {
-        // let tanniValue =  (1/susumiryou) * parseInt(bunkainou) * (nyuryoku/shuturyoku)
+        // let tanniValue =  (1/susumiryou) * parseFloat(bunkainou) * (nyuryoku/shuturyoku)
         // {/* <p>パルス　=　距離[𝑚𝑚] × (1/進み量[𝑚𝑚⁄回転]) × 分解能[パルス/回転] × (入力/出力)</p> */}
-        setTanniValue((1/valueArr[0]) * parseInt(valueArr[1]) * (valueArr[2][0]/valueArr[2][1]))
+        setTanniValue((1/valueArr[0]) * parseFloat(valueArr[1]) * (valueArr[2][0]/valueArr[2][1]))
         props.closeTanni(props.topMenuRef, props.layerRef)
     }
     

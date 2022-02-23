@@ -61,7 +61,7 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tanniValue) => {
 }
 
 const getPulseValue = (valueArr, tanniValue, divideVar=1) => {
-    let value = parseInt(valueArr[0])
+    let value = parseFloat(valueArr[0])
     const tanni = valueArr[1]
 
     if (tanni.includes("pps" || "%" || "msec")) {

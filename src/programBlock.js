@@ -10,7 +10,7 @@ export const ProgramBlock = (props) => {
         const indexArr = e.target.parentNode.id.split('-')
         indexArr.shift()
         let tmp = [...programData]
-        tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])] = []
+        tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])] = []
         setProgramData(tmp) 
     }
 
@@ -34,8 +34,8 @@ export const ProgramBlock = (props) => {
         const indexArr = e.currentTarget.parentNode.id.split('-')
         indexArr.shift()
         let tmp = [...programData]
-        if (tmp[parseInt(indexArr[0])].length > 1) {
-            tmp[parseInt(indexArr[0])].splice(parseInt(indexArr[1]), 1);        
+        if (tmp[parseFloat(indexArr[0])].length > 1) {
+            tmp[parseFloat(indexArr[0])].splice(parseFloat(indexArr[1]), 1);        
         } else {
             let emptyRow = []
             let i = 1
@@ -43,7 +43,7 @@ export const ProgramBlock = (props) => {
                 emptyRow.push([])
                 i += 1
             }
-            tmp[parseInt(indexArr[0])] = [emptyRow]
+            tmp[parseFloat(indexArr[0])] = [emptyRow]
         }
         // ------------------------------------
         // --
@@ -54,13 +54,13 @@ export const ProgramBlock = (props) => {
                     tmpLoop.splice(tmpLoop.indexOf(loop), 1);
                 }
             } else if (loop[1][0] === indexArr[0] && loop[1][1] === indexArr[1]) {
-                loop[1] = [indexArr[0], (parseInt(indexArr[1])-1).toString()]
+                loop[1] = [indexArr[0], (parseFloat(indexArr[1])-1).toString()]
             }
         })
 
         tmpLoop.forEach(loop => {
-            if ((programData[parseInt(loop[0][0])].length - 1) < (loop[1][1] - parseInt(loop[0][1]))) {
-                loop[1][1] = (parseInt(loop[1][1])-1).toString()
+            if ((programData[parseFloat(loop[0][0])].length - 1) < (loop[1][1] - parseFloat(loop[0][1]))) {
+                loop[1][1] = (parseFloat(loop[1][1])-1).toString()
             }
         })
 
@@ -73,7 +73,7 @@ export const ProgramBlock = (props) => {
         indexArr.shift()
         let tmp = [...programData]
         if (tmp.length > 1) {
-            tmp.splice(parseInt(indexArr[0]), 1);
+            tmp.splice(parseFloat(indexArr[0]), 1);
         } else {
             tmp = [[[]]]
             let i = 1
@@ -127,7 +127,7 @@ export const ProgramBlock = (props) => {
             i += 1
         }
         let tmp = [...props.programData]
-        tmp[parseInt(indexArr[0])].splice(parseInt(indexArr[1]), 0, emptyRow)
+        tmp[parseFloat(indexArr[0])].splice(parseFloat(indexArr[1]), 0, emptyRow)
         props.setProgramData(tmp) 
     }
 
@@ -148,7 +148,7 @@ export const ProgramBlock = (props) => {
             let tmp = [...props.programData]
             for (let dousa_group of tmp) {
                 for (let dousa_row of dousa_group) {
-                    dousa_row.splice(parseInt(indexArr[0])-1, 0, [])
+                    dousa_row.splice(parseFloat(indexArr[0])-1, 0, [])
                 }
             }
             props.setProgramData(tmp) 
@@ -172,8 +172,8 @@ export const ProgramBlock = (props) => {
         const indexArr = e.currentTarget.parentNode.parentNode.id.split('-')
         indexArr.shift()
         let tmp = [...props.programData]
-        const dousaGroup = tmp[parseInt(indexArr[0])]
-        const rowIndex = parseInt(indexArr[1])
+        const dousaGroup = tmp[parseFloat(indexArr[0])]
+        const rowIndex = parseFloat(indexArr[1])
         switch (direction) {
             case "up":
                 if (rowIndex >= 1) {
@@ -194,7 +194,7 @@ export const ProgramBlock = (props) => {
     const moveJiku = (e, direction) => {
         const indexArr = e.currentTarget.parentNode.id.split('-')
         indexArr.shift()
-        let current_jiku = parseInt(indexArr[0])
+        let current_jiku = parseFloat(indexArr[0])
         let tmp = [...props.programData]
         switch (direction) {
             case "left":
@@ -275,13 +275,13 @@ export const ProgramBlock = (props) => {
         indexArr.shift()
         let tmp = [...props.programData]
         if (props.currentDraggedCommand !== "繰り返し" && props.currentDraggedCommand !== "動作グループを追加" && props.currentDraggedCommand !== "NOPE" && !props.currentDraggedCommand.includes("-")) {
-            tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])] = [props.currentDraggedCommand, 1, [["数値を入力してください", "pps"], ["数値を入力してください", "pps"], ["数値を入力してください", "pps"]]]
+            tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])] = [props.currentDraggedCommand, 1, [["数値を入力してください", "pps"], ["数値を入力してください", "pps"], ["数値を入力してください", "pps"]]]
             props.setProgramData(tmp)
         } else if (props.currentDraggedCommand.includes("-")) {
             let draggedIndexArr = props.currentDraggedCommand.split("-")
             draggedIndexArr.shift()
-            tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])] = tmp[parseInt(draggedIndexArr[0])][parseInt(draggedIndexArr[1])][parseInt(draggedIndexArr[2])]
-            tmp[parseInt(draggedIndexArr[0])][parseInt(draggedIndexArr[1])][parseInt(draggedIndexArr[2])] = []
+            tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])] = tmp[parseFloat(draggedIndexArr[0])][parseFloat(draggedIndexArr[1])][parseFloat(draggedIndexArr[2])]
+            tmp[parseFloat(draggedIndexArr[0])][parseFloat(draggedIndexArr[1])][parseFloat(draggedIndexArr[2])] = []
             props.setProgramData(tmp)
         }
     }
@@ -331,18 +331,18 @@ export const ProgramBlock = (props) => {
                         isDirectionAvailable = false
                     }
                 })
-                if (isDirectionAvailable && parseInt(tmp[mainItemIndex][0][1]) >= 1) {
-                    tmp[mainItemIndex][0][1] = (parseInt(tmp[mainItemIndex][0][1]) - 1).toString()
+                if (isDirectionAvailable && parseFloat(tmp[mainItemIndex][0][1]) >= 1) {
+                    tmp[mainItemIndex][0][1] = (parseFloat(tmp[mainItemIndex][0][1]) - 1).toString()
                 }
                 break
             case "top-down":
                 if (tmp[mainItemIndex][0][1] !== tmp[mainItemIndex][1][1]) {
-                    tmp[mainItemIndex][0][1] = (parseInt(tmp[mainItemIndex][0][1]) + 1).toString()
+                    tmp[mainItemIndex][0][1] = (parseFloat(tmp[mainItemIndex][0][1]) + 1).toString()
                 }
                 break
             case "bottom-up":
                 if (tmp[mainItemIndex][0][1] !== tmp[mainItemIndex][1][1]) {
-                    tmp[mainItemIndex][1][1] = (parseInt(tmp[mainItemIndex][1][1]) - 1).toString()
+                    tmp[mainItemIndex][1][1] = (parseFloat(tmp[mainItemIndex][1][1]) - 1).toString()
                 }
                 break
             case "bottom-down":
@@ -352,8 +352,8 @@ export const ProgramBlock = (props) => {
                     }
                 }
                 let rowLength = props.programData[tmp[mainItemIndex][1][0]].length
-                if (isDirectionAvailable && parseInt(tmp[mainItemIndex][1][1]) < (rowLength - 1)) {
-                    tmp[mainItemIndex][1][1] = (parseInt(tmp[mainItemIndex][1][1]) + 1).toString()
+                if (isDirectionAvailable && parseFloat(tmp[mainItemIndex][1][1]) < (rowLength - 1)) {
+                    tmp[mainItemIndex][1][1] = (parseFloat(tmp[mainItemIndex][1][1]) + 1).toString()
                 }
                 break          
             default:
@@ -592,7 +592,7 @@ export const TypeDataInDousa = (props) => {
         const setTypeData = () => {
             let isAllNumber = []
             popupRef.current.querySelectorAll('.type-data-input').forEach(input => {
-                if (isNaN(parseInt(input.value))) {
+                if (isNaN(parseFloat(input.value))) {
                     isAllNumber.push("NAN")
                 }
             })
@@ -622,7 +622,7 @@ export const TypeDataInDousa = (props) => {
                         }
                     }
                 }
-                tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2] = valueArr
+                tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][2] = valueArr
                 props.setProgramData(tmp)
                 // --
                 closeTypeData()
@@ -656,8 +656,8 @@ export const TypeDataInDousa = (props) => {
         // const data = [100, "pps"]
         const index = props.index
         const tanniArr = props.tanniArr
-        const [value, setValue] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2][index][0])
-        const [tanniState, setTanniState] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2][index][1])
+        const [value, setValue] = useState(tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][2][index][0])
+        const [tanniState, setTanniState] = useState(tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][2][index][1])
         // ---
 
         return (
@@ -680,7 +680,7 @@ export const TypeDataInDousa = (props) => {
 export const LoopInputBox = (props) => {
     // props: parentId, loopData, setLoopData
     const popupRef = useRef()
-    const [value, setValue] = useState(tmp[parseInt(indexArr[0])][2])
+    const [value, setValue] = useState(tmp[parseFloat(indexArr[0])][2])
     let indexArr = props.parentId.split('-')
     indexArr.shift()
     // --
@@ -698,7 +698,7 @@ export const LoopInputBox = (props) => {
         if (isAllNumber.length === 0) {
             let tmp = [...props.loopData]
             let value = popupRef.current.querySelector(".type-data-input").value
-            tmp[parseInt(indexArr[0])][2] = value
+            tmp[parseFloat(indexArr[0])][2] = value
             props.setLoopData(tmp)
             // --
             closeTypeData()
@@ -725,13 +725,13 @@ const NumDropDown = (props) => {
     const popupRef = props.popupRef
     const indexArr = props.indexArr
     let tmp = [...props.programData]
-    // console.log(tmp[parseInt(indexArr[0])])
-    const [currentNum, setCurrentNum] = useState(tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][1])
+    // console.log(tmp[parseFloat(indexArr[0])])
+    const [currentNum, setCurrentNum] = useState(tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][1])
     const numItemRef = useRef()
     const currentNumRef = useRef()
     
     const selectItem = (e) => {
-        const value = parseInt(e.currentTarget.id.split("-")[2])
+        const value = parseFloat(e.currentTarget.id.split("-")[2])
         setCurrentNum(value)
         numItemRef.current.style.display = "none"
         let sameDataArr = []
@@ -745,7 +745,7 @@ const NumDropDown = (props) => {
             }
         }
         if (sameDataArr.length > 0) {
-            tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][2] = sameDataArr[0]
+            tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][2] = sameDataArr[0]
             let inputs = popupRef.current.querySelectorAll(".type-data-input")
             let tanniSelectors = popupRef.current.querySelectorAll(".select-tanni")
             let i = 0
@@ -755,7 +755,7 @@ const NumDropDown = (props) => {
                 i++
             }
         }
-        tmp[parseInt(indexArr[0])][parseInt(indexArr[1])][parseInt(indexArr[2])][1] = value
+        tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][1] = value
         props.setProgramData(tmp)
     }
     const getNumItems = () => {
