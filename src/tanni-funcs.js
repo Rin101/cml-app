@@ -8,8 +8,7 @@ import { useEffect, useRef, useState } from "react"
 export const WizardKikou = (props) => {
     const params = props.params
     const tkData = params.tannikannsannData
-
-    const [input, setInput] = useState(params.history.length > 0 ? params.history[0][1] : (tkData.kikou !== "initial" ? tkData.kikou : params.wizardInput))
+    const [input, setInput] = useState(params.history.length >= 1 ? params.history[0][1] : (tkData.kikou !== "initial" ? tkData.kikou : params.wizardInput))
     const radioRef = useRef()
 
     useEffect(() => {
@@ -18,6 +17,11 @@ export const WizardKikou = (props) => {
             let i = arr.indexOf(input) + 1
             radioRef.current.querySelector('#kikou-'+i).checked = true
         }
+        // if (params.history.length >= 1) {
+        //     let arr = ["ボールねじ", "ベルト駆動", "ラックアンドピニオン", "インデックステーブル"]
+        //     let i = arr.indexOf(input) + 1
+        //     radioRef.current.querySelector('#kikou-'+i).checked = true
+        // }
     }, [input])
 
     const goNext = () => {
@@ -259,7 +263,7 @@ export const WizardBunkai = (props) => {
         valueArr[1] = input
         props.getTanniValue(props.setTanniValue, valueArr)
         params.setValueArr(valueArr)
-        params.setTannikannsannData({kikou:params.history[0][1],susumiryou:params.history[1][1],gensoku:params.history[2][1],bunkai:params.history[3][1]})
+        params.setTannikannsannData({kikou:params.history[0][1],susumiryou:params.history[1][1],gensoku:params.history[2][1],bunkai:input})
         params.setApplication(params.history[0][1])
     }
 
