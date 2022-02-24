@@ -13,20 +13,15 @@ export const App = () => {
     const [isNyuryokuShingou, setIsNyuryokuShingou] = useState(false)
     const [jiku, setJiku] = useState(3)
     const [tanniValue, setTanniValue] = useState(100)
+    // let initialTannikannsannData = []
+    // for (let i=0; i+=1; i < jiku) {
+    //     initialTannikannsannData.push({kikou: "initial", susumiryou: 1, gensoku: 1, bunkai: 1})
+    // }
+    // const [tannikannsannData, setTannikannsannData] = useState(initialTannikannsannData)
+    const [tannikannsannData, setTannikannsannData] = useState({kikou: "initial", susumiryou: 0, gensoku: [1,1], bunkai: 300})
     const [application, setApplication] = useState("initial")
     // const [programData, setProgramData] = useState([[[[]]]])
     const [programData, setProgramData] = useState([[[["位置決め", 1, [[98899898, "pps"], [100, "pps"], [100, "pps"]]],[],[]]]])
-    // const [programData, setProgramData] = useState([
-    //     [
-    //         [["位置決め", 1, [[98899898, "pps"], [100, "pps"], [100, "pps"]]], [], ["位置決め", 2, [[100, "pps"], [100, "pps"], [100, "pps"]]]], 
-    //         [[], [], []],
-    //         [[], [], []],
-    //         [[], [], []],
-    //     ],
-    //     [
-    //         [[], [], []]
-    //     ]
-    // ])
     const [loopData, setLoopData] = useState([])
     // const [loopData, setLoopData] = useState([[["0","0"], ["0","2"], 4]])
     const [currentDraggedCommand, setCurrentDraggedCommand] = useState("位置決め")
@@ -152,7 +147,7 @@ export const App = () => {
                 <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="kurikaeshi-selector" draggable="true"><i className="fas fa-grip-vertical"></i>繰り返し</div>
             </div>
             <div className="center-section">
-                <TopMenu application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
+                <TopMenu tannikannsannData={tannikannsannData} setTannikannsannData={setTannikannsannData} application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
                 <ProgramBlock setInputBoxType={setInputBoxType} inputBoxType={inputBoxType} loopInputObj={loopInputObj} setLoopInputObj={setLoopInputObj} typeDataObj={typeDataObj} setTypeDataObj={setTypeDataObj} typeDataRef={typeDataRef} loopInputRef={loopInputRef} application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
             </div>
             <div className="cml-output-section">

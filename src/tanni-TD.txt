@@ -1,4 +1,10 @@
-update data in the line where I commented out tmp.push([100])
--> you need to UPDATE the data goddamn it
+tannikannsannData is not being affected
 
-why the state doesn't change on the first click in kikou wizard
+tannikannsannData in "importing & saving" files
+
+tannikannsann dropdown is behind "back button"
+
+global state to save data of tannikannsann: ex) [jiku_num, {kikou: "ボールねじ, susumiryou: 100.54, ...etc}]
+-> "application" state must be replaced to this global tannikannsann state
+
+uselocalstorage

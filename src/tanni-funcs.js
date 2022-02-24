@@ -7,17 +7,18 @@ import { useEffect, useRef, useState } from "react"
 
 export const WizardKikou = (props) => {
     const params = props.params
+    const tkData = params.tannikannsannData
 
-    const [input, setInput] = useState(params.history.length > 0 ? params.history[0][1] : params.wizardInput)
+    const [input, setInput] = useState(params.history.length > 0 ? params.history[0][1] : (tkData.kikou !== "initial" ? tkData.kikou : params.wizardInput))
     const radioRef = useRef()
 
-    // useEffect(() => {
-    //     if (params.history.length >= 1) {
-    //         let arr = ["ボールねじ", "ベルト駆動", "ラックアンドピニオン", "インデックステーブル"]
-    //         let i = arr.indexOf(params.history[0][1]) + 1
-    //         radioRef.current.querySelector('#kikou-'+i).checked = true
-    //     }
-    // }, [input])
+    useEffect(() => {
+        if (params.history.length >= 1) {
+            let arr = ["ボールねじ", "ベルト駆動", "ラックアンドピニオン", "インデックステーブル"]
+            let i = arr.indexOf(input) + 1
+            radioRef.current.querySelector('#kikou-'+i).checked = true
+        }
+    }, [input])
 
     const goNext = () => {
         let isCheckedArr = []
@@ -32,13 +33,22 @@ export const WizardKikou = (props) => {
             let tmp = [...params.history]
             if (params.history.length === 0) {
                 tmp.push(["kikou", input])
-                params.setHistory(tmp)
-            }
-            if (input !== "インデックステーブル") {
-                params.setWizardInput(["susumiryou", input])
+                if (input !== "インデックステーブル") {
+                    params.setWizardInput(["susumiryou", input])
+                } else {
+                    tmp.push(["susumiryou", 1])
+                    params.setWizardInput(["gensoku", input])
+                }
             } else {
-                params.setWizardInput(["gensoku", input])
+                tmp[0] = ["kikou", input]
+                if (input !== "インデックステーブル") {
+                    params.setWizardInput(["susumiryou", input])
+                } else {
+                    tmp[1] = ["susumiryou", 1]
+                    params.setWizardInput(["gensoku", input])
+                }
             }
+            params.setHistory(tmp)
         }
     }
 
@@ -72,10 +82,11 @@ export const WizardKikou = (props) => {
 
 export const WizardSusumiryou = (props) => {
     const params = props.params
+    const tkData = params.tannikannsannData
     const mode = params.history[0][1]
     let susumiryouText = ""
     let susumiryouVar = 3.1415926535 // or Math.PI
-    const [input, setInput] = useState((params.history.length > 1) ? parseFloat(params.history[1][1]) : 0)
+    const [input, setInput] = useState((params.history.length > 1) ? parseFloat(params.history[1][1]) : tkData.susumiryou)
 
     switch (mode) {
         case "ボールねじ":
@@ -97,8 +108,10 @@ export const WizardSusumiryou = (props) => {
         let tmp = [...params.history]
         if (params.history.length === 1) {
             tmp.push(["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100])
-            params.setHistory(tmp)
+        } else {
+            tmp[1] = ["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100]
         }
+        params.setHistory(tmp)
         params.setWizardInput(["gensoku", input])
         params.setValueArr([parseFloat(input)*susumiryouVar, params.valueArr[1], params.valueArr[2]])
     }
@@ -135,7 +148,8 @@ export const WizardSusumiryou = (props) => {
 
 export const WizardGensoku = (props) => {
     const params = props.params
-    const [input, setInput] = useState(((params.history[0][1] !== "インデックステーブル") && (params.history.length >= 3)) || ((params.history[0][1] === "インデックステーブル") && (params.history.length >= 2)) ? params.history[2][1] : [1, 1])
+    const tkData = params.tannikannsannData
+    const [input, setInput] = useState((params.history.length >= 3) ? params.history[2][1] : tkData.gensoku)
     const checkBoxRef = useRef()
     const selectorRef = useRef()
 
@@ -153,10 +167,12 @@ export const WizardGensoku = (props) => {
 
     const goNext = () => {
         let tmp = [...params.history]
-        if ((params.history[0][1] !== "インデックステーブル" && params.history.length === 2) || (params.history[0][1] === "インデックステーブル" && params.history.length === 1)) {
+        if (params.history.length === 2) {
             tmp.push(["gensoku", input])
-            params.setHistory(tmp)
+        } else {
+            tmp[2] = ["gensoku", input]
         }
+        params.setHistory(tmp)
         params.setWizardInput(["bunkai", input])
         params.setValueArr([params.valueArr[0], params.valueArr[1], input])
     }
@@ -217,15 +233,16 @@ export const WizardGensoku = (props) => {
 
 export const WizardBunkai = (props) => {
     const params = props.params
+    const tkData = params.tannikannsannData
     const mode = params.history[0][1]
     let bunkaiText = ""
     let bunkaiVar = 1
-    const [input, setInput] = useState(1)
+    const [input, setInput] = useState(params.history.length === 4 ? params.history[3][1] : tkData.bunkai)
 
     switch (mode) {
         case "インデックステーブル":
             bunkaiText = "°"
-            bunkaiVar = 360 / (params.history[1][1][1]/params.history[1][1][0])
+            bunkaiVar = 360 / (params.history[2][1][1]/params.history[2][1][0])
             break
         default:
             bunkaiText = "mm"
@@ -242,12 +259,23 @@ export const WizardBunkai = (props) => {
         valueArr[1] = input
         props.getTanniValue(props.setTanniValue, valueArr)
         params.setValueArr(valueArr)
+        params.setTannikannsannData({kikou:params.history[0][1],susumiryou:params.history[1][1],gensoku:params.history[2][1],bunkai:params.history[3][1]})
         params.setApplication(params.history[0][1])
-        console.log(params.history)
     }
 
     const goBack = () => {
         params.setWizardInput(["gensoku", 0])
+    }
+
+    const changeInput = (item) => {
+        setInput(item)
+        let tmp = [...params.history]
+        if (tmp.length < 4) {
+            tmp.push(["bunkai", item])
+        } else {
+            tmp[3] = ["bunkai", item]
+        }
+        params.setHistory(tmp)
     }
 
     return (
@@ -256,7 +284,7 @@ export const WizardBunkai = (props) => {
             <div className="tanni-wizard-selector tanni-bunkai">
                 <div className="bunkai-1">
                     <p className="tanni-bunkai-text">モータ分解能: </p>
-                    <Dropdown setItem={setInput} itemArr={[300, 600, 1000, 1200, 2000, 3000, 5000, 6000, 10000, 12000]} />
+                    <Dropdown setItem={changeInput} defaultItem={input} itemArr={[300, 600, 1000, 1200, 2000, 3000, 5000, 6000, 10000, 12000]} />
                     <p className="tanni-bunkai-text">パルス/回転</p>
                 </div>
                 <div className="bunkai-2">
@@ -275,7 +303,7 @@ export const Dropdown = (props) => {
     const itemArr = props.itemArr
     const setItem = props.setItem
 
-    const [selectedItem, setSelectedItem] = useState(itemArr[0])
+    const [selectedItem, setSelectedItem] = useState(props.defaultItem !== undefined ? props.defaultItem : itemArr[0])
     const dropdownItems = useRef()
     const selectedItemRef = useRef()
 

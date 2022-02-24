@@ -145,7 +145,7 @@ export const TopMenu = (props) => {
                 単位換算
                 <div ref={expTanni} className="exp-box hidden">表示単位と分解能を設定します</div>
             </div>
-            <Tannikannsann application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
+            <Tannikannsann tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
             <div className="top-menu-button unpressed-nyuryoku-shingou unselectable" onMouseEnter={() => display(expNyuryoku)} onMouseLeave={() => hide(expNyuryoku)} onClick={(e) => toggleNyuryokuShingou(e)}>
                 入力点からの{isNyuryoku}
                 <div ref={expNyuryoku} className="exp-box hidden">入力点1～3の機能を動作グループ1～3の実行に、入力点4を停止に割付けます。</div>
@@ -155,7 +155,7 @@ export const TopMenu = (props) => {
 }
 
 const Tannikannsann = (props) => {
-    // props: tanniValue, setTanniValue, application, setApplication
+    // props: tanniValue, setTanniValue, application, setApplication, tannikannsannData, setTannikannsannData
     
     const getTanniValue = (setTanniValue, valueArr) => {
         // let tanniValue =  (1/susumiryou) * parseFloat(bunkainou) * (nyuryoku/shuturyoku)
@@ -174,7 +174,8 @@ const Tannikannsann = (props) => {
                 wizardInput: wizardInput[1], 
                 history, setHistory, setWizardInput,
                 valueArr, setValueArr,
-                application:props.application, setApplication:props.setApplication
+                application:props.application, setApplication:props.setApplication,
+                tannikannsannData: props.tannikannsannData, setTannikannsannData: props.setTannikannsannData
             }
         
             switch (wizardInput[0]) {
@@ -205,7 +206,7 @@ const Tannikannsann = (props) => {
     return (
         <div className="tannikannsann-popup">
             <div className="close-popup close-tannikannsann" onClick={() => props.closeTanni(props.topMenuRef, props.layerRef)}><i className="fas fa-times-circle"></i></div>
-            <WizardController application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} />
+            <WizardController tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} />
         </div>
     )
 }

@@ -662,7 +662,11 @@ export const TypeDataInDousa = (props) => {
 
         return (
             <>
-                <input className="type-data-input" required value={value} onChange={(e) => setValue(e.target.value)} />
+                {value.toString().includes('数値を入力してください') ? 
+                    <input className="type-data-input" required placeholder={value} onChange={(e) => setValue(e.target.value)} />
+                    // : <input className="type-data-input" required value={value} onChange={(e) => setValue(e.target.value)} />
+                    : <input className="type-data-input" required defaultValue={value} onChange={(e) => setValue(e.target.value)} />
+                }
                 <div className="type-data-tanni">
                     <select className='select-tanni' value={tanniState} onChange={(e) => setTanniState(e.target.value)} >
                         { tanniArr.map(tanni => {
