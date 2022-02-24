@@ -201,7 +201,7 @@ export const ProgramBlock = (props) => {
                 if (current_jiku !== 1) {
                     for (let dousa_group of tmp) {
                         for (let dousa_row of dousa_group) {
-                            console.log(current_jiku-1)
+                            // console.log(current_jiku-1)
                             let tmp_dousa = [...dousa_row[current_jiku-1]]
                             dousa_row[current_jiku-1] = [...dousa_row[current_jiku-2]]
                             dousa_row[current_jiku-2] = tmp_dousa
@@ -729,7 +729,6 @@ const NumDropDown = (props) => {
     const popupRef = props.popupRef
     const indexArr = props.indexArr
     let tmp = [...props.programData]
-    // console.log(tmp[parseFloat(indexArr[0])])
     const [currentNum, setCurrentNum] = useState(tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][1])
     const numItemRef = useRef()
     const currentNumRef = useRef()
@@ -744,7 +743,6 @@ const NumDropDown = (props) => {
                 let dousa = dousa_row[props.jiku]
                 if (dousa[1] === value && dousa[0] === props.dousaType) {
                     sameDataArr.push(dousa[2])
-                    console.log("hi")
                 }
             }
         }

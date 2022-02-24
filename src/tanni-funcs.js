@@ -12,16 +12,9 @@ export const WizardKikou = (props) => {
     const radioRef = useRef()
 
     useEffect(() => {
-        if (params.history.length >= 1) {
-            let arr = ["ボールねじ", "ベルト駆動", "ラックアンドピニオン", "インデックステーブル"]
-            let i = arr.indexOf(input) + 1
-            radioRef.current.querySelector('#kikou-'+i).checked = true
-        }
-        // if (params.history.length >= 1) {
-        //     let arr = ["ボールねじ", "ベルト駆動", "ラックアンドピニオン", "インデックステーブル"]
-        //     let i = arr.indexOf(input) + 1
-        //     radioRef.current.querySelector('#kikou-'+i).checked = true
-        // }
+        let arr = ["ボールねじ", "ベルト駆動", "ラックアンドピニオン", "インデックステーブル"]
+        let i = arr.indexOf(input) + 1
+        radioRef.current.querySelector('#kikou-'+i).checked = true
     }, [input])
 
     const goNext = () => {
