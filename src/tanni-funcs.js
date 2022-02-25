@@ -82,8 +82,8 @@ export const WizardSusumiryou = (props) => {
     const tkData = params.tannikannsannData
     const mode = params.history[0][1]
     let susumiryouText = ""
-    let susumiryouVar = 3.1415926535 // or Math.PI
-    const [input, setInput] = useState((params.history.length > 1) ? parseFloat(params.history[1][1]) : tkData.susumiryou)
+    let susumiryouVar = Math.PI
+    const [input, setInput] = useState((params.history.length >= 2) ? parseFloat(params.history[1][2]) : tkData.susumiryou[1])
 
     switch (mode) {
         case "ボールねじ":
@@ -104,9 +104,9 @@ export const WizardSusumiryou = (props) => {
     const goNext = () => {
         let tmp = [...params.history]
         if (params.history.length === 1) {
-            tmp.push(["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100])
+            tmp.push(["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100, parseFloat(input)])
         } else {
-            tmp[1] = ["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100]
+            tmp[1] = ["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100, parseFloat(input)]
         }
         params.setHistory(tmp)
         params.setWizardInput(["gensoku", input])
@@ -125,9 +125,9 @@ export const WizardSusumiryou = (props) => {
             <div className="tanni-wizard-selector tanni-susumi">
                 <div className="susumi-1">
                     <p className='tanni-susumi-p'>{susumiryouText} : </p>
-                    {(params.history.length > 1) ? 
-                    <input type="text" value={input} onChange={(e) => setInput(e.currentTarget.value)}/>
-                    : <input type="text" placeholder={0} onChange={(e) => setInput(e.currentTarget.value)}/>
+                    {(params.history.length <= 1 && tkData.susumiryou[0]===0) ? 
+                    <input type="text" placeholder={0} onChange={(e) => setInput(e.currentTarget.value)}/>
+                    : <input type="text" value={input} onChange={(e) => setInput(e.currentTarget.value)}/>
                     }
                     <p className='tanni-susumi-tanni'> mm</p>
                 </div>
@@ -151,14 +151,12 @@ export const WizardGensoku = (props) => {
     const selectorRef = useRef()
 
     useEffect(() => {
-        if (params.history.length > 2) {
-            if (params.history[2][1][0] !== 1 || params.history[2][1][1] !== 1) {
-                selectorRef.current.style.opacity = "1"
-                checkBoxRef.current.checked = "true"
-                selectorRef.current.querySelectorAll("input").forEach(input => {
-                    input.readOnly = false
-                })
-            }
+        if (((params.history.length > 2) && (params.history[2][1][0] !== 1 || params.history[2][1][1] !== 1)) || (tkData.gensoku[0]!==1 || tkData.gensoku[1]!==1)) {
+            selectorRef.current.style.opacity = "1"
+            checkBoxRef.current.checked = "true"
+            selectorRef.current.querySelectorAll("input").forEach(input => {
+                input.readOnly = false
+            })
         }
     })
 
@@ -256,7 +254,7 @@ export const WizardBunkai = (props) => {
         valueArr[1] = input
         props.getTanniValue(props.setTanniValue, valueArr)
         params.setValueArr(valueArr)
-        params.setTannikannsannData({kikou:params.history[0][1],susumiryou:params.history[1][1],gensoku:params.history[2][1],bunkai:input})
+        params.setTannikannsannData({kikou:params.history[0][1],susumiryou:[params.history[1][1],params.history[1][2]],gensoku:params.history[2][1],bunkai:input})
         params.setApplication(params.history[0][1])
     }
 

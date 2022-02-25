@@ -18,7 +18,7 @@ export const App = () => {
     //     initialTannikannsannData.push({kikou: "initial", susumiryou: 1, gensoku: 1, bunkai: 1})
     // }
     // const [tannikannsannData, setTannikannsannData] = useState(initialTannikannsannData)
-    const [tannikannsannData, setTannikannsannData] = useState({kikou: "initial", susumiryou: 0, gensoku: [1,1], bunkai: 300})
+    const [tannikannsannData, setTannikannsannData] = useState({kikou: "initial", susumiryou: [0,0], gensoku: [1,1], bunkai: 300})
     const [application, setApplication] = useState("initial")
     // const [programData, setProgramData] = useState([[[[]]]])
     const [programData, setProgramData] = useState([[[["位置決め", 1, [[98899898, "pps"], [100, "pps"], [100, "pps"]]],[],[]]]])
