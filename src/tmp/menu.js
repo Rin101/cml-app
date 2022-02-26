@@ -129,25 +129,25 @@ export const TopMenu = (props) => {
     return (
         <div ref={topMenuRef} className="top-menu">
             <div className="top-menu-button save-file unselectable" onMouseEnter={() => display(expSave)} onMouseLeave={() => hide(expSave)} onClick={() => handleFileSave()}>
-                <i class="fa-solid fa-floppy-disk"></i>プロジェクトファイルを保存
+                プロジェクトファイルを保存
                 <div ref={expSave} className="exp-box hidden">作成途中のプロジェクトを保存します</div>
             </div>
             
             <div className="top-menu-button import-file unselectable" onMouseEnter={() => display(expImp)} onMouseLeave={() => hide(expImp)}>
                 <label htmlFor="top-menu-file-upload">
-                    <i class="fa-solid fa-folder-open"></i>プロジェクトファイルを開く
+                    プロジェクトファイルを開く
                     <input id="top-menu-file-upload" accept=".txt" type="file" onChange={(e) => handleFileImport(e)}/>
                 </label>
                 <div ref={expImp} className="exp-box hidden">保存したプロジェクトを開きます</div>
             </div>
             <div className="top-menu-button tannikannsann unselectable" onMouseEnter={() => display(expTanni)} onMouseLeave={() => hide(expTanni)} onClick={() => openTanni()}>
-                <i class="fa-solid fa-gears"></i>単位換算
+                単位換算
                 <div ref={expTanni} className="exp-box hidden">表示単位と分解能を設定します</div>
             </div>
             <Tannikannsann jiku={props.jiku} tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
             <div className="top-menu-button unpressed-nyuryoku-shingou unselectable" onMouseEnter={() => display(expNyuryoku)} onMouseLeave={() => hide(expNyuryoku)} onClick={(e) => toggleNyuryokuShingou(e)}>
             {/* <div className={"top-menu-button unpressed-nyuryoku-shingou "+} onMouseEnter={() => display(expNyuryoku)} onMouseLeave={() => hide(expNyuryoku)} onClick={(e) => toggleNyuryokuShingou(e)}> */}
-                <i class="fa-solid fa-rotate"></i>入力点からの{isNyuryoku}
+                入力点からの{isNyuryoku}
                 <div ref={expNyuryoku} className="exp-box hidden">入力点1～3の機能を動作グループ1～3の実行に、入力点4を停止に割付けます。</div>
             </div>
         </div>
