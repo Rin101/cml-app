@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardBunkai } from './tanni-funcs';
+import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardBunkai, WizardJiku } from './tanni-funcs';
 import { toCML } from './toCml';
 
 // Function to download data to a file
@@ -30,16 +30,15 @@ export const TopMenu = (props) => {
         reader.onload = async (e) => { 
             // const obj = JSON.parse(e.target.result)
             const obj = JSON.parse(reader.result)
-            try {
+            // try {
                 props.setJiku(obj.data.jiku)
-                props.setTanniValue(parseFloat(obj.data.tanniValue))
-                props.setApplication(obj.data.application)
+                props.setTannikannsannData(obj.data.tannikannsannData)
                 props.setProgramData(obj.data.programData)
                 props.setLoopData(obj.data.loopData)
-                props.setCmlOutput(toCML(obj.data.programData, obj.data.loopData, obj.data.isNyuryokuShingou, obj.data.tanniValue))
-            } catch (err) {
-                alert('ファイルが間違っています')
-            }
+                props.setCmlOutput(toCML(obj.data.programData, obj.data.loopData, obj.data.isNyuryokuShingou, obj.data.tannikannsannData))
+            // } catch (err) {
+            //     alert('ファイルが間違っています')
+            // }
         };
         reader.readAsText(e.target.files[0], "utf-8")
     }
@@ -51,7 +50,7 @@ export const TopMenu = (props) => {
             window.navigator.msSaveOrOpenBlob(file, filename);
         else { // Others
             var a = document.createElement("a"),
-                    url = URL.createObjectURL(file);
+            url = URL.createObjectURL(file);
             a.href = url;
             a.download = filename;
             document.body.appendChild(a);
@@ -64,7 +63,7 @@ export const TopMenu = (props) => {
     }
 
     const handleFileSave = () => {
-        let obj = {"name":"cml-import","data":{"jiku":props.jiku,"tanniValue":props.tanniValue,"application":props.application,"programData":props.programData,"loopData":props.loopData,"isNyuryokuShingou":props.isNyuryokuShingou}}
+        let obj = {"name":"cml-import","data":{"jiku":props.jiku,"tannikannsannData":props.tannikannsannData,"programData":props.programData,"loopData":props.loopData,"isNyuryokuShingou":props.isNyuryokuShingou}}
         const data = JSON.stringify(obj)
         const filename = "CML-途中保存"
         const type = ".txt"
@@ -145,7 +144,7 @@ export const TopMenu = (props) => {
                 単位換算
                 <div ref={expTanni} className="exp-box hidden">表示単位と分解能を設定します</div>
             </div>
-            <Tannikannsann tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
+            <Tannikannsann jiku={props.jiku} tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
             <div className="top-menu-button unpressed-nyuryoku-shingou unselectable" onMouseEnter={() => display(expNyuryoku)} onMouseLeave={() => hide(expNyuryoku)} onClick={(e) => toggleNyuryokuShingou(e)}>
                 入力点からの{isNyuryoku}
                 <div ref={expNyuryoku} className="exp-box hidden">入力点1～3の機能を動作グループ1～3の実行に、入力点4を停止に割付けます。</div>
@@ -157,16 +156,19 @@ export const TopMenu = (props) => {
 const Tannikannsann = (props) => {
     // props: tanniValue, setTanniValue, application, setApplication, tannikannsannData, setTannikannsannData
     
-    const getTanniValue = (setTanniValue, valueArr) => {
+    const getTanniValue = (valueArr) => {
         // let tanniValue =  (1/susumiryou) * parseFloat(bunkainou) * (nyuryoku/shuturyoku)
         // {/* <p>パルス　=　距離[𝑚𝑚] × (1/進み量[𝑚𝑚⁄回転]) × 分解能[パルス/回転] × (入力/出力)</p> */}
-        setTanniValue((1/valueArr[0]) * parseFloat(valueArr[1]) * (valueArr[2][0]/valueArr[2][1]))
+        return (1/valueArr[0]) * parseFloat(valueArr[1]) * (valueArr[2][0]/valueArr[2][1])
+    }
+
+    const close = () => {
         props.closeTanni(props.topMenuRef, props.layerRef)
     }
     
     const WizardController = (props) => {
         const [history, setHistory] = useState([])
-        const [wizardInput, setWizardInput] = useState(["kikou", "ボールねじ"])
+        const [wizardInput, setWizardInput] = useState(["jiku", []])
         const [valueArr, setValueArr] = useState([1, 1, [1, 1]])
 
         const inputForm = () => {
@@ -174,11 +176,13 @@ const Tannikannsann = (props) => {
                 wizardInput: wizardInput[1], 
                 history, setHistory, setWizardInput,
                 valueArr, setValueArr,
-                application:props.application, setApplication:props.setApplication,
-                tannikannsannData: props.tannikannsannData, setTannikannsannData: props.setTannikannsannData
+                tannikannsannData: props.tannikannsannData, setTannikannsannData: props.setTannikannsannData,
+                jiku: props.jiku
             }
         
             switch (wizardInput[0]) {
+                case "jiku":
+                    return <WizardJiku params={params} />
                 case "kikou":
                     return <WizardKikou params={params} />
                 case "susumiryou":
@@ -186,27 +190,23 @@ const Tannikannsann = (props) => {
                 case "gensoku":
                     return <WizardGensoku params={params} />
                 case "bunkai":
-                    return <WizardBunkai getTanniValue={getTanniValue} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} params={params} />
+                    return <WizardBunkai close={props.close} getTanniValue={getTanniValue} params={params} />
                 default:
-                    return <WizardKikou params={params} />
+                    return <WizardKikou params={params}/>
             }
         }
 
         return (
             <div className='wizard-controller'>
-                {/* <div className='wizard-input'> */}
                     {inputForm()}
-                {/* </div> */}
-                {/* <div className='wizard-buttons'> */}
-                {/* </div> */}
             </div>
         )
     } 
 
     return (
         <div className="tannikannsann-popup">
-            <div className="close-popup close-tannikannsann" onClick={() => props.closeTanni(props.topMenuRef, props.layerRef)}><i className="fas fa-times-circle"></i></div>
-            <WizardController tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} />
+            <div className="close-popup close-tannikannsann" onClick={() => close()}><i className="fas fa-times-circle"></i></div>
+            <WizardController close={close} jiku={props.jiku} tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} />
         </div>
     )
 }

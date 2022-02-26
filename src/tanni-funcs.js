@@ -2,13 +2,89 @@ import { Button } from "@mui/material"
 import { useEffect, useRef, useState } from "react"
 
 // ------------------------------------
-// export const WizardJiku = (props) => {}
+export const WizardJiku = (props) => {
+
+    const params = props.params
+    const tkData = params.tannikannsannData
+    const [input, setInput] = useState(params.history.length >= 1 ? params.history[0][1] : [])
+    const checkBoxRef = useRef()
+
+    useEffect(() => {
+        input.forEach(num => {
+            checkBoxRef.current.querySelector('#jiku-'+num).checked = true
+        })
+    }, [input])
+
+    const jikuCheckBoxContainer = () => {
+        let res = []
+        let i = 1
+        while (i<=params.jiku) {
+            const num = i
+            res.push(
+                <div className="jiku-input-container" key={num+"jiku-input"}>
+                    <input type="checkbox" key={num+"input"} onChange={(e) => changeInput(e, num)} id={"jiku-"+num} name="jiku-sentaku"/>
+                    <label htmlFor={"jiku-"+num} key={num+"label"}>{num}軸目</label>
+                </div>
+            )
+            i += 1
+        }
+        return res
+    }
+
+    const changeInput = (e, num) => {
+        const isChecked = e.currentTarget.checked
+        let tmp = [...input]
+        if (isChecked && !input.includes(num)) {
+            tmp.push(num)
+        } else {
+            const index = tmp.indexOf(num);
+            if (index > -1) {
+                tmp.splice(index, 1);
+            }
+        }
+        setInput(tmp)
+    }
+
+    const goNext = () => {
+        let isCheckedArr = []
+        checkBoxRef.current.querySelectorAll('input').forEach(checkBox => {
+            if (checkBox.checked === true) {
+                isCheckedArr.push("true")
+            }
+        })
+        if (isCheckedArr.length >= 1) {
+            let tmp = [...params.history]
+            if (tmp.length >= 1) {
+                tmp[0][1] = input
+            } else {
+                tmp.push(["jiku", input])
+            }
+            params.setHistory(tmp)
+            params.setWizardInput(["kikou", input])
+        } else {
+            alert("軸を選択してください")
+        }
+    }
+
+    return (
+        <div className="tanni-wizard unselectable">
+            <p className="tanni-wizard-title">軸の選択</p>
+            <div ref={checkBoxRef} className="tanni-wizard-selector tanni-jiku">
+                {jikuCheckBoxContainer()}
+            </div>
+            <div className="tanni-wizard-buttons">
+                <Button className="tanni-next" variant="contained" onClick={() => goNext()}>NEXT</Button>
+            </div>
+        </div>
+    )
+}
 // ------------------------------------
 
 export const WizardKikou = (props) => {
     const params = props.params
     const tkData = params.tannikannsannData
-    const [input, setInput] = useState(params.history.length >= 1 ? params.history[0][1] : (tkData.kikou !== "initial" ? tkData.kikou : params.wizardInput))
+    const jikuMainNum = params.history[0][1][0]-1
+    const [input, setInput] = useState(params.history.length >= 2 ? params.history[1][1] : (tkData[jikuMainNum].kikou !== "initial" ? tkData[jikuMainNum].kikou : "ボールねじ"))
     const radioRef = useRef()
 
     useEffect(() => {
@@ -16,6 +92,10 @@ export const WizardKikou = (props) => {
         let i = arr.indexOf(input) + 1
         radioRef.current.querySelector('#kikou-'+i).checked = true
     }, [input])
+
+    const goBack = () => {
+        params.setWizardInput(["jiku", params.history[0][1]])
+    }
 
     const goNext = () => {
         let isCheckedArr = []
@@ -28,7 +108,7 @@ export const WizardKikou = (props) => {
             alert('機構を選択してください')
         } else {
             let tmp = [...params.history]
-            if (params.history.length === 0) {
+            if (params.history.length === 1) {
                 tmp.push(["kikou", input])
                 if (input !== "インデックステーブル") {
                     params.setWizardInput(["susumiryou", input])
@@ -37,11 +117,11 @@ export const WizardKikou = (props) => {
                     params.setWizardInput(["gensoku", input])
                 }
             } else {
-                tmp[0] = ["kikou", input]
+                tmp[1] = ["kikou", input]
                 if (input !== "インデックステーブル") {
                     params.setWizardInput(["susumiryou", input])
                 } else {
-                    tmp[1] = ["susumiryou", 1]
+                    tmp[2] = ["susumiryou", 1]
                     params.setWizardInput(["gensoku", input])
                 }
             }
@@ -71,6 +151,7 @@ export const WizardKikou = (props) => {
                 </div>
             </div>
             <div className="tanni-wizard-buttons">
+                <Button className="tanni-back" variant="contained" onClick={() => goBack()}>BACK</Button>
                 <Button className="tanni-next" variant="contained" onClick={() => goNext()}>NEXT</Button>
             </div>
         </div>
@@ -80,10 +161,11 @@ export const WizardKikou = (props) => {
 export const WizardSusumiryou = (props) => {
     const params = props.params
     const tkData = params.tannikannsannData
-    const mode = params.history[0][1]
+    const jikuMainNum = params.history[0][1][0]-1
+    const mode = params.history[1][1]
     let susumiryouText = ""
     let susumiryouVar = Math.PI
-    const [input, setInput] = useState((params.history.length >= 2) ? parseFloat(params.history[1][2]) : tkData.susumiryou[1])
+    const [input, setInput] = useState((params.history.length >= 3) ? parseFloat(params.history[2][2]) : tkData[jikuMainNum].susumiryou[0])
 
     switch (mode) {
         case "ボールねじ":
@@ -103,10 +185,10 @@ export const WizardSusumiryou = (props) => {
 
     const goNext = () => {
         let tmp = [...params.history]
-        if (params.history.length === 1) {
+        if (params.history.length === 2) {
             tmp.push(["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100, parseFloat(input)])
         } else {
-            tmp[1] = ["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100, parseFloat(input)]
+            tmp[2] = ["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100, parseFloat(input)]
         }
         params.setHistory(tmp)
         params.setWizardInput(["gensoku", input])
@@ -115,7 +197,7 @@ export const WizardSusumiryou = (props) => {
 
     const goBack = () => {
         let tmp = [...params.history]
-        let kikouValue = tmp[0][1]
+        let kikouValue = tmp[1][1]
         params.setWizardInput(["kikou", kikouValue])
     }
 
@@ -125,7 +207,7 @@ export const WizardSusumiryou = (props) => {
             <div className="tanni-wizard-selector tanni-susumi">
                 <div className="susumi-1">
                     <p className='tanni-susumi-p'>{susumiryouText} : </p>
-                    {(params.history.length <= 1 && tkData.susumiryou[0]===0) ? 
+                    {(params.history.length <= 2 && tkData[jikuMainNum].susumiryou[0]===0) ? 
                     <input type="text" placeholder={0} onChange={(e) => setInput(e.currentTarget.value)}/>
                     : <input type="text" value={input} onChange={(e) => setInput(e.currentTarget.value)}/>
                     }
@@ -146,12 +228,13 @@ export const WizardSusumiryou = (props) => {
 export const WizardGensoku = (props) => {
     const params = props.params
     const tkData = params.tannikannsannData
-    const [input, setInput] = useState((params.history.length >= 3) ? params.history[2][1] : tkData.gensoku)
+    const jikuMainNum = params.history[0][1][0]-1
+    const [input, setInput] = useState((params.history.length >= 4) ? params.history[3][1] : tkData[jikuMainNum].gensoku)
     const checkBoxRef = useRef()
     const selectorRef = useRef()
 
     useEffect(() => {
-        if (((params.history.length > 2) && (params.history[2][1][0] !== 1 || params.history[2][1][1] !== 1)) || (tkData.gensoku[0]!==1 || tkData.gensoku[1]!==1)) {
+        if (((params.history.length > 3) && (params.history[3][1][0] !== 1 || params.history[3][1][1] !== 1)) || (tkData[jikuMainNum].gensoku[0]!==1 || tkData[jikuMainNum].gensoku[1]!==1)) {
             selectorRef.current.style.opacity = "1"
             checkBoxRef.current.checked = "true"
             selectorRef.current.querySelectorAll("input").forEach(input => {
@@ -162,10 +245,10 @@ export const WizardGensoku = (props) => {
 
     const goNext = () => {
         let tmp = [...params.history]
-        if (params.history.length === 2) {
+        if (params.history.length === 3) {
             tmp.push(["gensoku", input])
         } else {
-            tmp[2] = ["gensoku", input]
+            tmp[3] = ["gensoku", input]
         }
         params.setHistory(tmp)
         params.setWizardInput(["bunkai", input])
@@ -173,7 +256,7 @@ export const WizardGensoku = (props) => {
     }
 
     const goBack = () => {
-        if (params.history[0][1] !== "インデックステーブル") {
+        if (params.history[1][1] !== "インデックステーブル") {
             params.setWizardInput(["susumiryou", 0])
         } else {
             params.setWizardInput(["kikou", 0])
@@ -229,33 +312,34 @@ export const WizardGensoku = (props) => {
 export const WizardBunkai = (props) => {
     const params = props.params
     const tkData = params.tannikannsannData
-    const mode = params.history[0][1]
+    const jikuMainNum = params.history[0][1][0]-1
+    const mode = params.history[1][1]
     let bunkaiText = ""
     let bunkaiVar = 1
-    const [input, setInput] = useState(params.history.length === 4 ? params.history[3][1] : tkData.bunkai)
+    const [input, setInput] = useState(params.history.length === 5 ? params.history[4][1] : tkData[jikuMainNum].bunkai)
 
     switch (mode) {
         case "インデックステーブル":
             bunkaiText = "°"
-            bunkaiVar = 360 / (params.history[2][1][1]/params.history[2][1][0])
+            bunkaiVar = 360 / (params.history[3][1][1]/params.history[3][1][0])
             break
         default:
             bunkaiText = "mm"
-            bunkaiVar = params.history[1][1] / (params.history[2][1][1]/params.history[2][1][0])
+            bunkaiVar = params.history[2][1] / (params.history[3][1][1]/params.history[3][1][0])
             break
     }
 
     const goOK = () => {
-        let tmp = [...params.history]
-        tmp.push(["bunkai", Math.round((bunkaiVar/parseFloat(input) + Number.EPSILON) * 100) / 100])
-        params.setHistory(tmp)
-        params.setWizardInput(["bunkai", Math.round((bunkaiVar/parseFloat(input) + Number.EPSILON) * 100) / 100])
         let valueArr = [...params.valueArr]
         valueArr[1] = input
-        props.getTanniValue(props.setTanniValue, valueArr)
         params.setValueArr(valueArr)
-        params.setTannikannsannData({kikou:params.history[0][1],susumiryou:[params.history[1][1],params.history[1][2]],gensoku:params.history[2][1],bunkai:input})
-        params.setApplication(params.history[0][1])
+        let tkTmp = [...tkData]
+        params.history[0][1].forEach(jikuNum => {
+            tkTmp[jikuNum-1] = {kikou:params.history[1][1],susumiryou:[params.history[2][1],params.history[2][2]],gensoku:params.history[3][1],bunkai:input,tanniValue:props.getTanniValue(valueArr)}
+        })
+        params.setTannikannsannData(tkTmp)
+        params.setHistory([])
+        props.close()
     }
 
     const goBack = () => {
@@ -265,10 +349,10 @@ export const WizardBunkai = (props) => {
     const changeInput = (item) => {
         setInput(item)
         let tmp = [...params.history]
-        if (tmp.length < 4) {
+        if (tmp.length < 5) {
             tmp.push(["bunkai", item])
         } else {
-            tmp[3] = ["bunkai", item]
+            tmp[4] = ["bunkai", item]
         }
         params.setHistory(tmp)
     }

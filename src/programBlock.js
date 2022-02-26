@@ -201,7 +201,6 @@ export const ProgramBlock = (props) => {
                 if (current_jiku !== 1) {
                     for (let dousa_group of tmp) {
                         for (let dousa_row of dousa_group) {
-                            // console.log(current_jiku-1)
                             let tmp_dousa = [...dousa_row[current_jiku-1]]
                             dousa_row[current_jiku-1] = [...dousa_row[current_jiku-2]]
                             dousa_row[current_jiku-2] = tmp_dousa
@@ -224,10 +223,6 @@ export const ProgramBlock = (props) => {
                 break
         }
         props.setProgramData(tmp)
-    }
-
-    const changeCML = (programData, loopData, isNyuryokuShingou, tanniValue) => {
-        props.setCmlOutput(toCML(programData, loopData, isNyuryokuShingou, tanniValue))
     }
 
     const showTypeData = (isLoop, parentId, jiku, dousaType, dousaNum) => {
@@ -500,7 +495,7 @@ export const ProgramBlock = (props) => {
         <div className="program-block">
             {dataToHTML(props.programData)}
             <div className="enter-button">
-                <Button variant="contained" onClick={() => changeCML(props.programData, props.loopData, props.isNyuryokuShingou, props.tanniValue)}>CMLへ変換</Button>
+                <Button variant="contained" onClick={() => props.setCmlOutput(toCML(props.programData, props.loopData, props.isNyuryokuShingou, props.tkData))}>CMLへ変換</Button>
             </div>
         </div>
     )
@@ -511,9 +506,11 @@ export const TypeDataInDousa = (props) => {
     // let dousaNum = props.dousaNum
     // let parentId = props.parentId
     const popupRef = useRef()
+    const tkData = props.tkData
     // --
     let indexArr = props.parentId.split('-')
     indexArr.shift()
+    const jikuNum = parseFloat(indexArr[1])
     // -
     let tmp = [...props.programData]
     // --
@@ -522,7 +519,7 @@ export const TypeDataInDousa = (props) => {
     }
 
     let subTanni = "initial"
-    if (props.application !== "initial") {
+    if (tkData[jikuNum].kikou !== "initial") {
         if (props.application === "インデックステーブル") {
             subTanni = "°"
         } else {

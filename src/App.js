@@ -12,14 +12,11 @@ export const App = () => {
     const [cmlOutput, setCmlOutput] = useLocalStorage('CML', '')
     const [isNyuryokuShingou, setIsNyuryokuShingou] = useState(false)
     const [jiku, setJiku] = useState(3)
-    const [tanniValue, setTanniValue] = useState(100)
-    // let initialTannikannsannData = []
-    // for (let i=0; i+=1; i < jiku) {
-    //     initialTannikannsannData.push({kikou: "initial", susumiryou: 1, gensoku: 1, bunkai: 1})
-    // }
-    // const [tannikannsannData, setTannikannsannData] = useState(initialTannikannsannData)
-    const [tannikannsannData, setTannikannsannData] = useState({kikou: "initial", susumiryou: [0,0], gensoku: [1,1], bunkai: 300})
-    const [application, setApplication] = useState("initial")
+    let initialTannikannsannData = []
+    for (let i=0; i < jiku; i++) {
+        initialTannikannsannData.push({kikou: "initial", susumiryou: [1,1], gensoku: [1,1], bunkai: 300, tanniValue:1})
+    }
+    const [tannikannsannData, setTannikannsannData] = useState(initialTannikannsannData)
     // const [programData, setProgramData] = useState([[[[]]]])
     const [programData, setProgramData] = useState([[[["位置決め", 1, [[98899898, "pps"], [100, "pps"], [100, "pps"]]],[],[]]]])
     const [loopData, setLoopData] = useState([])
@@ -125,7 +122,7 @@ export const App = () => {
     const DataInputBox = (props) => {
         switch (props.inputBoxType) {
             case "typedata":
-                return <TypeDataInDousa setInputBoxType={setInputBoxType} isInitial={typeDataObj[4]} jiku={typeDataObj[0]} parentId={typeDataObj[1]} dousaType={typeDataObj[2]} dousaNum={typeDataObj[3]} application={application} programData={programData} setProgramData={setProgramData}/>
+                return <TypeDataInDousa tkData={tannikannsannData} setInputBoxType={setInputBoxType} isInitial={typeDataObj[4]} jiku={typeDataObj[0]} parentId={typeDataObj[1]} dousaType={typeDataObj[2]} dousaNum={typeDataObj[3]} programData={programData} setProgramData={setProgramData}/>
             case "loop":
                 return <LoopInputBox setInputBoxType={setInputBoxType} isInitial={loopInputObj[1]} parentId={loopInputObj[0]} loopData={loopData} setLoopData={setLoopData} />
             default:
@@ -147,8 +144,8 @@ export const App = () => {
                 <div ref={commandSelectorRef} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="kurikaeshi-selector" draggable="true"><i className="fas fa-grip-vertical"></i>繰り返し</div>
             </div>
             <div className="center-section">
-                <TopMenu tannikannsannData={tannikannsannData} setTannikannsannData={setTannikannsannData} application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
-                <ProgramBlock setInputBoxType={setInputBoxType} inputBoxType={inputBoxType} loopInputObj={loopInputObj} setLoopInputObj={setLoopInputObj} typeDataObj={typeDataObj} setTypeDataObj={setTypeDataObj} typeDataRef={typeDataRef} loopInputRef={loopInputRef} application={application} setApplication={setApplication} tanniValue={tanniValue} setTanniValue={setTanniValue} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
+                <TopMenu tannikannsannData={tannikannsannData} setTannikannsannData={setTannikannsannData} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
+                <ProgramBlock tkData={tannikannsannData} setInputBoxType={setInputBoxType} inputBoxType={inputBoxType} loopInputObj={loopInputObj} setLoopInputObj={setLoopInputObj} typeDataObj={typeDataObj} setTypeDataObj={setTypeDataObj} typeDataRef={typeDataRef} loopInputRef={loopInputRef} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
             </div>
             <div className="cml-output-section">
                 {/* <h3 onClick={() => popMessage("what")}>CML</h3> */}

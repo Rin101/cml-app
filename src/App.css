@@ -280,6 +280,12 @@ input[type]:focus,
 }
 
 /* -- */
+.jiku-input-container {
+  /* display: flex; */
+  /* align-items: center; */
+  padding: 0.5rem;
+}
+
 .tanni-kikou {
   margin-left: 30%;
 }

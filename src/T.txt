@@ -1,0 +1,9 @@
+
+
+responsive layout
+
+tannikannsann dropdown is behind "back button"
+
+swap tannikannsann when swapped jiku?
+
+uselocalstorage

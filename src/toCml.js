@@ -1,4 +1,4 @@
-export const toCML = (programData, loopData, isNyuryokuShingou, tanniValue) => {
+export const toCML = (programData, loopData, isNyuryokuShingou, tkData) => {
     let output = ""
     let every_data_teigi = ""
     let every_program_teigi = ""
@@ -12,6 +12,7 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tanniValue) => {
                 if (dousa.length !== 0) {
                     let dousa_jiku = dousa_row.indexOf(dousa) + 1
                     let cml_numbers = dousa[1].toString() + "." + dousa_jiku.toString()
+                    const tanniValue = tkData[dousa_jiku-1].tanniValue
                     switch (dousa[0]) {
                         case "位置決め":
                             every_data_teigi += "S"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue,100).toString()+"\nA"+cml_numbers+"="+getPulseValue(dousa[2][1], tanniValue,1000).toString()+"\nP"+cml_numbers+"="+getPulseValue(dousa[2][2], tanniValue).toString()+`\n`
