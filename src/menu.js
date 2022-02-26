@@ -146,6 +146,7 @@ export const TopMenu = (props) => {
             </div>
             <Tannikannsann jiku={props.jiku} tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
             <div className="top-menu-button unpressed-nyuryoku-shingou unselectable" onMouseEnter={() => display(expNyuryoku)} onMouseLeave={() => hide(expNyuryoku)} onClick={(e) => toggleNyuryokuShingou(e)}>
+            {/* <div className={"top-menu-button unpressed-nyuryoku-shingou "+} onMouseEnter={() => display(expNyuryoku)} onMouseLeave={() => hide(expNyuryoku)} onClick={(e) => toggleNyuryokuShingou(e)}> */}
                 入力点からの{isNyuryoku}
                 <div ref={expNyuryoku} className="exp-box hidden">入力点1～3の機能を動作グループ1～3の実行に、入力点4を停止に割付けます。</div>
             </div>

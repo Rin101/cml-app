@@ -430,10 +430,11 @@ export const ProgramBlock = (props) => {
                         if (loop[0][1] === loop[1][1]) {
                             dragArrows = [<div className="loop-drag-top" key={"loopdragtop"}><div onClick={(e) => resizeLoop(e, "top-up")}><i className="fas fa-arrow-alt-circle-up"></i></div></div>,<div className="loop-drag-bottom" key={"loop-drag-bottom"}><div onClick={(e) => resizeLoop(e, "bottom-down")}><i className="fas fa-arrow-alt-circle-down"></i></div></div>]
                         }
+                        const loopId = "loop-"+dousa_group_i+"-"+dousa_row_i
                         pg_l_arr.push(
-                        <div className="pg-l-loop unselectable" style={{height:loopStyleHeight+"rem"}} id={"loop-"+dousa_group_i+"-"+dousa_row_i} key={"pglloop"+dousa_row}>
+                        <div className="pg-l-loop unselectable" style={{height:loopStyleHeight+"rem"}} id={loopId} key={"pglloop"+dousa_row}>
                             {dragArrows.map(dragArrow => {return dragArrow})}
-                            <p className="loop-title" onClick={() => showTypeData(true, "loop-"+dousa_group_i+"-"+dousa_row_i)}>繰り返し{loopCount}回</p>
+                            <p className="loop-title" onClick={() => showTypeData(true, loopId)}>繰り返し{loopCount}回</p>
                             <i className="fas fa-trash trash-block" onClick={(e) => trashLoop(e, props.loopData, props.setLoopData)}></i>
                         </div>)
                     }
@@ -681,11 +682,11 @@ export const TypeDataInDousa = (props) => {
 export const LoopInputBox = (props) => {
     // props: parentId, loopData, setLoopData
     const popupRef = useRef()
-    const [value, setValue] = useState(tmp[parseFloat(indexArr[0])][2])
     let indexArr = props.parentId.split('-')
     indexArr.shift()
     // --
     let tmp = [...props.loopData]
+    const [value, setValue] = useState(tmp[parseFloat(indexArr[0])][2])
     // --
     const closeTypeData = () => {
         props.setInputBoxType("none")

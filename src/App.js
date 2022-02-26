@@ -11,6 +11,7 @@ export const App = () => {
 
     const [cmlOutput, setCmlOutput] = useLocalStorage('CML', '')
     const [isNyuryokuShingou, setIsNyuryokuShingou] = useState(false)
+    // const [isNyuryokuShingou, setIsNyuryokuShingou] = useLocalStorage("nyuryokushingou", false)
     const [jiku, setJiku] = useState(3)
     let initialTannikannsannData = []
     for (let i=0; i < jiku; i++) {
@@ -20,7 +21,6 @@ export const App = () => {
     // const [programData, setProgramData] = useState([[[[]]]])
     const [programData, setProgramData] = useState([[[["位置決め", 1, [[98899898, "pps"], [100, "pps"], [100, "pps"]]],[],[]]]])
     const [loopData, setLoopData] = useState([])
-    // const [loopData, setLoopData] = useState([[["0","0"], ["0","2"], 4]])
     const [currentDraggedCommand, setCurrentDraggedCommand] = useState("位置決め")
 
     // typeDataObj: [jiku, parentId, dousaType, dousaNum, isInitial]
