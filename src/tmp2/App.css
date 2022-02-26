@@ -34,9 +34,11 @@ input[type]:focus,
 
 .main {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
-  background-color: #ebebeb;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f6f6f6;
 }
 
 /* ------- */
@@ -122,24 +124,20 @@ input[type]:focus,
 
 /* ------------------------------- */
 .center-section {
-  width: 87%;
+  width: 60%;
   height: 100%;
-}
-
-.main-interface-section {
-  display: flex;
-  width: 100%;
 }
 
 /* ------------------------ */
 .top-menu {
-  margin: 1rem 1rem;
-  min-height: 10vh;
+  margin: 2rem 1rem;
+  min-height: 15vh;
+  width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
   background-color: white;
-  border-radius: 0.4rem;
+  border-radius: 0.5rem;
 }
 
 .top-menu-button {
@@ -360,11 +358,10 @@ input[type]:focus,
 
 /* ------------------------ */
 .program-block {
-  width: 75%;
+  width: 100%;
   background-color: white;
-  min-height: 80%;
+  min-height: 60vh;
   margin: 0 1rem;
-  border-radius: 0.4rem;
 }
 
 .enter-button {
@@ -377,37 +374,25 @@ input[type]:focus,
 /* ------------------------------- */
 
 .cml-output-section {
-  width: 25%;
-  min-height: 80vh;
-  margin: 0rem 1rem;
-  padding: 0rem 1rem;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: column;
+  width: 20%;
+  margin: 3rem auto;
   position: relative;
-  background-color: white;
-  border-radius: 0.4rem;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
 }
 
 .cml-output-section h3 {
-  margin: 0.5rem auto;
-  width: max-content;
+  margin: 2rem 0;
   font-size: 1.4rem;
   font-weight: bold;
 }
 
-.cml-editor-container {
-  width: 100%;
-}
-
 .jikkou-button {
-  margin: 1rem auto;
+  margin: 2rem 0 0 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: fit-content;
-  font-size: 0.8rem;
 }
 
 #export-textfile {
@@ -416,7 +401,7 @@ input[type]:focus,
 
 .copy-cml-container {
   position: absolute;
-  top: 60%;
+  top: 70%;
   right: 10%;
 }
 

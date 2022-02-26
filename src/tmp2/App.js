@@ -152,7 +152,7 @@ export const App = () => {
                         <Editor value={cmlOutput} onChange={setCmlOutput} />
                         <div className="jikkou-button">
                             <Button variant="contained" onClick={() => handleFileExport()}>
-                                テキストファイルに<br/>エクスポート
+                                テキストファイルにエクスポート
                             </Button>
                             <div className="copy-cml-container">
                                 <div className="copy-cml" onMouseEnter={() => display(expCopy)} onMouseLeave={() => hide(expCopy)} onClick={() => copyCML(cmlOutput)}><i className="fas fa-copy"></i></div>
