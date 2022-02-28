@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { Button } from '@mui/material';
 import { toCML } from './toCml';
+import soundfile1 from './sounds/決定、ボタン押下38.mp3'
+import soundfile2 from './sounds/決定、ボタン押下44.mp3'
 
 export const ProgramBlock = (props) => {
     const addRowRef = useRef()
@@ -269,7 +271,7 @@ export const ProgramBlock = (props) => {
         const indexArr = e.target.id.split('-')
         indexArr.shift()
         let tmp = [...props.programData]
-        let audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3');
+        let audio = new Audio(soundfile2);
         if (props.currentDraggedCommand !== "繰り返し" && props.currentDraggedCommand !== "動作グループを追加" && props.currentDraggedCommand !== "NOPE" && !props.currentDraggedCommand.includes("-")) {
             tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])] = [props.currentDraggedCommand, 1, [["数値を入力してください", "pps"], ["数値を入力してください", "pps"], ["数値を入力してください", "pps"]]]
             props.setProgramData(tmp)
@@ -313,7 +315,7 @@ export const ProgramBlock = (props) => {
             tmp.push([[indexArr[0], indexArr[1]], [indexArr[0], indexArr[1]], 2])
             props.setLoopData(tmp)
             if (!props.isMute) {
-                let audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3');
+                let audio = new Audio(soundfile2);
                 audio.play();
             }
         } 

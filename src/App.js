@@ -6,6 +6,8 @@ import { Editor } from './Editor';
 import { ProgramBlock, TypeDataInDousa, LoopInputBox } from './programBlock';
 import useLocalStorage from './useLocalStorage';
 import { TopMenu, downloadFile } from './menu';
+import soundfile1 from './sounds/決定、ボタン押下38.mp3'
+import soundfile2 from './sounds/決定、ボタン押下44.mp3'
 
 export const App = () => {
 
@@ -20,7 +22,7 @@ export const App = () => {
     }
     const [tannikannsannData, setTannikannsannData] = useState(initialTannikannsannData)
     // const [programData, setProgramData] = useState([[[[]]]])
-    const [programData, setProgramData] = useState([[[["位置決め", 1, [[98899898, "pps"], [100, "pps"], [100, "pps"]]],[],[]],[[],[],[]],[[],[],[]]]])
+    const [programData, setProgramData] = useState([[[["位置決め", 1, [[100, "pps"], [100, "pps"], [100, "pps"]]],[],[]],[[],[],[]],[[],[],[]]]])
     const [loopData, setLoopData] = useState([])
     const [currentDraggedCommand, setCurrentDraggedCommand] = useState("位置決め")
 
@@ -58,7 +60,7 @@ export const App = () => {
 
     const commandDragStart = (e) => {
         if (!isMute) {
-            let audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3');
+            let audio = new Audio(soundfile1);
             audio.play();
         }
     }

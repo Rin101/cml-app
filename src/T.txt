@@ -1,8 +1,9 @@
 
-responsive layout
+popup -> like gmail app
 
-sound effect
-mute button toggle icon
+sound effect -> sound file
+
+responsive layout
 
 design
 
