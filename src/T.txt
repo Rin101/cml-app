@@ -2,6 +2,9 @@
 responsive layout
 
 sound effect
+mute button toggle icon
+
+design
 
 tannikannsann dropdown is behind "back button"
 

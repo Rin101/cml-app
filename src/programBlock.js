@@ -240,7 +240,7 @@ export const ProgramBlock = (props) => {
     const emptyBoxDragStart = (e) => {
         // e.currentTarget.className += "dousa-box"
         // setTimeout(() => (e.currentTarget.className = 'dragged-box'), 0);
-        e.currentTarget.style.cursor = "grabbing"
+        // e.currentTarget.style.cursor = "grabbing"
     }
     
     const emptyBoxDragEnd = (e) => {
@@ -269,15 +269,22 @@ export const ProgramBlock = (props) => {
         const indexArr = e.target.id.split('-')
         indexArr.shift()
         let tmp = [...props.programData]
+        let audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3');
         if (props.currentDraggedCommand !== "繰り返し" && props.currentDraggedCommand !== "動作グループを追加" && props.currentDraggedCommand !== "NOPE" && !props.currentDraggedCommand.includes("-")) {
             tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])] = [props.currentDraggedCommand, 1, [["数値を入力してください", "pps"], ["数値を入力してください", "pps"], ["数値を入力してください", "pps"]]]
             props.setProgramData(tmp)
+            if (!props.isMute) {
+                audio.play();
+            }
         } else if (props.currentDraggedCommand.includes("-")) {
             let draggedIndexArr = props.currentDraggedCommand.split("-")
             draggedIndexArr.shift()
             tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])] = tmp[parseFloat(draggedIndexArr[0])][parseFloat(draggedIndexArr[1])][parseFloat(draggedIndexArr[2])]
             tmp[parseFloat(draggedIndexArr[0])][parseFloat(draggedIndexArr[1])][parseFloat(draggedIndexArr[2])] = []
             props.setProgramData(tmp)
+            if (!props.isMute) {
+                audio.play();
+            }
         }
     }
     // -------
@@ -305,6 +312,10 @@ export const ProgramBlock = (props) => {
         if (props.currentDraggedCommand === "繰り返し") {
             tmp.push([[indexArr[0], indexArr[1]], [indexArr[0], indexArr[1]], 2])
             props.setLoopData(tmp)
+            if (!props.isMute) {
+                let audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3');
+                audio.play();
+            }
         } 
     }
 

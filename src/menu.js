@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardBunkai, WizardJiku } from './tanni-funcs';
 import { toCML } from './toCml';
 
@@ -24,6 +24,7 @@ export const downloadFile = (data, filename, type) => {
 export const TopMenu = (props) => {
 
     const topMenuRef = useRef()
+    const muteIconRef = useRef()
 
     const handleFileImport = (e) => {
         const reader = new FileReader()
@@ -105,21 +106,35 @@ export const TopMenu = (props) => {
                 let tmpstr = props.cmlOutput
                 props.setCmlOutput(tmpstr.replace(nyuryokuText,''))
             }
-            e.target.classList.remove("pressed-nyuryoku-shingou")
-            e.target.classList.add("unpressed-nyuryoku-shingou")
+            e.currentTarget.classList.remove("pressed-nyuryoku-shingou")
+            e.currentTarget.classList.add("unpressed-nyuryoku-shingou")
             props.setIsNyuryokuShingou(false)
         } else {
             if (!props.cmlOutput.includes(nyuryokuText)) {
                 let tmpstr = props.cmlOutput
                 props.setCmlOutput(tmpstr+nyuryokuText)
             }
-            e.target.classList.remove("unpressed-nyuryoku-shingou")
-            e.target.classList.add("pressed-nyuryoku-shingou")
+            e.currentTarget.classList.remove("unpressed-nyuryoku-shingou")
+            e.currentTarget.classList.add("pressed-nyuryoku-shingou")
             props.setIsNyuryokuShingou(true)
         }
     }
 
+    const toggleIsMute = (e) => {
+        let isPressed = muteIconRef.current.classList.contains("fa-volume-xmark")
+        if (isPressed) {
+            muteIconRef.current.classList.remove("fa-volume-xmark")
+            muteIconRef.current.classList.add("fa-volume-high")
+            props.setIsMute(false)
+        } else {
+            muteIconRef.current.classList.remove("fa-volume-high")
+            muteIconRef.current.classList.add("fa-volume-xmark")
+            props.setIsMute(true)
+        }
+    }
+
     const isNyuryoku = props.isNyuryokuShingou ? "実行" : "停止"
+    const muteIcon = props.isMute ? "volume-xmark" : "volume-high"
     // --
     const expSave = useRef() 
     const expImp = useRef() 
@@ -129,26 +144,29 @@ export const TopMenu = (props) => {
     return (
         <div ref={topMenuRef} className="top-menu">
             <div className="top-menu-button save-file unselectable" onMouseEnter={() => display(expSave)} onMouseLeave={() => hide(expSave)} onClick={() => handleFileSave()}>
-                <i class="fa-solid fa-floppy-disk"></i>プロジェクトファイルを保存
+                <i className="fa-solid fa-floppy-disk"></i>プロジェクトファイルを保存
                 <div ref={expSave} className="exp-box hidden">作成途中のプロジェクトを保存します</div>
             </div>
             
             <div className="top-menu-button import-file unselectable" onMouseEnter={() => display(expImp)} onMouseLeave={() => hide(expImp)}>
                 <label htmlFor="top-menu-file-upload">
-                    <i class="fa-solid fa-folder-open"></i>プロジェクトファイルを開く
+                    <i className="fa-solid fa-folder-open"></i>プロジェクトファイルを開く
                     <input id="top-menu-file-upload" accept=".txt" type="file" onChange={(e) => handleFileImport(e)}/>
                 </label>
                 <div ref={expImp} className="exp-box hidden">保存したプロジェクトを開きます</div>
             </div>
             <div className="top-menu-button tannikannsann unselectable" onMouseEnter={() => display(expTanni)} onMouseLeave={() => hide(expTanni)} onClick={() => openTanni()}>
-                <i class="fa-solid fa-gears"></i>単位換算
+                <i className="fa-solid fa-gears"></i>単位換算
                 <div ref={expTanni} className="exp-box hidden">表示単位と分解能を設定します</div>
             </div>
             <Tannikannsann jiku={props.jiku} tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
             <div className="top-menu-button unpressed-nyuryoku-shingou unselectable" onMouseEnter={() => display(expNyuryoku)} onMouseLeave={() => hide(expNyuryoku)} onClick={(e) => toggleNyuryokuShingou(e)}>
             {/* <div className={"top-menu-button unpressed-nyuryoku-shingou "+} onMouseEnter={() => display(expNyuryoku)} onMouseLeave={() => hide(expNyuryoku)} onClick={(e) => toggleNyuryokuShingou(e)}> */}
-                <i class="fa-solid fa-rotate"></i>入力点からの{isNyuryoku}
+                <i className="fa-solid fa-rotate"></i>入力点からの{isNyuryoku}
                 <div ref={expNyuryoku} className="exp-box hidden">入力点1～3の機能を動作グループ1～3の実行に、入力点4を停止に割付けます。</div>
+            </div>
+            <div className='top-menu-button mute-button unselectable' onClick={(e) => toggleIsMute(e)}>
+                <i ref={muteIconRef} className={"fa-solid fa-"+muteIcon}></i>
             </div>
         </div>
     )
