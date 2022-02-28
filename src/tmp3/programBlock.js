@@ -524,7 +524,7 @@ export const TypeDataInDousa = (props) => {
     // --
     let indexArr = props.parentId.split('-')
     indexArr.shift()
-    const jikuNum = parseFloat(indexArr[2])
+    const jikuNum = parseFloat(indexArr[1])
     // -
     let tmp = [...props.programData]
     // --

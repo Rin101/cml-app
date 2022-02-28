@@ -175,6 +175,12 @@ export const TopMenu = (props) => {
 const Tannikannsann = (props) => {
     // props: tanniValue, setTanniValue, application, setApplication, tannikannsannData, setTannikannsannData
     
+    // const getTanniValue = (valueArr) => {
+    //     // let tanniValue =  (1/susumiryou) * parseFloat(bunkainou) * (nyuryoku/shuturyoku)
+    //     // {/* <p>パルス　=　距離[𝑚𝑚] × (1/進み量[𝑚𝑚⁄回転]) × 分解能[パルス/回転] × (入力/出力)</p> */}
+    //     return (1/valueArr[0]) * parseFloat(valueArr[1]) * (valueArr[2][1]/valueArr[2][2])
+    // }
+
     const close = () => {
         props.closeTanni(props.topMenuRef, props.layerRef)
     }
@@ -182,11 +188,13 @@ const Tannikannsann = (props) => {
     const WizardController = (props) => {
         const [history, setHistory] = useState([])
         const [wizardInput, setWizardInput] = useState(["jiku", []])
+        const [valueArr, setValueArr] = useState([1, 1, [1, 1]])
 
         const inputForm = () => {
             const params = {
                 wizardInput: wizardInput[1], 
                 history, setHistory, setWizardInput,
+                valueArr, setValueArr,
                 tannikannsannData: props.tannikannsannData, setTannikannsannData: props.setTannikannsannData,
                 jiku: props.jiku
             }

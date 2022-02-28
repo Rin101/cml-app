@@ -46,7 +46,7 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData) => {
                     loop_end = `\nX.1-\n`
                 }
             }
-            dousa_jikkou_of_group += loop_start + dousa_jikkou_row_arr.join(",") + "\n" + loop_end
+            dousa_jikkou_of_group += loop_start + dousa_jikkou_row_arr.join(",") + loop_end
         }
         every_program_teigi += dousa_jikkou_of_group
     }
@@ -64,7 +64,8 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData) => {
 const getPulseValue = (valueArr, tanniValue, divideVar=1) => {
     let value = parseFloat(valueArr[0])
     const tanni = valueArr[1]
-    if (tanni.includes("pps") || tanni.includes("%") || tanni.includes('msec')) {
+
+    if (tanni.includes("pps" || "%" || "msec")) {
         return Math.round(value)
     } else {
         return Math.round(value * tanniValue / divideVar)

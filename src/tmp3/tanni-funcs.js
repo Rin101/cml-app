@@ -113,7 +113,7 @@ export const WizardKikou = (props) => {
                 if (input !== "インデックステーブル") {
                     params.setWizardInput(["susumiryou", input])
                 } else {
-                    tmp.push(["susumiryou", 360, 360])
+                    tmp.push(["susumiryou", 1])
                     params.setWizardInput(["gensoku", input])
                 }
             } else {
@@ -184,18 +184,15 @@ export const WizardSusumiryou = (props) => {
     }
 
     const goNext = () => {
-        if (input !== "") {
-            let tmp = [...params.history]
-            if (params.history.length === 2) {
-                tmp.push(["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100, parseFloat(input)])
-            } else {
-                tmp[2] = ["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100, parseFloat(input)]
-            }
-            params.setHistory(tmp)
-            params.setWizardInput(["gensoku", input])
+        let tmp = [...params.history]
+        if (params.history.length === 2) {
+            tmp.push(["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100, parseFloat(input)])
         } else {
-            alert('数値を入力してください')
+            tmp[2] = ["susumiryou", Math.round((parseFloat(input)*susumiryouVar + Number.EPSILON) * 100) / 100, parseFloat(input)]
         }
+        params.setHistory(tmp)
+        params.setWizardInput(["gensoku", input])
+        params.setValueArr([parseFloat(input)*susumiryouVar, params.valueArr[1], params.valueArr[2]])
     }
 
     const goBack = () => {
@@ -232,14 +229,12 @@ export const WizardGensoku = (props) => {
     const params = props.params
     const tkData = params.tannikannsannData
     const jikuMainNum = params.history[0][1][0]-1
-    // const [input, setInput] = useState((params.history.length >= 4) ? params.history[3][1] : tkData[jikuMainNum].gensoku)
-    const [input1, setInput1] = useState((params.history.length >= 4) ? params.history[3][1][0] : tkData[jikuMainNum].gensoku[0])
-    const [input2, setInput2] = useState((params.history.length >= 4) ? params.history[3][1][1] : tkData[jikuMainNum].gensoku[1])
+    const [input, setInput] = useState((params.history.length >= 4) ? params.history[3][1] : tkData[jikuMainNum].gensoku)
     const checkBoxRef = useRef()
     const selectorRef = useRef()
 
     useEffect(() => {
-        if (((params.history.length > 3) && (params.history[3][1][0] !== (1||"") || params.history[3][1][1] !== (1||""))) || (tkData[jikuMainNum].gensoku[0]!==(1||"") || tkData[jikuMainNum].gensoku[1]!==(1||""))) {
+        if (((params.history.length > 3) && (params.history[3][1][0] !== 1 || params.history[3][1][1] !== 1)) || (tkData[jikuMainNum].gensoku[0]!==1 || tkData[jikuMainNum].gensoku[1]!==1)) {
             selectorRef.current.style.opacity = "1"
             checkBoxRef.current.checked = "true"
             selectorRef.current.querySelectorAll("input").forEach(input => {
@@ -249,18 +244,15 @@ export const WizardGensoku = (props) => {
     })
 
     const goNext = () => {
-        if ((input1 && input2) !== "") {
-            let tmp = [...params.history]
-            if (params.history.length === 3) {
-                tmp.push(["gensoku", [input1, input2]])
-            } else {
-                tmp[3] = ["gensoku", [input1, input2]]
-            }
-            params.setHistory(tmp)
-            params.setWizardInput(["bunkai", [input1, input2]])
+        let tmp = [...params.history]
+        if (params.history.length === 3) {
+            tmp.push(["gensoku", input])
         } else {
-            alert("数値を入力してください")
+            tmp[3] = ["gensoku", input]
         }
+        params.setHistory(tmp)
+        params.setWizardInput(["bunkai", input])
+        params.setValueArr([params.valueArr[0], params.valueArr[1], input])
     }
 
     const goBack = () => {
@@ -271,6 +263,12 @@ export const WizardGensoku = (props) => {
         }
     }
 
+    const changeInput = (e, index) => {
+        let tmp = [...input]
+        tmp[index-1] = parseFloat(e.currentTarget.value)
+        setInput(tmp)
+    }
+
     const handleToggle = (e) => {
         if (e.currentTarget.checked) {
             selectorRef.current.style.opacity = "1"
@@ -278,8 +276,6 @@ export const WizardGensoku = (props) => {
                 input.readOnly = false
             })
         } else {
-            setInput1(1)
-            setInput2(1)
             selectorRef.current.style.opacity = "0.4"
         }
     }
@@ -298,9 +294,9 @@ export const WizardGensoku = (props) => {
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input type="text" readOnly value={input1} onChange={(e) => setInput1(e.currentTarget.value)}/></td>
+                            <td><input type="text" readOnly value={input[0]} onChange={(e) => changeInput(e, 1)}/></td>
                             <td>  :  </td>
-                            <td><input type="text" readOnly value={input2} onChange={(e) => setInput2(e.currentTarget.value)}/></td>
+                            <td><input type="text" readOnly value={input[1]} onChange={(e) => changeInput(e, 2)}/></td>
                         </tr>
                     </tbody>
                 </table>
@@ -333,14 +329,20 @@ export const WizardBunkai = (props) => {
             break
     }
 
-    const getTanniValue = () => {
-        return (1/parseFloat(params.history[2][1])) * parseFloat(input) * (parseFloat(params.history[3][1][1])/parseFloat(params.history[3][1][0]))
+    // const getTanniValue = (valueArr) => {
+    //     return (1/parseFloat(valueArr[0])) * parseFloat(valueArr[1]) * (parseFloat(valueArr[2][1])/parseFloat(valueArr[2][0]))
+    // }
+    const getTanniValue = (tkData) => {
+        return (1/parseFloat(tkData.susumiryou[1])) * parseFloat(input) * (parseFloat(tkData.gensoku[1])/parseFloat(tkData.gensoku[0]))
     }
 
     const goOK = () => {
+        let valueArr = [...params.valueArr]
+        valueArr[1] = input
+        params.setValueArr(valueArr)
         let tkTmp = [...tkData]
         params.history[0][1].forEach(jikuNum => {
-            tkTmp[jikuNum-1] = {kikou:params.history[1][1],susumiryou:[params.history[2][1],params.history[2][2]],gensoku:params.history[3][1],bunkai:input,tanniValue:getTanniValue()}
+            tkTmp[jikuNum-1] = {kikou:params.history[1][1],susumiryou:[params.history[2][1],params.history[2][2]],gensoku:params.history[3][1],bunkai:input,tanniValue:getTanniValue(tkData)}
         })
         params.setTannikannsannData(tkTmp)
         params.setHistory([])
