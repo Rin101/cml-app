@@ -311,15 +311,14 @@
 
 .no-value-circle {
   position: absolute;
-  top: 0%;
-  right: 0%;
-  /* transform: translate(50%, -50%); */
-  transform: translate(10%, -10%);
-  height: 0.6rem;
-  width: 0.6rem;
+  top: 2px;
+  right: 2px;
+  height: 0.4rem;
+  width: 0.4rem;
+  background-color: rgb(219, 219, 219);
   /* background-color: red; */
   /* background-color: #e68168; */
-  background-color: #ccbfbf;
+  /* background-color: #ccbfbf; */
   border-radius: 50%;
 }
 
