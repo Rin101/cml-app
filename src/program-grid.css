@@ -287,14 +287,16 @@
 .dragged-box {
   border-radius: 0.2rem;
   font-weight: bold;
-  color: rgba(0, 0, 0, 0.8);
+  /* color: rgba(0, 0, 0, 0.8); */
+  color: #fef7f5;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   height: 2.3rem;
   /* background-color: rgb(216, 221, 231); */
-  background-color: rgb(192, 204, 226);
+  /* background-color: rgb(192, 204, 226); */
+  background-image: linear-gradient(#63656a, #585b60, #63656a);
   min-width: 7rem;
   cursor: pointer;
 }
@@ -315,7 +317,9 @@
   transform: translate(10%, -10%);
   height: 0.6rem;
   width: 0.6rem;
-  background-color: red;
+  /* background-color: red; */
+  /* background-color: #e68168; */
+  background-color: #ccbfbf;
   border-radius: 50%;
 }
 
@@ -435,12 +439,23 @@
   transition: ease-in-out 0.2s;
 }
 
-.dousa-box i,
 .dousa-group-kaishi i {
   margin: 0 0.2rem 0 0.6rem;
   font-size: 0.85rem;
   color: rgba(0, 0, 0, 0.4);
   cursor: pointer;
+}
+
+.dousa-box i {
+  margin: 0 0.2rem 0 0.6rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+}
+
+.dousa-box i:hover {
+  color: #f65e2d;
+  transition: ease-in-out 0.1s;
 }
 
 .type-times-circle {
@@ -450,7 +465,8 @@
 
 /* .dousa-box i:hover,
 .dousa-group-kaishi i:hover { */
-.fa-trash:hover,
+/* .fa-trash:hover, */
+.dousa-group-kaishi i:hover,
 .type-times-circle:hover {
   color: rgb(221, 63, 63);
   transition: ease-in-out 0.1s;

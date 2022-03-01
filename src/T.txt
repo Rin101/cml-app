@@ -1,10 +1,5 @@
-gensoku wizard wierd
-
-validation for empty input
 
 popup -> like gmail app
-
-sound effect -> sound file
 
 responsive layout
 

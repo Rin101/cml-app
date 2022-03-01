@@ -113,12 +113,11 @@ input[type]:focus,
   margin: 1rem 0;
   padding: 0.5rem 0.3rem;
   /* background-color: #e5e5e5; */
-  background-image: linear-gradient(#3d4046, #2e3139, #3d4046);
-  color: #fff6f4;
+  background-image: linear-gradient(#63656a, #585b60, #63656a);
+  color: #fef7f5;
   /* box-shadow: 0 3px 2px 2px rgba(255, 105, 135, 0.3); */
   cursor: grab;
   font-weight: 600;
-  opacity: 0.8;
 }
 
 .command-selector:hover {
@@ -476,15 +475,18 @@ input[type]:focus,
   bottom: 95%;
   left: 100%;
   /* border: solid 1px rgba(0, 0, 0, 0.1); */
+  /* -- */
   border-top: solid 1px rgba(0, 0, 0, 0.1);
   border-left: solid 1px rgba(0, 0, 0, 0.1);
   font-size: 0.8rem;
   font-weight: normal;
   text-align: center;
-  color: rgba(0, 0, 0, 0.7);
-  border-radius: 2px;
   padding: 0.1rem 0.2rem;
+  color: rgba(0, 0, 0, 0.7);
   background-color: rgba(255, 255, 255, 0.8);
+  /* color: white; */
+  /* background-color: #585b60; */
+  /* border-radius: 2px; */
 }
 
 .exp-box {
