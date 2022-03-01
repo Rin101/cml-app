@@ -102,7 +102,8 @@ export const ProgramBlock = (props) => {
     }
 
     const trashJiku = (e) => {
-        const indexArr = e.target.parentNode.id.split('-')
+        const indexArr = e.currentTarget.parentNode.parentNode.id.split('-')
+        console.log(e.currentTarget.parentNode.parentNode.id)
         indexArr.shift()
         let tmp = [...props.programData]
         if (props.jiku > 1) {
@@ -112,6 +113,12 @@ export const ProgramBlock = (props) => {
                 }
             }
             props.setJiku(props.jiku - 1)
+            // let tkTmp = [...props.tkData]
+            // const index = array.indexOf(5)
+            // if (index > -1) {
+            //     array.splice(index, 1)
+            // }
+            // props.setTkData(tkTmp) 
         } else {
             tmp = [[[[]]]]
             props.setLoopData([])
@@ -415,12 +422,30 @@ export const ProgramBlock = (props) => {
         let main_grid = []
         let jiku_i = 1
         while (jiku_i <= props.jiku) {
-            if (jiku_i === 1) {
-                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_i} key={"jiku"+jiku_i}><div className="add-jiku-left" id={"addJiku-"+jiku_i} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><div className="add-jiku-right" id={"addJiku-"+(jiku_i+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_i}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
-            } else if (jiku_i === 15) {
-                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_i} key={"jiku"+jiku_i}><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_i}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
+            const jiku_num = jiku_i
+            if (jiku_num === 1) {
+                main_grid.push(
+                <div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}>
+                    <div className="add-jiku-left" id={"addJiku-"+jiku_num} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}>
+                        <div className="add-jiku-plus-cont">
+                            <i className="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div className="add-jiku-right" id={"addJiku-"+(jiku_num+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}>
+                        <div className="add-jiku-plus-cont">
+                            <i className="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i>
+                    <p>
+                        {jiku_num}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i>
+                    </p>
+                    <i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i>
+                </div>)
+            } else if (jiku_num === 15) {
+                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_num}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             } else {
-                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_i} key={"jiku"+jiku_i}><div className="add-jiku-right" id={"addJiku-"+(jiku_i+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_i}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
+                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}><div className="add-jiku-right" id={"addJiku-"+(jiku_num+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_num}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             }
             jiku_i += 1
         }
