@@ -154,6 +154,9 @@ export const ProgramBlock = (props) => {
                 }
             }
             props.setProgramData(tmp) 
+            let tkTmp = [...props.tkData]
+            tkTmp.push({kikou: "initial", susumiryou: [1,1], gensoku: [1,1], bunkai: 300, tanniValue:1})
+            props.setTkData(tkTmp) 
             props.setJiku(props.jiku + 1)
         } else {
             alert("軸は最大で15軸設定できます。")
@@ -476,7 +479,7 @@ export const ProgramBlock = (props) => {
                     } else {
                         // main_grid.push(<div className="dousa-box"></div>)
                         main_grid.push(<div ref={pgEmptyBox} key={dousa_group_i+"emptybox"+dousa_row_i+"-"+dousa_i} onDragOver={(e) => emptyBoxDragOver(e)} onDragEnter={(e) => emptyBoxDragEnter(e)} onDragLeave={(e) => emptyBoxDragLeave(e)} onDrop={(e) => emptyBoxDragDrop(e)} className="pg-empty-box" id={"dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i}></div>)
-                    }
+                    } 
                     dousa_i += 1
                 }
                 main_grid.push(
