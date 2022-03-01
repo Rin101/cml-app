@@ -103,7 +103,6 @@ export const ProgramBlock = (props) => {
 
     const trashJiku = (e) => {
         const indexArr = e.currentTarget.parentNode.parentNode.id.split('-')
-        console.log(e.currentTarget.parentNode.parentNode.id)
         indexArr.shift()
         let tmp = [...props.programData]
         if (props.jiku > 1) {
@@ -113,12 +112,13 @@ export const ProgramBlock = (props) => {
                 }
             }
             props.setJiku(props.jiku - 1)
-            // let tkTmp = [...props.tkData]
-            // const index = array.indexOf(5)
-            // if (index > -1) {
-            //     array.splice(index, 1)
-            // }
-            // props.setTkData(tkTmp) 
+            let tkTmp = [...props.tkData]
+            const index = indexArr[0]-1
+            if (index > -1) {
+                tkTmp.splice(index, 1)
+            }
+            console.log(tkTmp)
+            props.setTkData(tkTmp) 
         } else {
             tmp = [[[[]]]]
             props.setLoopData([])
