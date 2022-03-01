@@ -104,21 +104,20 @@ export const ProgramBlock = (props) => {
     const trashJiku = (e) => {
         const indexArr = e.currentTarget.parentNode.parentNode.id.split('-')
         indexArr.shift()
+        const index = parseFloat(indexArr[0]) - 1
         let tmp = [...props.programData]
         if (props.jiku > 1) {
             for (let dousa_group of tmp) {
                 for (let dousa_row of dousa_group) {
-                    dousa_row.splice(indexArr[0]-1, 1)
+                    dousa_row.splice(index, 1)
                 }
             }
             props.setJiku(props.jiku - 1)
             let tkTmp = [...props.tkData]
-            const index = indexArr[0]-1
             if (index > -1) {
                 tkTmp.splice(index, 1)
             }
-            console.log(tkTmp)
-            props.setTkData(tkTmp) 
+            props.setTkData(tkTmp)
         } else {
             tmp = [[[[]]]]
             props.setLoopData([])
@@ -208,6 +207,7 @@ export const ProgramBlock = (props) => {
         indexArr.shift()
         let current_jiku = parseFloat(indexArr[0])
         let tmp = [...props.programData]
+        let tkTmp = [...props.tkData]
         switch (direction) {
             case "left":
                 if (current_jiku !== 1) {
@@ -218,7 +218,10 @@ export const ProgramBlock = (props) => {
                             dousa_row[current_jiku-2] = tmp_dousa
                         }
                     }
-                }
+                    let tmp_tk_item = tkTmp[current_jiku-1]
+                    tkTmp[current_jiku-1] = tkTmp[current_jiku-2]
+                    tkTmp[current_jiku-2] = tmp_tk_item
+                } 
                 break
             case "right":
                 if (current_jiku !== props.jiku) {
@@ -229,11 +232,15 @@ export const ProgramBlock = (props) => {
                             dousa_row[current_jiku] = tmp_dousa
                         }
                     }
+                    let tmp_tk_item = tkTmp[current_jiku-1]
+                    tkTmp[current_jiku-1] = tkTmp[current_jiku]
+                    tkTmp[current_jiku] = tmp_tk_item
                 }
                 break
             default:
                 break
         }
+        props.setTkData(tkTmp) 
         props.setProgramData(tmp)
     }
 
