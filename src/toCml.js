@@ -48,6 +48,8 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData) => {
             }
             if (dousa_jikkou_row_arr.length >= 1) {
                 dousa_jikkou_of_group += loop_start + dousa_jikkou_row_arr.join(",") + "\n" + loop_end
+            } else {
+                dousa_jikkou_of_group += loop_start + loop_end
             }
         }
         every_program_teigi += dousa_jikkou_of_group
