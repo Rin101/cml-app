@@ -434,7 +434,8 @@
 }
 
 .dousa-title:hover {
-  color: rgba(0, 0, 0, 0.4);
+  /* color: rgba(0, 0, 0, 0.4); */
+  opacity: 0.7;
   transition: ease-in-out 0.2s;
 }
 
