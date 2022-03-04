@@ -43,7 +43,7 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData) => {
                     loop_start = `X${loop[2]}.1\n`
                 }
                 if (loop[1][0] === programData.indexOf(dousa_group).toString() && loop[1][1] === dousa_group.indexOf(dousa_row).toString()) {
-                    loop_end = `\nX.1-\n`
+                    loop_end = `X.1-\n`
                 }
             }
             if (dousa_jikkou_row_arr.length >= 1) {
