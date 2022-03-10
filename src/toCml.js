@@ -4,7 +4,7 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData) => {
     let every_program_teigi = ""
     for (let dousa_group of programData) {
         let dousa_group_index = programData.indexOf(dousa_group) + 1
-        every_program_teigi += "B" + dousa_group_index.toString() + "\n"
+        every_program_teigi += "B" + dousa_group_index.toString() + ".1\n"
         let dousa_jikkou_of_group = ""
         for (let dousa_row of dousa_group) {
             let dousa_jikkou_row_arr = []
