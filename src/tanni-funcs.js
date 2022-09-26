@@ -362,6 +362,25 @@ export const WizardBunkai = (props) => {
         params.setHistory(tmp)
     }
 
+    // decimal point function
+    function roundTo(n, digits) {
+        var negative = false;
+        if (digits === undefined) {
+            digits = 0;
+        }
+        if (n < 0) {
+            negative = true;
+            n = n * -1;
+        }
+        var multiplicator = Math.pow(10, digits);
+        n = parseFloat((n * multiplicator).toFixed(11));
+        n = (Math.round(n) / multiplicator).toFixed(digits);
+        if (negative) {
+            n = (n * -1).toFixed(digits);
+        }
+        return n;
+    }
+
     return (
         <div className="tanni-wizard unselectable">
             <p className="tanni-wizard-title">最小位置決め単位</p>
@@ -372,7 +391,7 @@ export const WizardBunkai = (props) => {
                     <p className="tanni-bunkai-text">パルス/回転</p>
                 </div>
                 <div className="bunkai-2">
-                    <p className="tanni-bunkai-text">最小位置決め単位: <span>{Math.round((bunkaiVar/parseFloat(input) + Number.EPSILON) * 100) / 100}</span> {bunkaiText}</p>
+                    <p className="tanni-bunkai-text">最小位置決め単位: <span>{roundTo(bunkaiVar/parseFloat(input) + Number.EPSILON, 5)}</span> {bunkaiText}</p>
                 </div>
             </div>
             <div className="tanni-wizard-buttons">

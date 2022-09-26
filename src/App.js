@@ -39,19 +39,6 @@ export const App = () => {
     const layerRef = useRef()
     const commandSelectorRef = useRef()
 
-    // const popMessage = (message) => {
-    //     const id = "pop-message-"+Date.now()
-    //     document.innerHTML += 
-    //     <div id={id} className="pop-message message-success">
-    //         <p className="message-text">{message}</p>
-    //         <i className="fas fa-times">agdsfdgfhkgjfhkdgsfa</i>
-    //     </div>
-        
-    //     setTimeout(() => {
-    //         document.querySelector(`#${id}`).remove()
-    //     }, 4000)
-    // }
-
     // const getIndex = (document) => {
     //     let res = document.id.split('-')
     //     res.shift()
