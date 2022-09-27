@@ -15,14 +15,14 @@ export const App = () => {
     const [isNyuryokuShingou, setIsNyuryokuShingou] = useState(false)
     // const [isNyuryokuShingou, setIsNyuryokuShingou] = useLocalStorage("nyuryokushingou", false)
     const [isMute, setIsMute] = useState(false)
-    const [jiku, setJiku] = useState(3)
+    const [jiku, setJiku] = useState(1)
     let initialTannikannsannData = []
     for (let i=0; i < jiku; i++) {
         initialTannikannsannData.push({kikou: "initial", susumiryou: [1,1], gensoku: [1,1], bunkai: 300, tanniValue:1})
     }
     const [tannikannsannData, setTannikannsannData] = useState(initialTannikannsannData)
-    // const [programData, setProgramData] = useState([[[[]]]])
-    const [programData, setProgramData] = useState([[[["位置決め", 1, [[100, "pps"], [100, "pps"], [100, "pps"]]],[],[]],[[],[],[]],[[],[],[]]]])
+    // const [programData, setProgramData] = useState([[[["位置決め", 1, [[100, "pps"], [100, "pps"], [100, "pps"]]],[],[]],[[],[],[]],[[],[],[]]]])
+    const [programData, setProgramData] = useState([[[["位置決め", 1, [[100, "pps"], [100, "pps"], [100, "pps"]]]],[[]],[[]]]])
     const [loopData, setLoopData] = useState([])
     const [currentDraggedCommand, setCurrentDraggedCommand] = useState("位置決め")
 
