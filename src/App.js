@@ -63,6 +63,12 @@ export const App = () => {
             case "taima-selector":
                 setCurrentDraggedCommand("タイマ")
                 break
+            case "incremental-ichigime-selector":
+                setCurrentDraggedCommand("位置決め+")
+                break
+            case "incremental-oshituke-selector":
+                setCurrentDraggedCommand("押付け+")
+                break
             case "kurikaeshi-selector":
                 setCurrentDraggedCommand("繰り返し")
                 break
@@ -135,6 +141,8 @@ export const App = () => {
                     <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="oshituke-selector" draggable="true"><i className="fas fa-grip-vertical"></i>押付け</div>
                     <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="taima-selector" draggable="true"><i className="fas fa-grip-vertical"></i>タイマ</div>
                     <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="kurikaeshi-selector" draggable="true"><i className="fas fa-grip-vertical"></i>繰り返し</div>
+                    <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="incremental-ichigime-selector" draggable="true"><i className="fas fa-grip-vertical"></i>位置決め+</div>
+                    <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="incremental-oshituke-selector" draggable="true"><i className="fas fa-grip-vertical"></i>押付け+</div>
                 </div>
             </div>
             <div className="center-section">

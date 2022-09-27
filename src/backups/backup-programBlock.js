@@ -141,6 +141,16 @@ export const ProgramBlock = (props) => {
         props.setProgramData(tmp) 
     }
 
+    const showOnHover = (e) => {
+        e.currentTarget.style.backgroundColor = "red"
+        e.target.querySelector(".add-row-plus-cont").style.display = "flex"
+    }
+
+    const hideOnLeave = (e) => {
+        e.currentTarget.style.backgroundColor = "white"
+        e.currentTarget.querySelector(".add-row-plus-cont").style.display = "none"
+    }
+
     const addJiku = (e) => {
         if (props.jiku <= 14) {
             const indexArr = e.currentTarget.id.split('-')
@@ -162,8 +172,13 @@ export const ProgramBlock = (props) => {
     }
 
     const showOnHoverJiku = (e) => {
-        e.currentTarget.style.backgroundColor = "rgb(168, 168, 168)"
+        e.currentTarget.style.backgroundColor = "red"
         e.currentTarget.querySelector(".add-jiku-plus-cont").style.display = "flex"
+    }
+
+    const hideOnLeaveJiku = (e) => {
+        e.currentTarget.style.backgroundColor = "white"
+        e.currentTarget.querySelector(".add-jiku-plus-cont").style.display = "none"
     }
 
     const moveRow = (e, direction) => {
@@ -423,12 +438,12 @@ export const ProgramBlock = (props) => {
             if (jiku_num === 1) {
                 main_grid.push(
                 <div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}>
-                    <div className="add-jiku-left" id={"addJiku-"+jiku_num} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)}>
+                    <div className="add-jiku-left" id={"addJiku-"+jiku_num} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}>
                         <div className="add-jiku-plus-cont">
                             <i className="fas fa-plus"></i>
                         </div>
                     </div>
-                    <div className="add-jiku-right" id={"addJiku-"+(jiku_num+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)}>
+                    <div className="add-jiku-right" id={"addJiku-"+(jiku_num+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}>
                         <div className="add-jiku-plus-cont">
                             <i className="fas fa-plus"></i>
                         </div>
@@ -442,7 +457,7 @@ export const ProgramBlock = (props) => {
             } else if (jiku_num === 15) {
                 main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_num}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             } else {
-                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}><div className="add-jiku-right" id={"addJiku-"+(jiku_num+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_num}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
+                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}><div className="add-jiku-right" id={"addJiku-"+(jiku_num+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)} onMouseLeave={(e) => hideOnLeaveJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_num}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             }
             jiku_i += 1
         }
@@ -483,7 +498,7 @@ export const ProgramBlock = (props) => {
                     dontPutEmp.shift()
                 }
                 if (dousa_row_i === 0) {
-                    main_grid.push(<div ref={addRowRef} key={"addrow0"+dousa_group_i+"-"+dousa_row_i} id={"addRow-"+dousa_group_i+"-0"} onClick={(e) => addRow(e)} className="pg-add-row" style={{gridColumn:"1/"+(props.jiku+1)}}><div className="add-row-plus-cont"><i className="fas fa-plus"></i></div></div>)
+                    main_grid.push(<div ref={addRowRef} key={"addrow0"+dousa_group_i+"-"+dousa_row_i} id={"addRow-"+dousa_group_i+"-0"} onClick={(e) => addRow(e)} onMouseEnter={(e) => showOnHover(e)} onMouseLeave={(e) => hideOnLeave(e)} className="pg-add-row" style={{gridColumn:"1/"+(props.jiku+1)}}><div className="add-row-plus-cont"><i className="fas fa-plus"></i></div></div>)
                     main_grid.push(<div className="empty-right-box" key={"empRbox-"+dousa_group_i+"-"+dousa_row_i}></div>)
                 }
                 let dousa_i = 0
@@ -510,10 +525,10 @@ export const ProgramBlock = (props) => {
                         <div className='move-row-cont'><i className='fas fa-arrow-alt-circle-up move-row-up' onClick={(e) => moveRow(e, "up")}></i><i className='fas fa-arrow-alt-circle-down move-row-down' onClick={(e) => moveRow(e, "down")}></i></div>
                     </div>)
                 if (dousa_row_i !== (dousa_group.length-1)) {
-                    main_grid.push(<div ref={addRowRef} key={"addrow"+dousa_group_i+"-"+dousa_row_i} id={"addRow-"+dousa_group_i+"-"+(dousa_row_i+1)} onClick={(e) => addRow(e)} className="pg-add-row" style={{gridColumn:"1/"+(props.jiku+1)}}><div className="add-row-plus-cont"><i className="fas fa-plus"></i></div></div>)
+                    main_grid.push(<div ref={addRowRef} key={"addrow"+dousa_group_i+"-"+dousa_row_i} id={"addRow-"+dousa_group_i+"-"+(dousa_row_i+1)} onClick={(e) => addRow(e)} onMouseEnter={(e) => showOnHover(e)} onMouseLeave={(e) => hideOnLeave(e)} className="pg-add-row" style={{gridColumn:"1/"+(props.jiku+1)}}><div className="add-row-plus-cont"><i className="fas fa-plus"></i></div></div>)
                     main_grid.push(<div className="empty-right-box" key={"empRboxaddR-"+dousa_group_i+"-"+dousa_row_i}></div>)
                 } else {
-                    main_grid.push(<div ref={addRowRef} key={"addrow"+dousa_group_i+"-"+dousa_row_i} id={"addRow-"+dousa_group_i+"-"+(dousa_row_i+1)} onClick={(e) => addRow(e)} onDragOver={(e) => addGroupDragOver(e)} onDragEnter={(e) => addGroupDragEnter(e)} onDragLeave={(e) => addGroupDragLeave(e)} onDrop={(e) => addGroupDragDrop(e)} className="pg-add-row" style={{gridColumn:"1/"+(props.jiku+1),height:"0.4rem"}}><div className="add-row-plus-cont"><i className="fas fa-plus"></i></div></div>)
+                    main_grid.push(<div ref={addRowRef} key={"addrow"+dousa_group_i+"-"+dousa_row_i} id={"addRow-"+dousa_group_i+"-"+(dousa_row_i+1)} onClick={(e) => addRow(e)} onMouseEnter={(e) => showOnHover(e)} onMouseLeave={(e) => hideOnLeave(e)} onDragOver={(e) => addGroupDragOver(e)} onDragEnter={(e) => addGroupDragEnter(e)} onDragLeave={(e) => addGroupDragLeave(e)} onDrop={(e) => addGroupDragDrop(e)} className="pg-add-row" style={{gridColumn:"1/"+(props.jiku+1),height:"0.4rem"}}><div className="add-row-plus-cont"><i className="fas fa-plus"></i></div></div>)
                     main_grid.push(<div className="empty-right-box" key={"empRboxaddR-"+dousa_group_i+"-"+dousa_row_i}></div>)
                 }
                 dousa_row_i += 1
@@ -667,19 +682,14 @@ export const TypeDataInDousa = (props) => {
                     for (let dousa_row of dousa_group) {
                         let dousa = dousa_row[props.jiku]
                         if (dousa.length > 0) {
-                            // I don't get this code
-                            // if (props.dousaType !== ("位置決め"&&"押付け")) {
-                            // if (props.dousaType !== ("位置決め"||"押付け")) {
-                            //     if (dousa[1] === props.dousaNum && dousa[0] === props.dousaType) {
-                            //         dousa[2] = valueArr
-                            //     }
-                            // } else {
-                            //     if (dousa[1] === props.dousaNum) {
-                            //         dousa[2] = valueArr
-                            //     }
-                            // }
-                            if (dousa[1] === props.dousaNum && dousa[0] === props.dousaType) {
-                                dousa[2] = valueArr
+                            if (props.dousaType !== ("位置決め"&&"押付け")) {
+                                if (dousa[1] === props.dousaNum && dousa[0] === props.dousaType) {
+                                    dousa[2] = valueArr
+                                }
+                            } else {
+                                if (dousa[1] === props.dousaNum) {
+                                    dousa[2] = valueArr
+                                }
                             }
                         }
                     }

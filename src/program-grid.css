@@ -242,7 +242,7 @@
 .pg-add-row {
   grid-column: 1/4;
   height: 0.2rem;
-  background-color: white;
+  background-color: rgb(168, 168, 168);
   text-align: center;
   display: flex;
   justify-content: center;
@@ -256,11 +256,11 @@
 .add-jiku-plus-cont,
 .add-row-plus-cont {
   display: none;
-  background-color: red;
+  background-color: rgb(168, 168, 168);
   height: 1rem;
   width: 1rem;
   border-radius: 50%;
-  /* display: flex; */
+  display: flex;
   justify-content: center;
   align-items: center;
   color: white;
