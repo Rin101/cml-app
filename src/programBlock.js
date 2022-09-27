@@ -161,11 +161,6 @@ export const ProgramBlock = (props) => {
         }
     }
 
-    const showOnHoverJiku = (e) => {
-        e.currentTarget.style.backgroundColor = "rgb(168, 168, 168)"
-        e.currentTarget.querySelector(".add-jiku-plus-cont").style.display = "flex"
-    }
-
     const moveRow = (e, direction) => {
         const indexArr = e.currentTarget.parentNode.parentNode.id.split('-')
         indexArr.shift()
@@ -384,13 +379,12 @@ export const ProgramBlock = (props) => {
     }
 
     function addGroupDragEnter(e) {
-        e.currentTarget.style.backgroundColor = "red"
+        e.currentTarget.style.height = "30px"
         e.currentTarget.querySelector(".add-row-plus-cont").style.display = "flex"
     }
     
     function addGroupDragLeave(e) {
-        e.currentTarget.style.backgroundColor = "white"
-        e.currentTarget.querySelector(".add-row-plus-cont").style.display = "none"
+        e.currentTarget.style.height = "0.2rem"
     }
     
     function addGroupDragDrop(e) {
@@ -405,8 +399,7 @@ export const ProgramBlock = (props) => {
                 tmp.splice((indexArr[0]+1), 0, emptyGroup); 
                 props.setProgramData(tmp)
             } 
-            e.currentTarget.style.backgroundColor = "white"
-            e.currentTarget.querySelector(".add-row-plus-cont").style.display = "none"
+            e.currentTarget.style.height = "0.2rem"
         } else {
             alert("動作グループは最大30まで設定できます。")
         }
@@ -423,12 +416,12 @@ export const ProgramBlock = (props) => {
             if (jiku_num === 1) {
                 main_grid.push(
                 <div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}>
-                    <div className="add-jiku-left" id={"addJiku-"+jiku_num} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)}>
+                    <div className="add-jiku-left" id={"addJiku-"+jiku_num} onClick={(e) => addJiku(e)}>
                         <div className="add-jiku-plus-cont">
                             <i className="fas fa-plus"></i>
                         </div>
                     </div>
-                    <div className="add-jiku-right" id={"addJiku-"+(jiku_num+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)}>
+                    <div className="add-jiku-right" id={"addJiku-"+(jiku_num+1)} onClick={(e) => addJiku(e)}>
                         <div className="add-jiku-plus-cont">
                             <i className="fas fa-plus"></i>
                         </div>
@@ -442,7 +435,7 @@ export const ProgramBlock = (props) => {
             } else if (jiku_num === 15) {
                 main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_num}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             } else {
-                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}><div className="add-jiku-right" id={"addJiku-"+(jiku_num+1)} onClick={(e) => addJiku(e)} onMouseEnter={(e) => showOnHoverJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_num}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
+                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}><div className="add-jiku-right" id={"addJiku-"+(jiku_num+1)} onClick={(e) => addJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_num}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             }
             jiku_i += 1
         }
