@@ -605,12 +605,6 @@ export const TypeDataInDousa = (props) => {
             ["位置データ", ["pps", subTanni], "へ押付け動作する"],
         ]
     }
-    const torukuData = {
-        bangouRange: 8,
-        inputForm: [
-            ["トルク制限データ", ["%"], "に設定する"],
-        ]
-    }
     const timerData = {
         bangouRange: 5,
         inputForm: [
@@ -625,9 +619,6 @@ export const TypeDataInDousa = (props) => {
             break
         case "押付け":
             dataFormat = oshitukeData
-            break
-        case "トルク制限":
-            dataFormat = torukuData
             break
         case "タイマ":
             dataFormat = timerData

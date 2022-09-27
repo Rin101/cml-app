@@ -22,10 +22,6 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData) => {
                             every_data_teigi += "S"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue,100).toString()+"\nA"+cml_numbers+"="+getPulseValue(dousa[2][1], tanniValue,1000).toString()+"\nP"+cml_numbers+"="+getPulseValue(dousa[2][2], tanniValue).toString()+"\n"
                             dousa_jikkou_row_arr.push(`S${cml_numbers},A${cml_numbers},Q${cml_numbers}`)
                             break
-                        case "トルク制限":
-                            every_data_teigi += "M"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue).toString()+"\n"
-                            dousa_jikkou_row_arr.push(`M${cml_numbers}`)
-                            break
                         case "タイマ":
                             every_data_teigi += "T"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue).toString()+"\n"
                             dousa_jikkou_row_arr.push(`T${cml_numbers}`)
