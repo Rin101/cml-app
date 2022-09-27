@@ -345,7 +345,6 @@ export const WizardBunkai = (props) => {
         params.setTannikannsannData(tkTmp)
         params.setHistory([])
         props.close()
-        console.log(tkTmp[0])
     }
 
     const goBack = () => {
