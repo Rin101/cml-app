@@ -401,6 +401,7 @@ input[type]:focus,
   justify-content: center;
   align-items: center;
   margin: 2rem 0;
+  font-weight: bold;
 }
 
 /* ------------------------------- */
@@ -440,6 +441,7 @@ input[type]:focus,
   align-items: center;
   width: fit-content;
   font-size: 0.8rem;
+  font-weight: bold;
 }
 
 #export-textfile {
@@ -508,4 +510,51 @@ input[type]:focus,
   top: 50% !important;
   bottom: auto !important;
   transform: translate(0, -50%);
+}
+
+/* ===== */
+.popup-instruction {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 500;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.popup-instruction img {
+  height: 50vh;
+}
+
+.popup-neveragain {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 0.2rem;
+  font-size: 0.9rem;
+}
+
+#close-instruction-popup {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.6rem;
+  cursor: pointer;
+  transform: translateX(50%);
+  transition: ease 0.2s;
+}
+
+#close-instruction-popup:hover {
+  opacity: 0.5;
 }

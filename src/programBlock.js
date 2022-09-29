@@ -562,49 +562,49 @@ export const TypeDataInDousa = (props) => {
     const ichigimeData = {
         bangouRange: 250,
         inputForm: subTanni==="initial" ? [
-            ["速度データ", ["pps/s"], "と"],
-            ["加速度データ", ["pps/s\u00b2"], "で"],
-            ["位置データ", ["pps"], "へ移動する"],
+            ["速度データ", ["100pps"], "と"],
+            ["加速度データ", ["kpps\u00b2"], "で"],
+            ["位置データ", ["Pulse"], "へ移動する"],
         ] : [
-            ["速度データ", ["pps/s", subTanni+"/s"], "と"],
-            ["加速度データ", ["pps/s\u00b2", subTanni+"/s\u00b2"], "で"],
-            ["位置データ", ["pps", subTanni], "へ移動する"],
+            ["速度データ", ["100pps", subTanni+"/s"], "と"],
+            ["加速度データ", ["kpps\u00b2", subTanni+"/s\u00b2"], "で"],
+            ["位置データ", ["Pulse", subTanni], "へ移動する"],
         ]
     }
     const incrementalIchigimeData = {
         bangouRange: 250,
         inputForm: subTanni==="initial" ? [
-            ["速度データ", ["pps/s"], "と"],
-            ["加速度データ", ["pps/s\u00b2"], "で"],
-            ["現在位置から", ["pps"], "移動する"],
+            ["速度データ", ["100pps"], "と"],
+            ["加速度データ", ["kpps\u00b2"], "で"],
+            ["現在位置から", ["Pulse"], "移動する"],
         ] : [
-            ["速度データ", ["pps/s", subTanni+"/s"], "と"],
-            ["加速度データ", ["pps/s\u00b2", subTanni+"/s\u00b2"], "で"],
-            ["現在位置から", ["pps", subTanni], "移動する"],
+            ["速度データ", ["100pps", subTanni+"/s"], "と"],
+            ["加速度データ", ["kpps\u00b2", subTanni+"/s\u00b2"], "で"],
+            ["現在位置から", ["Pulse", subTanni], "移動する"],
         ]
     }
     const oshitukeData = {
         bangouRange: 250,
         inputForm: subTanni==="initial" ? [
-            ["速度データ", ["pps/s"], "と"],
-            ["加速度データ", ["pps/s\u00b2"], "で"],
-            ["位置データ", ["pps"], "へ押付け動作する"],
+            ["速度データ", ["100pps"], "と"],
+            ["加速度データ", ["kpps\u00b2"], "で"],
+            ["位置データ", ["Pulse"], "へ押付け動作する"],
         ] : [
-            ["速度データ", ["pps/s", subTanni+"/s"], "と"],
-            ["加速度データ", ["pps/s\u00b2", subTanni+"/s\u00b2"], "で"],
-            ["位置データ", ["pps", subTanni], "へ押付け動作する"],
+            ["速度データ", ["100pps", subTanni+"/s"], "と"],
+            ["加速度データ", ["kpps\u00b2", subTanni+"/s\u00b2"], "で"],
+            ["位置データ", ["Pulse", subTanni], "へ押付け動作する"],
         ]
     }
     const incrementalOshitukeData = {
         bangouRange: 250,
         inputForm: subTanni==="initial" ? [
-            ["速度データ", ["pps/s"], "と"],
-            ["加速度データ", ["pps/s\u00b2"], "で"],
-            ["現在位置から", ["pps"], "押付け動作する"],
+            ["速度データ", ["100pps"], "と"],
+            ["加速度データ", ["kpps\u00b2"], "で"],
+            ["現在位置から", ["Pulse"], "押付け動作する"],
         ] : [
-            ["速度データ", ["pps/s", subTanni+"/s"], "と"],
-            ["加速度データ", ["pps/s\u00b2", subTanni+"/s\u00b2"], "で"],
-            ["現在位置から", ["pps", subTanni], "押付け動作する"],
+            ["速度データ", ["100pps", subTanni+"/s"], "と"],
+            ["加速度データ", ["kpps\u00b2", subTanni+"/s\u00b2"], "で"],
+            ["現在位置から", ["Pulse", subTanni], "押付け動作する"],
         ]
     }
     const timerData = {
@@ -612,6 +612,10 @@ export const TypeDataInDousa = (props) => {
         inputForm: [
             ["タイマデータ", ["msec"], "に設定する"],
         ]
+    }
+
+    const nyuryokutenData = {
+        bangouRange: 4,
     }
 
     let dataFormat
@@ -630,6 +634,9 @@ export const TypeDataInDousa = (props) => {
             break
         case "押付け+":
             dataFormat = incrementalOshitukeData
+            break
+        case "入力点からの実行":
+            dataFormat = nyuryokutenData
             break
         default:
             dataFormat = ichigimeData
@@ -694,15 +701,18 @@ export const TypeDataInDousa = (props) => {
                     <p className='typedata-var'>番号:</p>
                     <div className='current-num-container'><p className='current-num'>{ [...props.programData][parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][1] }</p></div>
                 </div>
-                { dataFormat.inputForm.map(inputLine => {
-                    return (
-                        <div className="typedata-input-line" key={inputLine[0]}>
-                            <p className="typedata-var">{inputLine[0]}</p>
-                            <DataInput index={dataFormat.inputForm.indexOf(inputLine)} tanniArr={inputLine[1]} />
-                            <p>{inputLine[2]}</p>
-                        </div>
-                    )
-                }) }
+                {
+                    props.dousaType === "入力点からの実行" ? <></>
+                    : dataFormat.inputForm.map(inputLine => {
+                        return (
+                            <div className="typedata-input-line" key={inputLine[0]}>
+                                <p className="typedata-var">{inputLine[0]}</p>
+                                <DataInput index={dataFormat.inputForm.indexOf(inputLine)} tanniArr={inputLine[1]} />
+                                <p>{inputLine[2]}</p>
+                            </div>
+                        )
+                    }) 
+                }
                 <Button className="type-data-button" variant="contained" onClick={() => setTypeData()}>OK</Button>
             </div>
         )

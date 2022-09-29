@@ -8,6 +8,7 @@ import useLocalStorage from './useLocalStorage';
 import { TopMenu, downloadFile } from './menu';
 import soundfile1 from './sounds/決定、ボタン押下38.mp3'
 import soundfile2 from './sounds/決定、ボタン押下44.mp3'
+import instructionImg from './image/popup-instruction.png'
 
 export const App = () => {
 
@@ -38,6 +39,7 @@ export const App = () => {
     const expCopyDone = useRef()
     const layerRef = useRef()
     const commandSelectorRef = useRef()
+    const instructionPopupRef = useRef()
 
     // const getIndex = (document) => {
     //     let res = document.id.split('-')
@@ -68,6 +70,9 @@ export const App = () => {
                 break
             case "incremental-oshituke-selector":
                 setCurrentDraggedCommand("押付け+")
+                break
+            case "nyuryokuten":
+                setCurrentDraggedCommand("入力点からの実行")
                 break
             case "kurikaeshi-selector":
                 setCurrentDraggedCommand("繰り返し")
@@ -111,6 +116,11 @@ export const App = () => {
         ref.current.style.display = "none"
     }
 
+    const showPopUpOfInstruction = () => {
+        instructionPopupRef.current.style.display = "flex"
+        handleFileExport()
+    }
+
     const handleFileExport = () => {
         const data = cmlOutput
         const filename = "CML-保存"
@@ -129,8 +139,28 @@ export const App = () => {
         }
     }
 
+    const PopUpOfInstruction = () => {
+        const close = () => {
+            instructionPopupRef.current.style.display = "none"
+        }
+
+        return (
+            <div className='popup-instruction' ref={instructionPopupRef}>
+                <div className='popup-content'>
+                    <div id="close-instruction-popup" onClick={() => close()}><i className="fas fa-times-circle"></i></div>
+                    <img src={instructionImg} alt="instruction" />
+                </div>
+                {/* <div className='popup-neveragain'>
+                    <p style={{marginRight:10}}>次回から表示しない</p>
+                    <input type={'checkbox'} />
+                </div> */}
+            </div>
+        )
+    }
+
     return (
         <div className="main">
+            <PopUpOfInstruction />
             <DataInputBox inputBoxType={inputBoxType} />
             <div ref={layerRef} className="layer"></div>
             <div className="command-list-width-box"></div>
@@ -158,7 +188,7 @@ export const App = () => {
                             <h3 className='unselectable'>CML</h3>
                             <Editor value={cmlOutput} onChange={setCmlOutput} />
                             <div className="jikkou-button">
-                                <Button variant="contained" onClick={() => handleFileExport()}>
+                                <Button variant="contained" onClick={() => showPopUpOfInstruction()}>
                                     テキストファイルに<br/>エクスポート
                                 </Button>
                                 <div className="copy-cml-container">
