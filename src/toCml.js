@@ -34,8 +34,11 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData) => {
                             every_data_teigi += "T"+cml_numbers+"="+getPulseValue(dousa[2][0], tanniValue).toString()+"\n"
                             dousa_jikkou_row_arr.push(`T${cml_numbers}`)
                             break
+                        case "入力点からの実行":
+                            isNyuryokuShingou = true
+                            break
                         default:
-                            alert('ERROR')
+                            alert('ERROR-表を直してください')
                             break
                     }
                 }

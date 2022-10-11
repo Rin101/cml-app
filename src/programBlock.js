@@ -699,7 +699,11 @@ export const TypeDataInDousa = (props) => {
                 <div className="close-typedata"><i onClick={() => closeTypeData()} className="fas fa-times-circle type-times-circle"></i></div>
                 <div className='typedata-input-line' key={"input-num-line"}>
                     <p className='typedata-var'>番号:</p>
-                    <div className='current-num-container'><p className='current-num'>{ [...props.programData][parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][1] }</p></div>
+                    {
+                        props.dousaType === "入力点からの実行" ? 
+                            <NumDropDown range={dataFormat.bangouRange} jiku={props.jiku} dousaType={props.dousaType} dousaNum={props.dousaNum} popupRef={props.popupRef} programData={props.programData} setProgramData={props.setProgramData} indexArr={props.indexArr}/>
+                            : <div className='current-num-container'><p className='current-num'>{ [...props.programData][parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][1] }</p></div>
+                    }
                 </div>
                 {
                     props.dousaType === "入力点からの実行" ? <></>
@@ -786,6 +790,67 @@ export const LoopInputBox = (props) => {
                 <p>回繰り返す</p>
             </div>
             <Button className="type-data-button" variant="contained" onClick={() => setTypeData()}>OK</Button>
+        </div>
+    )
+}
+
+const NumDropDown = (props) => {
+    // props: programData, setProgramData, dataType, dataNum, popupRef, jiku, indexArr, range
+    const popupRef = props.popupRef
+    const indexArr = props.indexArr
+    let tmp = [...props.programData]
+    const [currentNum, setCurrentNum] = useState(tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][1])
+    const numItemRef = useRef()
+    const currentNumRef = useRef()
+    
+    const selectItem = (e) => {
+        const value = parseFloat(e.currentTarget.id.split("-")[2])
+        setCurrentNum(value)
+        numItemRef.current.style.display = "none"
+        let sameDataArr = []
+        for (let dousa_group of tmp) {
+            for (let dousa_row of dousa_group) {
+                let dousa = dousa_row[props.jiku]
+                if (dousa[1] === value && dousa[0] === props.dousaType) {
+                    sameDataArr.push(dousa[2])
+                }
+            }
+        }
+        if (sameDataArr.length > 0) {
+            tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][2] = sameDataArr[0]
+            let inputs = popupRef.current.querySelectorAll(".type-data-input")
+            let tanniSelectors = popupRef.current.querySelectorAll(".select-tanni")
+            let i = 0
+            while (i < inputs.length) {
+                inputs[i].value = sameDataArr[0][i][0]
+                tanniSelectors[i].value = sameDataArr[0][i][1]
+                i++
+            }
+        }
+        tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])][1] = value
+        props.setProgramData(tmp)
+    }
+    const getNumItems = () => {
+        let res = []
+        let i = 1
+        while (i <= props.range) {
+            res.push(<div className='num-dropdown-item' key={i} id={"num-dropdown-"+i} onClick={(e) => selectItem(e)}><p>{i}</p></div>)
+            i += 1
+        }
+        return res
+    }
+    const showItems = () => {
+        let isItemsShown = numItemRef.current.style.display !== "block" ? false : true
+        if (!isItemsShown) {
+            numItemRef.current.style.display = "block"
+        } else {
+            numItemRef.current.style.display = "none"
+        }
+    }
+    return (
+        <div className='num-dropdown'>
+            <div className='currentNum-container' onClick={() => showItems()}><p ref={currentNumRef} className='currentNum'>{currentNum}</p><i className='fas fa-caret-down'></i></div>
+            <div ref={numItemRef} className='num-dropdown-item-container'>{getNumItems()}</div>
         </div>
     )
 }

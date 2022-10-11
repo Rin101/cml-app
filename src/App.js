@@ -71,7 +71,7 @@ export const App = () => {
             case "incremental-oshituke-selector":
                 setCurrentDraggedCommand("押付け+")
                 break
-            case "nyuryokuten":
+            case "nyuryokuten-selector":
                 setCurrentDraggedCommand("入力点からの実行")
                 break
             case "kurikaeshi-selector":
@@ -166,13 +166,16 @@ export const App = () => {
             <div className="command-list-width-box"></div>
             <div className='command-list-container'>
                 <div className="command-list">
-                    <div onMouseEnter={(e) => commandHover(e)} className="command-selector" id="dousaGroup-selector" draggable="true"><i className="fas fa-grip-vertical"></i>動作グループを追加</div>
-                    <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="ichigime-selector" draggable="true"><i className="fas fa-grip-vertical"></i>位置決め</div>
-                    <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="oshituke-selector" draggable="true"><i className="fas fa-grip-vertical"></i>押付け</div>
-                    <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="taima-selector" draggable="true"><i className="fas fa-grip-vertical"></i>タイマ</div>
-                    <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="kurikaeshi-selector" draggable="true"><i className="fas fa-grip-vertical"></i>繰り返し</div>
-                    <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="incremental-ichigime-selector" draggable="true"><i className="fas fa-grip-vertical"></i>位置決め+</div>
-                    <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="incremental-oshituke-selector" draggable="true"><i className="fas fa-grip-vertical"></i>押付け+</div>
+                    <div className='command-list-wrapper'>
+                        <div onMouseEnter={(e) => commandHover(e)} className="command-selector" id="dousaGroup-selector" draggable="true"><i className="fas fa-grip-vertical"></i>動作グループを追加</div>
+                        <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="ichigime-selector" draggable="true"><i className="fas fa-grip-vertical"></i>位置決め</div>
+                        <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="oshituke-selector" draggable="true"><i className="fas fa-grip-vertical"></i>押付け</div>
+                        <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="taima-selector" draggable="true"><i className="fas fa-grip-vertical"></i>タイマ</div>
+                        <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="kurikaeshi-selector" draggable="true"><i className="fas fa-grip-vertical"></i>繰り返し</div>
+                        <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="incremental-ichigime-selector" draggable="true"><i className="fas fa-grip-vertical"></i>位置決め+</div>
+                        <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="incremental-oshituke-selector" draggable="true"><i className="fas fa-grip-vertical"></i>押付け+</div>
+                        <div ref={commandSelectorRef} onDragStart={(e) => commandDragStart(e)} onMouseEnter={(e) => commandHover(e)} className="command-selector" id="nyuryokuten-selector" draggable="true"><i className="fas fa-grip-vertical"></i>入力点からの実行</div>
+                    </div>
                 </div>
             </div>
             <div className="center-section">
