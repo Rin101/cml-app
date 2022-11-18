@@ -35,7 +35,7 @@ input[type]:focus,
 .main {
   width: 100%;
   min-height: 100vh;
-  /* display: flex; */
+  display: flex;
   /* background-color: #ebebeb; */
   background-color: #4b4b53;
 }
@@ -80,9 +80,9 @@ input[type]:focus,
 
 .command-list-container {
   width: 13%;
-  height: 85vh;
+  height: 100%;
   position: fixed;
-  padding: 0rem 0rem 1rem 1rem;
+  padding: 1rem 0rem 1rem 1rem;
 }
 
 .command-list {
@@ -103,7 +103,7 @@ input[type]:focus,
 
 .command-list-width-box {
   width: 13%;
-  height: 85vh;
+  height: 100%;
 }
 
 .command-selector {
@@ -132,14 +132,13 @@ input[type]:focus,
 
 /* ------------------------------- */
 .center-section {
-  display: flex;
-  width: 100%;
-  min-height: 85vh;
+  width: 87%;
+  min-height: 100vh;
 }
 
 .main-interface-section {
   display: flex;
-  width: 87%;
+  width: 100%;
   min-height: 85vh;
 }
 

@@ -3,6 +3,7 @@ import { Button } from '@mui/material';
 import { toCML } from './toCml';
 import soundfile1 from './sounds/決定、ボタン押下38.mp3'
 import soundfile2 from './sounds/決定、ボタン押下44.mp3'
+import { pressRun, stop } from './serialPort';
 
 export const ProgramBlock = (props) => {
     const addRowRef = useRef()
@@ -527,6 +528,10 @@ export const ProgramBlock = (props) => {
         <div className="program-block">
             {dataToHTML(props.programData)}
             <div className="enter-button">
+                <Button variant="contained" onClick={() => pressRun(toCML(props.programData, props.loopData, props.isNyuryokuShingou, props.tkData))}>実行</Button>
+                <div style={{height:10,width:30}}></div>
+                <Button variant="contained" onClick={() => stop()}>停止</Button>
+                <div style={{height:10,width:30}}></div>
                 <Button variant="contained" onClick={() => props.setCmlOutput(toCML(props.programData, props.loopData, props.isNyuryokuShingou, props.tkData))}>CMLへ変換</Button>
             </div>
         </div>
