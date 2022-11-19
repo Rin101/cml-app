@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { SettingsPanel } from './settings';
+import { SettingsPanel } from './settingsPanel/settingsPanel';
 import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardBunkai, WizardJiku } from './tanni-funcs';
 import { toCML } from './toCml';
 
