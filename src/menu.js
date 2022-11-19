@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { SettingsPanel } from './settings';
 import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardBunkai, WizardJiku } from './tanni-funcs';
 import { toCML } from './toCml';
 
@@ -97,27 +98,14 @@ export const TopMenu = (props) => {
         layerRef.current.style.display = "none"
     }
 
-    const toggleNyuryokuShingou = (e) => {
-        const nyuryokuText = `\nK81=1\nK82=1\nL1.1\nI1.1,JL2.1,T0.1\nI2.1,JL3.1,T0.1\nI3.1,JL4.1,T0.1\nI4.1,].1:].1,T0.1\nL2.1\n[1.1\nI1.1,W0.1,JL1.1\nL3.1\n[2.1\nI2.1,W0.1,JL1.1\nL4.1\n[3.1\nI3.1,W0.1,JL1.1\nEND`
+    const openSettingsPanel = () => {
+        topMenuRef.current.querySelector('#settings-panel').style.display = "flex"
+        props.layerRef.current.style.display = "block"
+    }
 
-        let isPressed = e.currentTarget.classList.contains("pressed-nyuryoku-shingou")
-        if (isPressed) {
-            if (props.cmlOutput.includes(nyuryokuText)) {
-                let tmpstr = props.cmlOutput
-                props.setCmlOutput(tmpstr.replace(nyuryokuText,''))
-            }
-            e.currentTarget.classList.remove("pressed-nyuryoku-shingou")
-            e.currentTarget.classList.add("unpressed-nyuryoku-shingou")
-            props.setIsNyuryokuShingou(false)
-        } else {
-            if (!props.cmlOutput.includes(nyuryokuText)) {
-                let tmpstr = props.cmlOutput
-                props.setCmlOutput(tmpstr+nyuryokuText)
-            }
-            e.currentTarget.classList.remove("unpressed-nyuryoku-shingou")
-            e.currentTarget.classList.add("pressed-nyuryoku-shingou")
-            props.setIsNyuryokuShingou(true)
-        }
+    const closeSettingsPanel = () => {
+        topMenuRef.current.querySelector('#settings-panel').style.display = "none"
+        props.layerRef.current.style.display = "none"
     }
 
     const toggleIsMute = (e) => {
@@ -133,13 +121,11 @@ export const TopMenu = (props) => {
         }
     }
 
-    const isNyuryoku = props.isNyuryokuShingou ? "実行" : "停止"
     const muteIcon = props.isMute ? "volume-xmark" : "volume-high"
     // --
     const expSave = useRef() 
     const expImp = useRef() 
     const expTanni = useRef() 
-    const expNyuryoku = useRef() 
 
     return (
         <div ref={topMenuRef} className="top-menu">
@@ -160,9 +146,10 @@ export const TopMenu = (props) => {
                 <div ref={expTanni} className="exp-box hidden">表示単位と分解能を設定します</div>
             </div>
             <Tannikannsann jiku={props.jiku} tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
-            <div className='top-menu-button mute-button unselectable' onClick={(e) => console.log("open settings")}>
-                <i className={"fa-solid fa-gear"}></i>各種設定
+            <div className="top-menu-button settings unselectable" onClick={() => openSettingsPanel()}>
+                <i className="fa-solid fa-gear"></i>各種設定
             </div>
+            <SettingsPanel closePanel={closeSettingsPanel} />
             <div className='top-menu-button mute-button unselectable' onClick={(e) => toggleIsMute(e)}>
                 <i ref={muteIconRef} className={"fa-solid fa-"+muteIcon}></i>
             </div>
