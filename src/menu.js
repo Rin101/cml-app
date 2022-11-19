@@ -160,12 +160,14 @@ export const TopMenu = (props) => {
                 <div ref={expTanni} className="exp-box hidden">表示単位と分解能を設定します</div>
             </div>
             <Tannikannsann jiku={props.jiku} tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
-            {/* <div className="top-menu-button unpressed-nyuryoku-shingou unselectable" onMouseEnter={() => display(expNyuryoku)} onMouseLeave={() => hide(expNyuryoku)} onClick={(e) => toggleNyuryokuShingou(e)}>
-                <i className="fa-solid fa-rotate"></i>入力点からの{isNyuryoku}
-                <div ref={expNyuryoku} className="exp-box hidden">入力点1～3の機能を動作グループ1～3の実行に、入力点4を停止に割付けます。</div>
-            </div> */}
+            <div className='top-menu-button mute-button unselectable' onClick={(e) => toggleIsMute(e)}>
+                <i ref={muteIconRef} className={"fa-solid fa-gear"}></i>各種設定
+            </div>
             <div className='top-menu-button mute-button unselectable' onClick={(e) => toggleIsMute(e)}>
                 <i ref={muteIconRef} className={"fa-solid fa-"+muteIcon}></i>
+            </div>
+            <div className='top-menu-button mute-button unselectable' onClick={(e) => toggleIsMute(e)}>
+                <i ref={muteIconRef} className={"fa-solid fa-globe"}></i>Eng
             </div>
         </div>
     )
