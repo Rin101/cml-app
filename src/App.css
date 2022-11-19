@@ -20,6 +20,10 @@ body {
   user-select: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* ----------------- */
 
 textarea:focus,

@@ -50,19 +50,19 @@ export const SettingsPanel = ({ closePanel }) => {
             <div className='settings-panel-block'>
                 <p className='settings-panel-block-label'>共通設定</p>
                 <div className='settings-panel-block-contents'>
-                    { settingsPanelData["kyoutuu"].map(item => <SettingsPanelItem data={item} />) }
+                    { settingsPanelData["kyoutuu"].map((item, i) => <SettingsPanelItem data={item} key={i}/>) }
                 </div>
             </div>
             <div className='settings-panel-block'>
                 <p className='settings-panel-block-label'>押付け動作設定</p>
                 <div className='settings-panel-block-contents'>
-                    { settingsPanelData["oshituke"].map(item => <SettingsPanelItem data={item} />) }
+                    { settingsPanelData["oshituke"].map((item, i) => <SettingsPanelItem data={item} key={i} />) }
                 </div>
             </div>
             <div className='settings-panel-block'>
                 <p className='settings-panel-block-label'>原点検出設定</p>
                 <div className='settings-panel-block-contents'>
-                    { settingsPanelData["genten"].map(item => <SettingsPanelItem data={item} />) }
+                    { settingsPanelData["genten"].map((item, i) => <SettingsPanelItem data={item} key={i} />) }
                 </div>
             </div>
             <div id='save-changes-button'>

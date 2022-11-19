@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react'
 import { Button } from '@mui/material';
-import { toCML } from './toCml';
-import soundfile1 from './sounds/決定、ボタン押下38.mp3'
-import soundfile2 from './sounds/決定、ボタン押下44.mp3'
-import { pressRun, stop } from './serialPort';
+import { toCML } from '../toCml';
+import soundfile1 from '../sounds/決定、ボタン押下38.mp3'
+import soundfile2 from '../sounds/決定、ボタン押下44.mp3'
+import { pressRun, stop } from '../serialPort';
 
-export const ProgramBlock = (props) => {
+export const ProgramBlockEng = (props) => {
     const addRowRef = useRef()
     const pgEmptyBox = useRef()
 
@@ -158,7 +158,7 @@ export const ProgramBlock = (props) => {
             props.setTkData(tkTmp) 
             props.setJiku(props.jiku + 1)
         } else {
-            alert("軸数は最大で15です。")
+            alert("Maximum axis number is 15")
         }
     }
 
@@ -273,7 +273,7 @@ export const ProgramBlock = (props) => {
         let tmp = [...props.programData]
         let audio = new Audio(soundfile2);
         if (props.currentDraggedCommand !== "繰り返し" && props.currentDraggedCommand !== "動作グループを追加" && props.currentDraggedCommand !== "NOPE" && !props.currentDraggedCommand.includes("-")) {
-            tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])] = [props.currentDraggedCommand, dousaNumArr[parseFloat(indexArr[2])]+1, [["数値を入力してください", "pps"], ["数値を入力してください", "pps"], ["数値を入力してください", "pps"]]]
+            tmp[parseFloat(indexArr[0])][parseFloat(indexArr[1])][parseFloat(indexArr[2])] = [props.currentDraggedCommand, dousaNumArr[parseFloat(indexArr[2])]+1, [["Enter value here", "pps"], ["Enter value here", "pps"], ["Enter value here", "pps"]]]
             let tmpDousaNumArr = [...dousaNumArr]
             tmpDousaNumArr[parseFloat(indexArr[2])] += 1
             setDousaNumArr(tmpDousaNumArr)
@@ -402,7 +402,7 @@ export const ProgramBlock = (props) => {
             } 
             e.currentTarget.style.height = "0.2rem"
         } else {
-            alert("動作グループ数は最大で30です。")
+            alert("Maximum motion group number is 30")
         }
     }
 
@@ -429,14 +429,14 @@ export const ProgramBlock = (props) => {
                     </div>
                     <i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i>
                     <p>
-                        {jiku_num}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i>
+                        Axis #{jiku_num}<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i>
                     </p>
                     <i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i>
                 </div>)
             } else if (jiku_num === 15) {
-                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_num}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
+                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>Axis #{jiku_num}<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             } else {
-                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}><div className="add-jiku-right" id={"addJiku-"+(jiku_num+1)} onClick={(e) => addJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>{jiku_num}軸目<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
+                main_grid.push(<div className="jiku-number unselectable" id={"jiku-"+jiku_num.toString()} key={"jiku"+jiku_num}><div className="add-jiku-right" id={"addJiku-"+(jiku_num+1)} onClick={(e) => addJiku(e)}><div className="add-jiku-plus-cont"><i className="fas fa-plus"></i></div></div><i className="fas fa-arrow-alt-circle-left move-jiku" onClick={(e) => moveJiku(e, "left")}></i><p>Axis #{jiku_num}<i className="fas fa-trash trash-jiku" onClick={(e) => trashJiku(e)}></i></p><i className="fas fa-arrow-alt-circle-right move-jiku" onClick={(e) => moveJiku(e, "right")}></i></div>)
             }
             jiku_i += 1
         }
@@ -446,7 +446,7 @@ export const ProgramBlock = (props) => {
         let dousa_group_i = 0
         for (let dousa_group of programData) {
             pg_l_arr.push(<div className="pg-l-empty pglempgroup" key={"pglempty"+dousa_group_i}></div>)
-            main_grid.push(<div className="dousa-group-kaishi unselectable" style={{gridColumn:"1/"+(props.jiku+1)}} key={"dousagroup-"+dousa_group_i} id={"dousaGroup-"+dousa_group_i}><p>動作グループ{dousa_group_i+1}の開始</p><i className="fas fa-trash" onClick={(e) => trashGroup(e, props.programData, props.setProgramData, props.loopData, props.setLoopData)}></i></div>)
+            main_grid.push(<div className="dousa-group-kaishi unselectable" style={{gridColumn:"1/"+(props.jiku+1)}} key={"dousagroup-"+dousa_group_i} id={"dousaGroup-"+dousa_group_i}><p>Start motion group #{dousa_group_i+1}</p><i className="fas fa-trash" onClick={(e) => trashGroup(e, props.programData, props.setProgramData, props.loopData, props.setLoopData)}></i></div>)
             main_grid.push(<div className="empty-right-box" key={"empRbox-"+dousa_group_i}></div>)
             let dontPutEmp = []
             let dousa_row_i = 0
@@ -466,7 +466,7 @@ export const ProgramBlock = (props) => {
                         pg_l_arr.push(
                         <div className="pg-l-loop unselectable" style={{height:loopStyleHeight+"rem"}} id={loopId} key={"pglloop"+dousa_row}>
                             {dragArrows.map(dragArrow => {return dragArrow})}
-                            <p className="loop-title" onClick={() => showTypeData(true, loopId)}>繰り返し{loopCount}回</p>
+                            <p className="loop-title" onClick={() => showTypeData(true, loopId)}>Loop x {loopCount}</p>
                             <i className="fas fa-trash trash-block" onClick={(e) => trashLoop(e, props.loopData, props.setLoopData)}></i>
                         </div>)
                     }
@@ -484,13 +484,37 @@ export const ProgramBlock = (props) => {
                 for (let dousa of dousa_row) {
                     if (dousa.length !== 0) {
                         let noValueArr = []
-                        dousa[2].forEach(value => {if (value.includes("数値を入力してください")) noValueArr.push("nope")})
+                        dousa[2].forEach(value => {if (value.includes("Enter value here")) noValueArr.push("nope")})
                         const dousaId = "dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i
                         const jikuOfDousa = dousa_i
+                        let dousaName = ""
+                        switch (dousa[0]) {
+                            case "位置決め":
+                                dousaName = "PTP"
+                                break
+                            case "押付け":
+                                dousaName = "Push"
+                                break
+                            case "タイマ":
+                                dousaName = "Timer"
+                                break
+                            case "位置決め+":
+                                dousaName = "PTP+"
+                                break
+                            case "押付け+":
+                                dousaName = "Push+"
+                                break
+                            case "入力点からの実行":
+                                dousaName = "Exec."
+                                break
+                            default:
+                                dousaName = "PTP"
+                                break
+                        }
                         if (noValueArr.length > 0) {
-                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={dousaId}><div className='no-value-circle'></div><p className='dousa-title' onClick={() => showTypeData(false, dousaId, jikuOfDousa, dousa[0], dousa[1])} >{dousa[0]}<span style={{marginRight:'0.2rem'}}></span>{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
+                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={dousaId}><div className='no-value-circle'></div><p className='dousa-title' onClick={() => showTypeData(false, dousaId, jikuOfDousa, dousa[0], dousa[1])} >{dousaName}<span style={{marginRight:'0.2rem'}}></span>#{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         } else {
-                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={dousaId}><p className='dousa-title' onClick={() => showTypeData(false, dousaId, jikuOfDousa, dousa[0], dousa[1])} >{dousa[0]}<span style={{marginRight:'0.2rem'}}></span>{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
+                            main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={dousaId}><p className='dousa-title' onClick={() => showTypeData(false, dousaId, jikuOfDousa, dousa[0], dousa[1])} >{dousaName}<span style={{marginRight:'0.2rem'}}></span>#{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         }
                     } else {
                         // main_grid.push(<div className="dousa-box"></div>)
@@ -528,17 +552,17 @@ export const ProgramBlock = (props) => {
         <div className="program-block">
             {dataToHTML(props.programData)}
             <div className="enter-button">
-                <Button variant="contained" onClick={() => pressRun(toCML(props.programData, props.loopData, props.isNyuryokuShingou, props.tkData))}>実行</Button>
+                <Button variant="contained" onClick={() => pressRun(toCML(props.programData, props.loopData, props.isNyuryokuShingou, props.tkData))}>Run</Button>
                 <div style={{height:10,width:30}}></div>
-                <Button variant="contained" onClick={() => stop()}>停止</Button>
+                <Button variant="contained" onClick={() => stop()}>Stop</Button>
                 <div style={{height:10,width:30}}></div>
-                <Button variant="contained" onClick={() => props.setCmlOutput(toCML(props.programData, props.loopData, props.isNyuryokuShingou, props.tkData))}>CMLへ変換</Button>
+                <Button variant="contained" onClick={() => props.setCmlOutput(toCML(props.programData, props.loopData, props.isNyuryokuShingou, props.tkData))}>Convert to CML</Button>
             </div>
         </div>
     )
 }
 
-export const TypeDataInDousa = (props) => {
+export const TypeDataInDousaEng = (props) => {
     // let dousaType = props.dousaType
     // let dousaNum = props.dousaNum
     // let parentId = props.parentId
@@ -567,55 +591,55 @@ export const TypeDataInDousa = (props) => {
     const ichigimeData = {
         bangouRange: 250,
         inputForm: subTanni==="initial" ? [
-            ["速度データ", ["100pps"], "と"],
-            ["加速度データ", ["kpps\u00b2"], "で"],
-            ["位置データ", ["Pulse"], "へ移動する"],
+            ["Speed Data", ["100pps"], ""],
+            ["Accel. Data", ["kpps\u00b2"], ""],
+            ["Position Data", ["Pulse"], ""],
         ] : [
-            ["速度データ", ["100pps", subTanni+"/s"], "と"],
-            ["加速度データ", ["kpps\u00b2", subTanni+"/s\u00b2"], "で"],
-            ["位置データ", ["Pulse", subTanni], "へ移動する"],
+            ["Speed Data", ["100pps", subTanni+"/s"], ""],
+            ["Accel. Data", ["kpps\u00b2", subTanni+"/s\u00b2"], ""],
+            ["Position Data", ["Pulse", subTanni], ""],
         ]
     }
     const incrementalIchigimeData = {
         bangouRange: 250,
         inputForm: subTanni==="initial" ? [
-            ["速度データ", ["100pps"], "と"],
-            ["加速度データ", ["kpps\u00b2"], "で"],
-            ["現在位置から", ["Pulse"], "移動する"],
+            ["Speed Data", ["100pps"], ""],
+            ["Accel. Data", ["kpps\u00b2"], ""],
+            ["Position Data", ["Pulse"], ""],
         ] : [
-            ["速度データ", ["100pps", subTanni+"/s"], "と"],
-            ["加速度データ", ["kpps\u00b2", subTanni+"/s\u00b2"], "で"],
-            ["現在位置から", ["Pulse", subTanni], "移動する"],
+            ["Speed Data", ["100pps", subTanni+"/s"], ""],
+            ["Accel. Data", ["kpps\u00b2", subTanni+"/s\u00b2"], ""],
+            ["Position Data", ["Pulse", subTanni], ""],
         ]
     }
     const oshitukeData = {
         bangouRange: 250,
         inputForm: subTanni==="initial" ? [
-            ["速度データ", ["100pps"], "と"],
-            ["加速度データ", ["kpps\u00b2"], "で"],
-            ["位置データ", ["Pulse"], "へ押付け動作する"],
+            ["Speed Data", ["100pps"], ""],
+            ["Accel. Data", ["kpps\u00b2"], ""],
+            ["Position Data", ["Pulse"], ""],
         ] : [
-            ["速度データ", ["100pps", subTanni+"/s"], "と"],
-            ["加速度データ", ["kpps\u00b2", subTanni+"/s\u00b2"], "で"],
-            ["位置データ", ["Pulse", subTanni], "へ押付け動作する"],
+            ["Speed Data", ["100pps", subTanni+"/s"], ""],
+            ["Accel. Data", ["kpps\u00b2", subTanni+"/s\u00b2"], ""],
+            ["Position Data", ["Pulse", subTanni], ""],
         ]
     }
     const incrementalOshitukeData = {
         bangouRange: 250,
         inputForm: subTanni==="initial" ? [
-            ["速度データ", ["100pps"], "と"],
-            ["加速度データ", ["kpps\u00b2"], "で"],
-            ["現在位置から", ["Pulse"], "押付け動作する"],
+            ["Speed Data", ["100pps"], ""],
+            ["Accel. Data", ["kpps\u00b2"], ""],
+            ["Position Data", ["Pulse"], ""],
         ] : [
-            ["速度データ", ["100pps", subTanni+"/s"], "と"],
-            ["加速度データ", ["kpps\u00b2", subTanni+"/s\u00b2"], "で"],
-            ["現在位置から", ["Pulse", subTanni], "押付け動作する"],
+            ["Speed Data", ["100pps", subTanni+"/s"], ""],
+            ["Accel. Data", ["kpps\u00b2", subTanni+"/s\u00b2"], ""],
+            ["Position Data", ["Pulse", subTanni], ""],
         ]
     }
     const timerData = {
         bangouRange: 5,
         inputForm: [
-            ["タイマデータ", ["msec"], "に設定する"],
+            ["Timer Data", ["msec"], ""],
         ]
     }
 
@@ -695,7 +719,7 @@ export const TypeDataInDousa = (props) => {
                 closeTypeData()
             } else {
                 isAllNumber = []
-                alert('数値を入力してください') 
+                alert('Enter value here') 
             }
         } 
     
@@ -703,7 +727,7 @@ export const TypeDataInDousa = (props) => {
             <div className="typeDataInDousa" ref={popupRef}>
                 <div className="close-typedata"><i onClick={() => closeTypeData()} className="fas fa-times-circle type-times-circle"></i></div>
                 <div className='typedata-input-line' key={"input-num-line"}>
-                    <p className='typedata-var'>番号:</p>
+                    <p className='typedata-var'>#</p>
                     {
                         props.dousaType === "入力点からの実行" ? 
                             <NumDropDown range={dataFormat.bangouRange} jiku={props.jiku} dousaType={props.dousaType} dousaNum={props.dousaNum} popupRef={props.popupRef} programData={props.programData} setProgramData={props.setProgramData} indexArr={props.indexArr}/>
@@ -737,7 +761,7 @@ export const TypeDataInDousa = (props) => {
 
         return (
             <>
-                {value.toString().includes('数値を入力してください') ? 
+                {value.toString().includes('Enter value here') ? 
                     <input className="type-data-input" required placeholder={value} onChange={(e) => setValue(e.target.value)} />
                     // : <input className="type-data-input" required value={value} onChange={(e) => setValue(e.target.value)} />
                     : <input className="type-data-input" required defaultValue={value} onChange={(e) => setValue(e.target.value)} />
@@ -756,7 +780,7 @@ export const TypeDataInDousa = (props) => {
     return (<DousaInputBox dataFormat={dataFormat} jiku={props.jiku} dousaType={props.dousaType} dousaNum={props.dousaNum} popupRef={popupRef} programData={props.programData} setProgramData={props.setProgramData} indexArr={indexArr}/>)
 }
 
-export const LoopInputBox = (props) => {
+export const LoopInputBoxEng = (props) => {
     // props: parentId, loopData, setLoopData
     const popupRef = useRef()
     let indexArr = props.parentId.split('-')
@@ -783,7 +807,7 @@ export const LoopInputBox = (props) => {
             closeTypeData()
         } else {
             isAllNumber = []
-            alert('数値を入力してください') 
+            alert('Enter value here') 
         }
     } 
 

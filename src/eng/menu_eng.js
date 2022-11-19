@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
-import { SettingsPanel } from './settingsPanel/settingsPanel';
-import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardBunkai, WizardJiku } from './tanni-funcs';
-import { toCML } from './toCml';
+import { SettingsPanel } from '../settingsPanel/settingsPanel';
+import { WizardGensokuEng, WizardKikouEng, WizardSusumiryouEng, WizardBunkaiEng, WizardJikuEng } from './tanni-funcs_eng';
+import { toCML } from '../toCml';
 import { Link } from "react-router-dom";
 
 // Function to download data to a file
@@ -23,7 +23,7 @@ export const downloadFile = (data, filename, type) => {
     }
 }
 
-export const TopMenu = (props) => {
+export const TopMenuEng = (props) => {
 
     const topMenuRef = useRef()
     const muteIconRef = useRef()
@@ -131,32 +131,32 @@ export const TopMenu = (props) => {
     return (
         <div ref={topMenuRef} className="top-menu">
             <div className="top-menu-button save-file unselectable" onMouseEnter={() => display(expSave)} onMouseLeave={() => hide(expSave)} onClick={() => handleFileSave()}>
-                <i className="fa-solid fa-floppy-disk"></i>プロジェクトファイルを保存
-                <div ref={expSave} className="exp-box hidden">作成途中のプロジェクトを保存します</div>
+                <i className="fa-solid fa-floppy-disk"></i>Save project as
+                <div ref={expSave} className="exp-box hidden">Save project in progress</div>
             </div>
             
             <div className="top-menu-button import-file unselectable" onMouseEnter={() => display(expImp)} onMouseLeave={() => hide(expImp)}>
                 <label htmlFor="top-menu-file-upload">
-                    <i className="fa-solid fa-folder-open"></i>プロジェクトファイルを開く
+                    <i className="fa-solid fa-folder-open"></i>Open project
                     <input id="top-menu-file-upload" accept=".txt" type="file" onChange={(e) => handleFileImport(e)}/>
                 </label>
-                <div ref={expImp} className="exp-box hidden">保存したプロジェクトを開きます</div>
+                <div ref={expImp} className="exp-box hidden">Open a saved project</div>
             </div>
             <div className="top-menu-button tannikannsann unselectable" onMouseEnter={() => display(expTanni)} onMouseLeave={() => hide(expTanni)} onClick={() => openTanni()}>
-                <i className="fa-solid fa-gears"></i>単位換算
-                <div ref={expTanni} className="exp-box hidden">表示単位と分解能を設定します</div>
+                <i className="fa-solid fa-gears"></i>Unit conversion
+                <div ref={expTanni} className="exp-box hidden">Sets units and resolution</div>
             </div>
             <Tannikannsann jiku={props.jiku} tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
             <div className="top-menu-button settings unselectable" onClick={() => openSettingsPanel()}>
-                <i className="fa-solid fa-gear"></i>各種設定
+                <i className="fa-solid fa-gear"></i>Settings
             </div>
             <SettingsPanel closePanel={closeSettingsPanel} />
             <div className='top-menu-button mute-button unselectable' onClick={(e) => toggleIsMute(e)}>
                 <i ref={muteIconRef} className={"fa-solid fa-"+muteIcon}></i>
             </div>
-            <Link to="eng">
+            <Link to="/">
                 <div className='top-menu-button language-button unselectable'>
-                    <i className={"fa-solid fa-globe"}></i>Eng
+                    <i className={"fa-solid fa-globe"}></i>日本語
                 </div>
             </Link>
         </div>
@@ -184,17 +184,17 @@ const Tannikannsann = (props) => {
         
             switch (wizardInput[0]) {
                 case "jiku":
-                    return <WizardJiku params={params} />
+                    return <WizardJikuEng params={params} />
                 case "kikou":
-                    return <WizardKikou params={params} />
+                    return <WizardKikouEng params={params} />
                 case "susumiryou":
-                    return <WizardSusumiryou params={params} />
+                    return <WizardSusumiryouEng params={params} />
                 case "gensoku":
-                    return <WizardGensoku params={params} />
+                    return <WizardGensokuEng params={params} />
                 case "bunkai":
-                    return <WizardBunkai close={props.close} params={params} />
+                    return <WizardBunkaiEng close={props.close} params={params} />
                 default:
-                    return <WizardKikou params={params}/>
+                    return <WizardKikouEng params={params}/>
             }
         }
 
