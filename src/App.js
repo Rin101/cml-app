@@ -19,6 +19,7 @@ export const App = () => {
     const [cmlOutput, setCmlOutput] = useLocalStorage('CML', '')
     const [isNyuryokuShingou, setIsNyuryokuShingou] = useState(false)
     // const [isNyuryokuShingou, setIsNyuryokuShingou] = useLocalStorage("nyuryokushingou", false)
+    const [settings, setSettings] = useState([])
     const [isMute, setIsMute] = useState(false)
     const [jiku, setJiku] = useState(1)
     let initialTannikannsannData = []
@@ -154,10 +155,6 @@ export const App = () => {
                     <div id="close-instruction-popup" onClick={() => close()}><i className="fas fa-times-circle"></i></div>
                     <img src={instructionImg} alt="instruction" />
                 </div>
-                {/* <div className='popup-neveragain'>
-                    <p style={{marginRight:10}}>次回から表示しない</p>
-                    <input type={'checkbox'} />
-                </div> */}
             </div>
         )
     }
@@ -168,7 +165,7 @@ export const App = () => {
             <DataInputBox inputBoxType={inputBoxType} />
             <div ref={layerRef} className="layer"></div>
             <div className='top-menu-container'>
-                <TopMenu isMute={isMute} setIsMute={setIsMute} tannikannsannData={tannikannsannData} setTannikannsannData={setTannikannsannData} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
+                <TopMenu settings={settings} setSettings={setSettings} isMute={isMute} setIsMute={setIsMute} tannikannsannData={tannikannsannData} setTannikannsannData={setTannikannsannData} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
             </div>
             <div className="center-section">
                 <div className="command-list-width-box"></div>
@@ -188,7 +185,7 @@ export const App = () => {
                 </div>
                 <div className='main-interface-section'>
                     <div className='program-block-container'>
-                        <ProgramBlock isMute={isMute} tkData={tannikannsannData} setTkData={setTannikannsannData} setInputBoxType={setInputBoxType} inputBoxType={inputBoxType} loopInputObj={loopInputObj} setLoopInputObj={setLoopInputObj} typeDataObj={typeDataObj} setTypeDataObj={setTypeDataObj} typeDataRef={typeDataRef} loopInputRef={loopInputRef} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
+                        <ProgramBlock settings={settings} isMute={isMute} tkData={tannikannsannData} setTkData={setTannikannsannData} setInputBoxType={setInputBoxType} inputBoxType={inputBoxType} loopInputObj={loopInputObj} setLoopInputObj={setLoopInputObj} typeDataObj={typeDataObj} setTypeDataObj={setTypeDataObj} typeDataRef={typeDataRef} loopInputRef={loopInputRef} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
                     </div>
                     <div className='cml-output-container'>
                         <div className="cml-output-section">
@@ -208,24 +205,6 @@ export const App = () => {
                     </div>
                 </div>
             </div>
-            {/* <div className="center-section">
-                <TopMenu tannikannsannData={tannikannsannData} setTannikannsannData={setTannikannsannData} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
-                <ProgramBlock tkData={tannikannsannData} setInputBoxType={setInputBoxType} inputBoxType={inputBoxType} loopInputObj={loopInputObj} setLoopInputObj={setLoopInputObj} typeDataObj={typeDataObj} setTypeDataObj={setTypeDataObj} typeDataRef={typeDataRef} loopInputRef={loopInputRef} isNyuryokuShingou={isNyuryokuShingou} setCmlOutput={setCmlOutput} loopData={loopData} setLoopData={setLoopData} programData={programData} setProgramData={setProgramData} jiku={jiku} setJiku={setJiku} currentDraggedCommand={currentDraggedCommand} setCurrentDraggedCommand={setCurrentDraggedCommand}/>
-            </div>
-            <div className="cml-output-section">
-                <h3 className='unselectable'>CML</h3>
-                <Editor value={cmlOutput} onChange={setCmlOutput} />
-                <div className="jikkou-button">
-                    <Button variant="contained" onClick={() => handleFileExport()}>
-                        テキストファイルにエクスポート
-                    </Button>
-                    <div className="copy-cml-container">
-                        <div className="copy-cml" onMouseEnter={() => display(expCopy)} onMouseLeave={() => hide(expCopy)} onClick={() => copyCML(cmlOutput)}><i className="fas fa-copy"></i></div>
-                        <div ref={expCopy} className="exp-copy hidden">コピー</div>
-                        <div ref={expCopyDone} className="exp-copy-done hidden">コピーされました</div>
-                    </div>
-                </div>
-            </div> */}
         </div>
     )
 }

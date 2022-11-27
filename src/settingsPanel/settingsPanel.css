@@ -88,11 +88,14 @@
     left: 40%;
     font-size: 0.7rem;
     font-weight: normal;
-    text-align: center;
     padding: 0.2rem 0.3rem;
     color: white;
     background-color: #585b60;
     border-radius: 0.2rem;
+}
+
+.settings-panel-item-info-box p {
+    height: max-content;
 }
 
 /* ============================== */

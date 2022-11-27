@@ -38,7 +38,7 @@ export const TopMenu = (props) => {
                 props.setTannikannsannData(obj.data.tannikannsannData)
                 props.setProgramData(obj.data.programData)
                 props.setLoopData(obj.data.loopData)
-                props.setCmlOutput(toCML(obj.data.programData, obj.data.loopData, obj.data.isNyuryokuShingou, obj.data.tannikannsannData))
+                props.setCmlOutput(toCML(obj.data.programData, obj.data.loopData, obj.data.isNyuryokuShingou, obj.data.tannikannsannData, obj.data.settings))
             // } catch (err) {
             //     alert('ファイルが間違っています')
             // }
@@ -66,7 +66,7 @@ export const TopMenu = (props) => {
     }
 
     const handleFileSave = () => {
-        let obj = {"name":"cml-import","data":{"jiku":props.jiku,"tannikannsannData":props.tannikannsannData,"programData":props.programData,"loopData":props.loopData,"isNyuryokuShingou":props.isNyuryokuShingou}}
+        let obj = {"name":"cml-import","data":{"jiku":props.jiku,"tannikannsannData":props.tannikannsannData,"programData":props.programData,"loopData":props.loopData,"isNyuryokuShingou":props.isNyuryokuShingou, "settings":props.settings}}
         const data = JSON.stringify(obj)
         const filename = "CML-途中保存"
         const type = ".txt"
@@ -150,7 +150,7 @@ export const TopMenu = (props) => {
             <div className="top-menu-button settings unselectable" onClick={() => openSettingsPanel()}>
                 <i className="fa-solid fa-gear"></i>各種設定
             </div>
-            <SettingsPanel closePanel={closeSettingsPanel} />
+            <SettingsPanel closePanel={closeSettingsPanel} settings={props.settings} setSettings={props.setSettings} />
             <div className='top-menu-button mute-button unselectable' onClick={(e) => toggleIsMute(e)}>
                 <i ref={muteIconRef} className={"fa-solid fa-"+muteIcon}></i>
             </div>

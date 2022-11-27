@@ -1,4 +1,4 @@
-export const toCML = (programData, loopData, isNyuryokuShingou, tkData) => {
+export const toCML = (programData, loopData, isNyuryokuShingou, tkData, settings) => {
     let output = ""
     let every_data_teigi = ""
     let every_program_teigi = ""
@@ -61,14 +61,22 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData) => {
         }
         every_program_teigi += dousa_jikkou_of_group
     }
+
+    let settingsCML = ""
+    const jikuNum = programData[0][0].length
+    for (let setting of settings) {
+        for (let i=0; i<jikuNum; i++) {
+            settingsCML += ("K"+setting["kNum"].toString()+"."+i.toString()+"="+setting["value"].toString()+"\n")
+        }
+    }
     
     output += every_data_teigi
     output += every_program_teigi
     if (isNyuryokuShingou) {
         let nyuryokuTxt = `\nK81=1\nK82=1\nL1.1\nI1.1,JL2.1,T0.1\nI2.1,JL3.1,T0.1\nI3.1,JL4.1,T0.1\nI4.1,].1:].1,T0.1\nL2.1\n[1.1\nI1.1,W0.1,JL1.1\nL3.1\n[2.1\nI2.1,W0.1,JL1.1\nL4.1\n[3.1\nI3.1,W0.1,JL1.1\nEND`
-        return output + "END" + nyuryokuTxt
+        return output + "END" + settingsCML + nyuryokuTxt
     } else {
-        return output + "END"
+        return output + "END" + settingsCML
     }
 }
 

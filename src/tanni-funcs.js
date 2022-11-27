@@ -402,7 +402,7 @@ export const WizardBunkai = (props) => {
     )
 }
 
-export const Dropdown = (props) => {
+const Dropdown = (props) => {
     const itemArr = props.itemArr
     const setItem = props.setItem
 
