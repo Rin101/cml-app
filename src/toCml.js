@@ -63,10 +63,12 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData, settings
     }
 
     let settingsCML = ""
+    const kNumList = [5, 11, 12, 13, 14, 23, 24, 25, 26, 27, 28]
     const jikuNum = programData[0][0].length
-    for (let setting of settings) {
+    for (let kNum of kNumList) {
         for (let i=0; i<jikuNum; i++) {
-            settingsCML += ("K"+setting["kNum"].toString()+"."+i.toString()+"="+setting["value"].toString()+"\n")
+            const value = settings["kNum"+kNum.toString()]
+            settingsCML += ("K"+kNum.toString()+"."+i.toString()+"="+value.toString()+"\n")
         }
     }
     

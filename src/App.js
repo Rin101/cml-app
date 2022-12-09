@@ -19,7 +19,10 @@ export const App = () => {
     const [cmlOutput, setCmlOutput] = useLocalStorage('CML', '')
     const [isNyuryokuShingou, setIsNyuryokuShingou] = useState(false)
     // const [isNyuryokuShingou, setIsNyuryokuShingou] = useLocalStorage("nyuryokushingou", false)
-    const [settings, setSettings] = useState([])
+    const [settings, setSettings] = useState({})
+    useEffect(() => {
+        console.log(settings)
+    }, [settings])
     const [isMute, setIsMute] = useState(false)
     const [jiku, setJiku] = useState(1)
     let initialTannikannsannData = []

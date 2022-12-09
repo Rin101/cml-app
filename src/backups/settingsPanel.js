@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { SettingInfo } from './settingInfo'
 import './settingsPanel.css'
 
@@ -25,31 +25,54 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
         ],
     }
 
-    const [settingsObj, setSettingsObj] = useState({
-        'kNum5': 100, 'kNum11': 0, 'kNum12': 100, 'kNum13': 100, 'kNum14': 0, 
-        'kNum23': 100, 'kNum24': 100, 'kNum25': 100, 'kNum26': 100, 'kNum27': 0, 'kNum28': 100
-    })
-    useEffect(() => {
-        console.log(settingsObj)
-    }, [settingsObj])
+    const settingsSample2 = {
+        5: 100,
+        
+    }
 
     const SettingsPanelItem = ({ data }) => {
 
         const [inputValue, setInputValue] = useState(100)
 
         const setTextInputValue = (value) => {
+            let settingsTmp = [...settings] 
+
+            let settingExists = false
+            let settingIndex = 0
+            for (let setting of settingsTmp) {
+                if (setting.kNum === data["kNum"]) {
+                    settingExists = true
+                    settingIndex = settingsTmp.indexOf(setting)
+                }
+            }
+            if (settingExists) {
+                settingsTmp[settingIndex].value = value
+            } else {
+                settingsTmp.push({kNum:data["kNum"], value: value})
+            }
+            setSettings(settingsTmp)
             setInputValue(value)
-            let tmp = settingsObj
-            tmp["kNum" + data["kNum"].toString()] = value
-            setSettingsObj(tmp)
         }
 
         const setDropdownValue = (inputValue) => {
             const inputIndex = data["inputs"].indexOf(inputValue)
+            let settingsTmp = [...settings] 
+
+            let settingExists = false
+            let settingIndex = 0
+            for (let setting of settingsTmp) {
+                if (setting.kNum === data["kNum"]) {
+                    settingExists = true
+                    settingIndex = settingsTmp.indexOf(setting)
+                }
+            }
+            if (settingExists) {
+                settingsTmp[settingIndex].value = inputIndex
+            } else {
+                settingsTmp.push({kNum:data["kNum"], value: inputIndex})
+            }
+            setSettings(settingsTmp)
             setInputValue(inputIndex)
-            let tmp = settingsObj
-            tmp["kNum" + data["kNum"].toString()] = inputIndex
-            setSettingsObj(tmp)
         }
 
         switch (data["inputType"]) {
@@ -60,8 +83,7 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
                             <p className='settings-panel-item-label'>{ data["label"] }</p>
                             <SettingInfo text={ data["infoText"] } />
                         </div>
-                        <input className='settings-panel-item-input' placeholder={inputValue} onChange={(e) => setTextInputValue(e.target.value)}/>
-                        <p className='settings-panel-input-storage'>{ inputValue }</p>
+                        <input className='settings-panel-item-input' value={inputValue} placeholder={inputValue} onChange={(e) => setTextInputValue(e.target.value)}/>
                     </div>
                 )
             case "dropdown":
@@ -73,7 +95,6 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
                         </div>
                         <div className='settings-panel-item-input'>
                             <Dropdown setItem={setDropdownValue} defaultItem={data["inputs"][0]} itemArr={data["inputs"]} />
-                            <p className='settings-panel-input-storage'>{ inputValue }</p>
                         </div>
                     </div>
                 )
@@ -84,7 +105,7 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
 
     const saveChanges = () => {
         closePanel()
-        setSettings(settingsObj)
+        setSettings()
     }
 
     return (
