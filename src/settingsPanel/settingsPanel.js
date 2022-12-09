@@ -25,17 +25,14 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
         ],
     }
 
-    const [settingsObj, setSettingsObj] = useState({
-        'kNum5': 100, 'kNum11': 0, 'kNum12': 100, 'kNum13': 100, 'kNum14': 0, 
-        'kNum23': 100, 'kNum24': 100, 'kNum25': 100, 'kNum26': 100, 'kNum27': 0, 'kNum28': 100
-    })
+    const [settingsObj, setSettingsObj] = useState(settings)
     useEffect(() => {
         console.log(settingsObj)
     }, [settingsObj])
 
     const SettingsPanelItem = ({ data }) => {
 
-        const [inputValue, setInputValue] = useState(100)
+        const [inputValue, setInputValue] = useState(settingsObj["kNum" + data["kNum"].toString()])
 
         const setTextInputValue = (value) => {
             setInputValue(value)
@@ -61,7 +58,6 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
                             <SettingInfo text={ data["infoText"] } />
                         </div>
                         <input className='settings-panel-item-input' placeholder={inputValue} onChange={(e) => setTextInputValue(e.target.value)}/>
-                        <p className='settings-panel-input-storage'>{ inputValue }</p>
                     </div>
                 )
             case "dropdown":
@@ -72,8 +68,7 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
                             <SettingInfo text={ data["infoText"] } />
                         </div>
                         <div className='settings-panel-item-input'>
-                            <Dropdown setItem={setDropdownValue} defaultItem={data["inputs"][0]} itemArr={data["inputs"]} />
-                            <p className='settings-panel-input-storage'>{ inputValue }</p>
+                            <Dropdown setItem={setDropdownValue} defaultItem={data["inputs"][inputValue]} itemArr={data["inputs"]} />
                         </div>
                     </div>
                 )

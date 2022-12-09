@@ -62,13 +62,17 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData, settings
         every_program_teigi += dousa_jikkou_of_group
     }
 
-    let settingsCML = ""
+    let settingsCML = "\n"
     const kNumList = [5, 11, 12, 13, 14, 23, 24, 25, 26, 27, 28]
     const jikuNum = programData[0][0].length
     for (let kNum of kNumList) {
-        for (let i=0; i<jikuNum; i++) {
+        for (let i=1; i<=jikuNum; i++) {
             const value = settings["kNum"+kNum.toString()]
-            settingsCML += ("K"+kNum.toString()+"."+i.toString()+"="+value.toString()+"\n")
+            if (typeof value !== 'string') {
+                settingsCML += ("K"+kNum.toString()+"."+i.toString()+"="+value.toString()+"\n")
+            } else {
+                settingsCML += ("K"+kNum.toString()+"."+i.toString()+"="+value+"\n")
+            }
         }
     }
     
