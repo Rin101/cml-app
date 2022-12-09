@@ -19,8 +19,10 @@ export const AppEng = () => {
 
     const [cmlOutput, setCmlOutput] = useLocalStorage('CML', '')
     const [isNyuryokuShingou, setIsNyuryokuShingou] = useState(false)
-    // const [isNyuryokuShingou, setIsNyuryokuShingou] = useLocalStorage("nyuryokushingou", false)
-    const [settings, setSettings] = useState([])
+    const [settings, setSettings] = useLocalStorage('kNum', {
+        'kNum5': 100, 'kNum11': 0, 'kNum12': 100, 'kNum13': 100, 'kNum14': 0, 
+        'kNum23': 100, 'kNum24': 100, 'kNum25': 100, 'kNum26': 100, 'kNum27': 0, 'kNum28': 100
+    })
     const [isMute, setIsMute] = useState(false)
     const [jiku, setJiku] = useState(1)
     let initialTannikannsannData = []
@@ -170,7 +172,7 @@ export const AppEng = () => {
             <DataInputBox inputBoxType={inputBoxType} />
             <div ref={layerRef} className="layer"></div>
             <div className='top-menu-container'>
-                <TopMenuEng settings={settings} isMute={isMute} setIsMute={setIsMute} tannikannsannData={tannikannsannData} setTannikannsannData={setTannikannsannData} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
+                <TopMenuEng settings={settings} setSettings={setSettings} isMute={isMute} setIsMute={setIsMute} tannikannsannData={tannikannsannData} setTannikannsannData={setTannikannsannData} programData={programData} setProgramData={setProgramData} loopData={loopData} setLoopData={setLoopData} layerRef={layerRef} cmlOutput={cmlOutput} setCmlOutput={setCmlOutput} isNyuryokuShingou={isNyuryokuShingou} setIsNyuryokuShingou={setIsNyuryokuShingou} jiku={jiku} setJiku={setJiku}/>
             </div>
             <div className="center-section">
                 <div className="command-list-width-box"></div>

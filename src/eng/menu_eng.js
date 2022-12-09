@@ -150,7 +150,7 @@ export const TopMenuEng = (props) => {
             <div className="top-menu-button settings unselectable" onClick={() => openSettingsPanel()}>
                 <i className="fa-solid fa-gear"></i>Settings
             </div>
-            <SettingsPanel closePanel={closeSettingsPanel} />
+            <SettingsPanel closePanel={closeSettingsPanel} settings={props.settings} setSettings={props.setSettings} />
             <div className='top-menu-button mute-button unselectable' onClick={(e) => toggleIsMute(e)}>
                 <i ref={muteIconRef} className={"fa-solid fa-"+muteIcon}></i>
             </div>
