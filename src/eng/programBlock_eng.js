@@ -815,8 +815,9 @@ export const LoopInputBoxEng = (props) => {
         <div className="typeDataInDousa" ref={popupRef}>
             <div className="close-typedata"><i onClick={() => closeTypeData()} className="fas fa-times-circle type-times-circle"></i></div>
             <div className="typedata-input-line">
+                <p>Loop</p>
                 <input className="type-data-input" required value={value} onChange={(e) => setValue(e.target.value)} />
-                <p>回繰り返す</p>
+                <p>times</p>
             </div>
             <Button className="type-data-button" variant="contained" onClick={() => setTypeData()}>OK</Button>
         </div>
