@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { SettingsPanel } from './settingsPanel/settingsPanel';
 import { WizardGensoku, WizardKikou, WizardSusumiryou, WizardBunkai, WizardJiku } from './tanni-funcs';
 import { toCML } from './toCml';
-import { Link } from "react-router-dom";
 
 // Function to download data to a file
 export const downloadFile = (data, filename, type) => {
@@ -154,11 +153,11 @@ export const TopMenu = (props) => {
             <div className='top-menu-button mute-button unselectable' onClick={(e) => toggleIsMute(e)}>
                 <i ref={muteIconRef} className={"fa-solid fa-"+muteIcon}></i>
             </div>
-            <Link to="eng">
+            <a href="https://musclecorp.com/eng/cml-app">
                 <div className='top-menu-button language-button unselectable'>
                     <i className={"fa-solid fa-globe"}></i>Eng
                 </div>
-            </Link>
+            </a>
         </div>
     )
 }

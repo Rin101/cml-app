@@ -12,10 +12,6 @@ import instructionImg from './image/popup-instruction.png'
 
 export const App = () => {
 
-    useEffect(() => {
-        document.title = 'CML自動生成ツール | MUSCLE CORPORATION';
-      }, []);
-
     const [cmlOutput, setCmlOutput] = useLocalStorage('CML', '')
     const [isNyuryokuShingou, setIsNyuryokuShingou] = useState(false)
     const [settings, setSettings] = useLocalStorage('kNum', {
