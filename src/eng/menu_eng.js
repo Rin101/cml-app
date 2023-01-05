@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { SettingsPanel } from '../settingsPanel/settingsPanel';
 import { WizardGensokuEng, WizardKikouEng, WizardSusumiryouEng, WizardBunkaiEng, WizardJikuEng } from './tanni-funcs_eng';
 import { toCML } from '../toCml';
-import { Link } from "react-router-dom";
 
 // Function to download data to a file
 export const downloadFile = (data, filename, type) => {

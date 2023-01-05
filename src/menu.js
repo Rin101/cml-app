@@ -153,7 +153,7 @@ export const TopMenu = (props) => {
             <div className='top-menu-button mute-button unselectable' onClick={(e) => toggleIsMute(e)}>
                 <i ref={muteIconRef} className={"fa-solid fa-"+muteIcon}></i>
             </div>
-            <a href="https://musclecorp.com/eng/cml-app">
+            <a href="https://musclecorp.com/en/cml-app">
                 <div className='top-menu-button language-button unselectable'>
                     <i className={"fa-solid fa-globe"}></i>Eng
                 </div>
