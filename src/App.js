@@ -18,9 +18,6 @@ export const App = () => {
         'kNum5': 100, 'kNum11': 0, 'kNum12': 100, 'kNum13': 100, 'kNum14': 0, 
         'kNum23': 100, 'kNum24': 100, 'kNum25': 100, 'kNum26': 100, 'kNum27': 0, 'kNum28': 100
     })
-    useEffect(() => {
-        console.log(settings)
-    }, [settings])
     const [isMute, setIsMute] = useState(false)
     const [jiku, setJiku] = useState(1)
     let initialTannikannsannData = []

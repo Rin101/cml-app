@@ -26,9 +26,6 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
     }
 
     const [settingsObj, setSettingsObj] = useState(settings)
-    useEffect(() => {
-        console.log(settingsObj)
-    }, [settingsObj])
 
     const SettingsPanelItem = ({ data }) => {
 
