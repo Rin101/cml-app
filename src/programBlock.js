@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import { toCML } from './toCml';
 import soundfile1 from './sounds/決定、ボタン押下38.mp3'
 import soundfile2 from './sounds/決定、ボタン押下44.mp3'
-import { pressRun, stop } from './serialPort';
+import { pressRun, send, stop } from './serialPort';
 
 export const ProgramBlock = (props) => {
     const addRowRef = useRef()
@@ -451,7 +451,7 @@ export const ProgramBlock = (props) => {
         let dousa_group_i = 0
         for (let dousa_group of programData) {
             pg_l_arr.push(<div className="pg-l-empty pglempgroup" key={"pglempty"+dousa_group_i}></div>)
-            main_grid.push(<div className="dousa-group-kaishi unselectable" style={{gridColumn:"1/"+(props.jiku+1)}} key={"dousagroup-"+dousa_group_i} id={"dousaGroup-"+dousa_group_i}><p>動作グループ{dousa_group_i+1}の開始</p><i className="fas fa-trash" onClick={(e) => trashGroup(e, props.programData, props.setProgramData, props.loopData, props.setLoopData)}></i></div>)
+            main_grid.push(<div className="dousa-group-kaishi unselectable" style={{gridColumn:"1/"+(props.jiku+1)}} key={"dousagroup-"+dousa_group_i} id={"dousaGroup-"+dousa_group_i}><p>入力点{dousa_group_i+1}からの実行</p><i className="fas fa-trash" onClick={(e) => trashGroup(e, props.programData, props.setProgramData, props.loopData, props.setLoopData)}></i></div>)
             main_grid.push(<div className="empty-right-box" key={"empRbox-"+dousa_group_i}></div>)
             let dontPutEmp = []
             let dousa_row_i = 0
@@ -533,10 +533,12 @@ export const ProgramBlock = (props) => {
         <div className="program-block">
             {dataToHTML(props.programData)}
             <div className="enter-button">
-                <Button variant="contained" onClick={() => jikkou()}>実行</Button>
+                <Button variant="contained" onClick={() => jikkou()}>モータに書き込む</Button>
                 <div style={{height:10,width:30}}></div>
-                <Button variant="contained" onClick={() => stop()}>停止</Button>
-                <div style={{height:10,width:30}}></div>
+                {/* <Button variant="contained" onClick={() => send()}>実行</Button>
+                <div style={{height:10,width:30}}></div> */}
+                {/* <Button variant="contained" onClick={() => stop()}>停止</Button>
+                <div style={{height:10,width:30}}></div> */}
                 <Button variant="contained" onClick={() => props.setCmlOutput(toCML(props.programData, props.loopData, props.isNyuryokuShingou, props.tkData, props.settings))}>CMLへ変換</Button>
             </div>
         </div>
