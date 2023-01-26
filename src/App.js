@@ -209,6 +209,7 @@ export const App = () => {
                                     <div ref={expCopyDone} className="exp-copy-done hidden">コピーされました</div>
                                 </div>
                             </div>
+                            <div className='spacer'></div>
                         </div>
                     </div>
                 </div>
