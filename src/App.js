@@ -195,8 +195,10 @@ export const App = () => {
                     </div>
                     <div className='cml-output-container'>
                         <div className="cml-output-section">
-                            <h3 className='unselectable'>CML</h3>
-                            <Editor value={cmlOutput} onChange={setCmlOutput} />
+                            <div className='cml-output-content'>
+                                <h3 className='unselectable'>CML</h3>
+                                <Editor value={cmlOutput} onChange={setCmlOutput} />
+                            </div>
                             <div className="jikkou-button">
                                 <Button variant="contained" onClick={() => showPopUpOfInstruction()}>
                                     テキストファイルに<br/>エクスポート

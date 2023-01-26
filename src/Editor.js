@@ -15,6 +15,7 @@ export const Editor = (props) => {
                 onBeforeChange={handleChange}
                 value={props.value}
                 className="cml-editor"
+                style={{ height: "max-content" }}
                 options={{
                     lineWrapping: true,
                     lint: true,
