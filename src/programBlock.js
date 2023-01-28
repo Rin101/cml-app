@@ -723,7 +723,8 @@ export const TypeDataInDousa = (props) => {
                     : dataFormat.inputForm.map(inputLine => {
                         return (
                             <div className="typedata-input-line" key={inputLine[0]}>
-                                <p className="typedata-var">{inputLine[0]}</p>
+                                {/* { inputLine[0]=='現在位置から'? <p className="typedata-var-highlight">{inputLine[0]}</p> : <p className="typedata-var">{inputLine[0]}</p> } */}
+                                <p className={inputLine[0]=='現在位置から'? "typedata-var-highlight" : "typedata-var"}>{inputLine[0]}</p>
                                 <DataInput index={dataFormat.inputForm.indexOf(inputLine)} tanniArr={inputLine[1]} />
                                 <p>{inputLine[2]}</p>
                             </div>
