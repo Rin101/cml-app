@@ -128,7 +128,7 @@ export const App = () => {
     }
 
     const showPopUpOfInstruction = () => {
-        instructionPopupRef.current.style.display = "flex"
+        // instructionPopupRef.current.style.display = "flex"
         handleFileExport()
     }
 
