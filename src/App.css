@@ -537,7 +537,7 @@ input[type]:focus,
 
 /* ===== */
 .popup-instruction {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -551,11 +551,21 @@ input[type]:focus,
   justify-content: center;
 }
 
-.popup-content {
+.popup-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
+}
+
+.popup-content {
+  background-color: white;
+  border-radius: 1rem;
+  height: 30vh;
+  min-width: 30vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .popup-instruction img {
