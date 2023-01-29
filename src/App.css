@@ -24,10 +24,6 @@ a {
   text-decoration: none;
 }
 
-:root {
-  --bottom-menu-height: 15vh
-}
-
 /* ----------------- */
 
 textarea:focus,
@@ -89,10 +85,9 @@ input[type]:focus,
 
 .command-list-container {
   width: 13%;
-  height: calc(85vh - var(--bottom-menu-height));
-  position: fixed;
-  padding: 0rem 0rem 0rem 1rem;
-  /* padding: 0rem 0rem 1rem 1rem; */
+  height: 85vh;
+  /* position: fixed; */
+  padding: 0rem 0rem 1rem 1rem;
 }
 
 .command-list {
@@ -111,10 +106,10 @@ input[type]:focus,
   align-items: center;
 }
 
-.command-list-width-box {
+/* .command-list-width-box {
   width: 13%;
   height: 85vh;
-}
+} */
 
 .command-selector {
   width: 80%;
@@ -157,16 +152,16 @@ input[type]:focus,
 .top-menu-container {
   min-height: 15vh;
   padding: 1rem 1rem;
-  position: fixed;
+  /* position: fixed; */
   background-color: #4b4b53;
   width: 100%;
-  z-index: 2000;
+  /* z-index: 2000; */
 }
-
+/* 
 .top-menu-spacer {
   height: 15vh;
   width: 100%;
-}
+} */
 
 .top-menu {
   height: calc(15vh - 2rem);
@@ -613,17 +608,17 @@ input[type]:focus,
 .bottom-menu-container {
   min-height: 15vh;
   padding: 0.5rem 1rem;
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
   background-color: #4b4b53;
   width: 100%;
-  z-index: 2000;
+  /* z-index: 2000; */
 }
 
-.bottom-menu-spacer {
+/* .bottom-menu-spacer {
   height: 15vh;
   width: 100%;
-}
+} */
 
 .bottom-menu {
   height: calc(15vh - 1rem);
