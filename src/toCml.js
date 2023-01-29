@@ -37,6 +37,18 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData, settings
                         case "入力点からの実行":
                             isNyuryokuShingou = true
                             break
+                        case "出力点1へ出力":
+                            every_data_teigi +="F1.1,F2.1,F3.1" + "\r\n"
+                            every_data_teigi +="O1.1" + "\r\n"
+                            break    
+                        case "出力点2へ出力":
+                            every_data_teigi +="F1.1,F2.1,F3.1" + "\r\n"
+                            every_data_teigi +="O2.1" + "\r\n"
+                            break
+                        case "出力点3へ出力":
+                            every_data_teigi +="F1.1,F2.1,F3.1" + "\r\n"
+                            every_data_teigi +="O3.1" + "\r\n"
+                            break       
                         default:
                             alert('ERROR-表を直してください')
                             break

@@ -228,13 +228,13 @@ export const ProgramBlock = (props) => {
     }
 
     const showTypeData = (isLoop, parentId, jiku, dousaType, dousaNum) => {
-        if (!isLoop) {
+        if (isLoop) {
+            props.setLoopInputObj([parentId, false])
+            props.setInputBoxType("loop")
+        } else if (!dousaType.includes('出力点')) {
             const typeDataObj = [jiku, parentId, dousaType, dousaNum, false]
             props.setTypeDataObj(typeDataObj)
             props.setInputBoxType("typedata")
-        } else {
-            props.setLoopInputObj([parentId, false])
-            props.setInputBoxType("loop")
         }
     }
 
@@ -487,6 +487,7 @@ export const ProgramBlock = (props) => {
                         dousa[2].forEach(value => {if (value.includes("数値を入力してください")) noValueArr.push("nope")})
                         const dousaId = "dousa-"+dousa_group_i+"-"+dousa_row_i+"-"+dousa_i
                         const jikuOfDousa = dousa_i
+
                         if (noValueArr.length > 0) {
                             main_grid.push(<div ref={dousaBoxRef} className="dousa-box unselectable" draggable="true" onDragStart={(e) => emptyBoxDragStart(e)} onDragEnd={(e) => emptyBoxDragEnd(e)} onMouseEnter={(e) => props.setCurrentDraggedCommand(e.currentTarget.id)} key={dousa_group_i+"dousabox"+dousa_row_i+"-"+dousa_i} id={dousaId}><div className='no-value-circle'></div><p className='dousa-title' onClick={() => showTypeData(false, dousaId, jikuOfDousa, dousa[0], dousa[1])} >{dousa[0]}<span style={{marginRight:'0.2rem'}}></span>{dousa[1]}</p><i className="fas fa-trash" onClick={(e) => trashInput(e, props.programData, props.setProgramData)}></i></div>)
                         } else {
@@ -699,7 +700,7 @@ export const TypeDataInDousa = (props) => {
                 isAllNumber = []
                 alert('数値を入力してください') 
             }
-        } 
+        }
     
         return (
             <div className="typeDataInDousa" ref={popupRef}>
@@ -713,7 +714,7 @@ export const TypeDataInDousa = (props) => {
                     }
                 </div>
                 {
-                    props.dousaType === "入力点からの実行" ? <></>
+                    (props.dousaType === "入力点からの実行") ? <></>
                     : dataFormat.inputForm.map(inputLine => {
                         return (
                             <div className="typedata-input-line" key={inputLine[0]}>
