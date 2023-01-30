@@ -245,7 +245,7 @@ export const App = () => {
                     <Button variant="contained" onClick={() => jikkou()}>モータに書き込む</Button>
                 </div>
             </div>
-            {/* <div className='bottom-menu-spacer'></div> */}
+            <div className='bottom-menu-spacer'></div>
         </div>
     )
 }
