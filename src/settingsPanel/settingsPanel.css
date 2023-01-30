@@ -105,9 +105,12 @@
 }
 
 /* ================================ */
-#save-changes-button {
+#setting-buttons {
     position: absolute;
     left: 50%;
     bottom: 1rem;
     transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

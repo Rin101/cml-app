@@ -54,7 +54,8 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
                             <p className='settings-panel-item-label'>{ data["label"] }</p>
                             <SettingInfo text={ data["infoText"] } />
                         </div>
-                        <input className='settings-panel-item-input' placeholder={inputValue} onChange={(e) => setTextInputValue(e.target.value)}/>
+                        <input className='settings-panel-item-input' placeholder={settings["kNum" + data["kNum"].toString()]} onChange={(e) => setTextInputValue(e.target.value)}/>
+                        {/* <input className='settings-panel-item-input' placeholder={inputValue} onChange={(e) => setTextInputValue(e.target.value)}/> */}
                     </div>
                 )
             case "dropdown":
@@ -79,6 +80,18 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
         setSettings(settingsObj)
     }
 
+    const setToDefault = () => {
+        // closePanel()
+        setSettingsObj({
+            'kNum5': 5, 'kNum11': 0, 'kNum12': 30, 'kNum13': 200, 'kNum14': 0, 'kNum22': 0,
+            'kNum23': 10, 'kNum24': 10, 'kNum25': 0, 'kNum26': 0, 'kNum27': 0, 'kNum28': 30
+        })
+        setSettings({
+            'kNum5': 5, 'kNum11': 0, 'kNum12': 30, 'kNum13': 200, 'kNum14': 0, 'kNum22': 0,
+            'kNum23': 10, 'kNum24': 10, 'kNum25': 0, 'kNum26': 0, 'kNum27': 0, 'kNum28': 30
+        })
+    }
+
     return (
         <div id="settings-panel">
             <div id="close-settings-panel" onClick={() => closePanel()}><i className="fas fa-times"></i></div>
@@ -101,10 +114,18 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
                     { settingsPanelData["genten"].map((item, i) => <SettingsPanelItem data={item} key={i} />) }
                 </div>
             </div>
-            <div id='save-changes-button'>
-                <Button variant="contained" onClick={() => saveChanges()}>
-                    変更を保存
-                </Button>
+            <div id='setting-buttons'>
+                <div id='save-changes-button'>
+                    <Button variant="contained" onClick={() => saveChanges()}>
+                        変更を保存
+                    </Button>
+                </div>
+                <div style={{marginRight: "30px"}}></div>
+                <div id='settings-to-default-button'>
+                    <Button variant="text" onClick={() => setToDefault()}>
+                        デフォルト設定に戻す
+                    </Button>
+                </div>
             </div>
         </div>
     )
