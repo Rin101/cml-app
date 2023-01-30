@@ -13,6 +13,7 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData, settings
         let dousa_jikkou_of_group = ""
         for (let dousa_row of dousa_group) {
             let dousa_jikkou_row_arr = []
+            let shuturyoku_row = ""
             for (let dousa of dousa_row) {
                 if (dousa.length !== 0) {
                     const dousa_jiku = dousa_row.indexOf(dousa) + 1
@@ -43,29 +44,30 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData, settings
                             isNyuryokuShingou = true
                             break
                         case "出力点1へ出力":
-                            if (containsShuturyoku1) {
-                                alert('エラー: 表を直してください\n出力点1への出力は1回しか使えません。')
-                            } else {
-                                every_data_teigi +="F1.1,F2.1,F3.1" + "\r\n"
-                                every_data_teigi +="O1.1" + "\r\n"
+                            if (!containsShuturyoku1) {
+                                shuturyoku_row += "F1.1,F2.1,F3.1" + "\r\n"
+                                shuturyoku_row += "O1.1" + "\r\n"
                                 containsShuturyoku1 = true
                             }
                             break  
                         case "出力点2へ出力":
-                            if (containsShuturyoku2) {
-                                alert('エラー: 表を直してください\n出力点2への出力は1回しか使えません。')
-                            } else {
-                                every_data_teigi +="F1.1,F2.1,F3.1" + "\r\n"
-                                every_data_teigi +="O2.1" + "\r\n"
+                            if (!containsShuturyoku2) {
+                                shuturyoku_row += "F1.1,F2.1,F3.1" + "\r\n"
+                                shuturyoku_row += "O2.1" + "\r\n"
                                 containsShuturyoku2 = true
                             }
                             break
                         case "出力点3へ出力":
-                            if (containsShuturyoku3) {
-                                alert('エラー: 表を直してください\n出力点3への出力は1回しか使えません。')
-                            } else {
-                                every_data_teigi +="F1.1,F2.1,F3.1" + "\r\n"
-                                every_data_teigi +="O3.1" + "\r\n"
+                            // if (containsShuturyoku3) {
+                            //     alert('エラー: 表を直してください\n出力点3への出力は1回しか使えません。')
+                            // } else {
+                            //     every_program_teigi +="F1.1,F2.1,F3.1" + "\r\n"
+                            //     every_program_teigi +="O3.1" + "\r\n"
+                            //     containsShuturyoku3 = true
+                            // }
+                            if (!containsShuturyoku3) {
+                                shuturyoku_row += "F1.1,F2.1,F3.1" + "\r\n"
+                                shuturyoku_row += "O3.1" + "\r\n"
                                 containsShuturyoku3 = true
                             }
                             break
@@ -86,9 +88,9 @@ export const toCML = (programData, loopData, isNyuryokuShingou, tkData, settings
                 }
             }
             if (dousa_jikkou_row_arr.length >= 1) {
-                dousa_jikkou_of_group += loop_start + dousa_jikkou_row_arr.join(",") + "\r\n" + loop_end
+                dousa_jikkou_of_group += loop_start + dousa_jikkou_row_arr.join(",") + "\r\n" + shuturyoku_row + loop_end
             } else {
-                dousa_jikkou_of_group += loop_start + loop_end
+                dousa_jikkou_of_group += loop_start + shuturyoku_row + loop_end
             }
         }
         every_program_teigi += dousa_jikkou_of_group
