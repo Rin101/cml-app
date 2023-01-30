@@ -66,7 +66,7 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
                             <SettingInfo text={ data["infoText"] } />
                         </div>
                         <div className='settings-panel-item-input'>
-                            <Dropdown setItem={setDropdownValue} defaultItem={data["inputs"][inputValue]} itemArr={data["inputs"]} />
+                            <Dropdown setItem={setDropdownValue} defaultItem={data["inputs"][settings["kNum" + data["kNum"].toString()]]} itemArr={data["inputs"]} />
                         </div>
                     </div>
                 )
