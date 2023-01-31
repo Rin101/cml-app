@@ -242,7 +242,8 @@ export const App = () => {
                             </div>
                             <div className="jikkou-button">
                                 <Button variant="contained" onClick={() => showPopUpOfInstruction()}>
-                                    テキストファイルに<br/>エクスポート
+                                    {/* テキストファイルに<br/>エクスポート */}
+                                    テキストファイルを出力
                                 </Button>
                                 <div className="copy-cml-container">
                                     <div className="copy-cml" onMouseEnter={() => display(expCopy)} onMouseLeave={() => hide(expCopy)} onClick={() => copyCML(cmlOutput)}><i className="fas fa-copy"></i></div>
@@ -258,7 +259,7 @@ export const App = () => {
             <div className='bottom-menu-container'>
                 <div className='bottom-menu' onClick={() => jikkou()}>
                     {/* <Button variant="contained" onClick={() => jikkou()}>モータに書き込む</Button> */}
-                    <p id='bottom-menu-button-text'>モータに書き込む</p>
+                    <p id='bottom-menu-button-text'>CMLをモータに書き込む</p>
                 </div>
             </div>
             <div className='bottom-menu-spacer'></div>
