@@ -182,9 +182,9 @@ export const App = () => {
     }
 
     function jikkou() {
+        setCmlOutput(toCML(programData, loopData, isNyuryokuShingou, tannikannsannData, settings))
         instructionPopupRef.current.style.display = "flex"
         pressRun(toCML(programData, loopData, isNyuryokuShingou, tannikannsannData, settings))
-        setCmlOutput(toCML(programData, loopData, isNyuryokuShingou, tannikannsannData, settings))
     }
 
     const closeTanni = () => {
