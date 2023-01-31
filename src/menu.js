@@ -98,22 +98,24 @@ export const TopMenu = (props) => {
     }
 
     const openTanni = () => {
-        topMenuRef.current.querySelector('.tannikannsann-popup').style.display = "flex"
+        document.querySelector('.tannikannsann-popup').style.display = "flex"
         props.layerRef.current.style.display = "block"
     }
 
     const closeTanni = (topMenuRef, layerRef) => {
-        topMenuRef.current.querySelector('.tannikannsann-popup').style.display = "none"
+        document.querySelector('.tannikannsann-popup').style.display = "none"
+        // topMenuRef.current.querySelector('.tannikannsann-popup').style.display = "none"
         layerRef.current.style.display = "none"
     }
 
     const openSettingsPanel = () => {
-        topMenuRef.current.querySelector('#settings-panel').style.display = "flex"
+        document.querySelector('#settings-panel').style.display = "flex"
         props.layerRef.current.style.display = "block"
     }
 
     const closeSettingsPanel = () => {
-        topMenuRef.current.querySelector('#settings-panel').style.display = "none"
+        document.current.querySelector('#settings-panel').style.display = "none"
+        // topMenuRef.current.querySelector('#settings-panel').style.display = "none"
         props.layerRef.current.style.display = "none"
     }
 
@@ -154,11 +156,11 @@ export const TopMenu = (props) => {
                 <i className="fa-solid fa-gears"></i>単位換算
                 <div ref={expTanni} className="exp-box hidden">表示単位と分解能を設定します</div>
             </div>
-            <Tannikannsann jiku={props.jiku} tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/>
+            {/* <Tannikannsann jiku={props.jiku} tannikannsannData={props.tannikannsannData} setTannikannsannData={props.setTannikannsannData} application={props.application} setApplication={props.setApplication} tanniValue={props.tanniValue} setTanniValue={props.setTanniValue} layerRef={props.layerRef} topMenuRef={topMenuRef} closeTanni={closeTanni}/> */}
             <div className="top-menu-button settings unselectable" onClick={() => openSettingsPanel()}>
                 <i className="fa-solid fa-gear"></i>各種設定
             </div>
-            <SettingsPanel closePanel={closeSettingsPanel} settings={props.settings} setSettings={props.setSettings} />
+            {/* <SettingsPanel closePanel={closeSettingsPanel} settings={props.settings} setSettings={props.setSettings} /> */}
             <div className='top-menu-button mute-button unselectable' onClick={(e) => toggleIsMute(e)}>
                 <i ref={muteIconRef} className={"fa-solid fa-"+muteIcon}></i>
             </div>
@@ -171,7 +173,7 @@ export const TopMenu = (props) => {
     )
 }
 
-const Tannikannsann = (props) => {
+export const Tannikannsann = (props) => {
     // props: tanniValue, setTanniValue, application, setApplication, tannikannsannData, setTannikannsannData
     
     const close = () => {
