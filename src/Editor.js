@@ -11,7 +11,7 @@ export const Editor = (props) => {
 
     return(
         <div className="cml-editor-container">
-            <ControlledEditor 
+            <ControlledEditor
                 onBeforeChange={handleChange}
                 value={props.value}
                 className="cml-editor"
