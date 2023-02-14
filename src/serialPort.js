@@ -44,6 +44,7 @@ export async function pressRun (cml) {
     // const writer = await port.writable.getWriter();
     // await writer.write(str2ab('[1.1\r\n'));
     // await writer.releaseLock();
+    await delay(500);
     await port.close();
 }
 
@@ -65,7 +66,7 @@ export async function stop() {
     // await writer.write(str2ab('].1' + '\r\n'));
     // await writer.write(str2ab(']L' + '\r\n'));
     await writer.write(str2ab('L1.1' + '\r\n'));
-    await writer.write(str2ab('END' + '\r\n'));
+    await writer.write(str2ab('END.1' + '\r\n'));
     await writer.write(str2ab('$.1' + '\r\n'));
     writer.releaseLock();
     await port.close();
