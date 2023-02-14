@@ -7,6 +7,10 @@ function str2ab(str) {
     return buf;
 }
 
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+
 export async function pressRun (cml) {
     // const port = await navigator.serial.requestPort();
     // await port.open({ baudRate: 38400 });
