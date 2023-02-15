@@ -15,7 +15,8 @@ import { SettingsPanel } from './settingsPanel/settingsPanel';
 
 export const App = () => {
 
-    const [cmlOutput, setCmlOutput] = useLocalStorage('CML', '')
+    // const [cmlOutput, setCmlOutput] = useLocalStorage('CML', '')
+    const [cmlOutput, setCmlOutput] = useState('')
     const [isNyuryokuShingou, setIsNyuryokuShingou] = useState(false)
     const [settings, setSettings] = useLocalStorage('kNum', {
         'kNum5': 5, 'kNum11': 0, 'kNum12': 30, 'kNum13': 200, 'kNum14': 0, 'kNum22': 0,
