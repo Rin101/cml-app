@@ -194,8 +194,14 @@ export const App = () => {
     async function jikkou() {
         // setCmlOutput(toCML(programData, loopData, isNyuryokuShingou, tannikannsannData, settings))
         // pressRun(toCML(programData, loopData, isNyuryokuShingou, tannikannsannData, settings))
-        await pressRun(cmlOutput)
-        instructionPopupRef.current.style.display = "flex"
+        if (cmlOutput.length > 0) {
+            await pressRun(cmlOutput)
+            setTimeout(() => {
+                instructionPopupRef.current.style.display = "flex"
+            }, 500);   
+        } else {
+            alert("CMLに変換してください。")
+        }
     }
 
     const closeTanni = () => {
