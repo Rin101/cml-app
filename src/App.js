@@ -188,7 +188,7 @@ export const App = () => {
                 <div className='popup-container'>
                     <div id="close-instruction-popup" onClick={() => close()}><i className="fas fa-times-circle"></i></div>
                     <div className='popup-content'>
-                        <p>モータを再起動してください。</p>
+                        <p>モータへの書き込みが完了しました。<br/>モータの電源を再投入すると、入力点からの制御が可能になります。</p>
                     </div>
                     {/* export to text file instruction */}
                     {/* <img src={instructionImg} alt="instruction" /> */}

@@ -1,27 +1,28 @@
 import { Button } from '@mui/material'
 import { useState, useRef, useEffect } from 'react'
 import { SettingInfo } from './settingInfo'
+import { SettingsDefaultInfo } from './settingsDefaultInfo'
 import './settingsPanel.css'
 
 export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
 
     const settingsPanelData = {
         "kyoutuu": [
-            {"kNum":5, "name":"inposition", "label":"インポジション幅", "inputType":"text", "infoText":'インポジションと認識する幅を設定: 10.3 参照'},
+            {"kNum":5, "name":"inposition", "tanni": "Pulse", "label":"インポジション幅", "inputType":"text", "infoText":'インポジションと認識する幅を設定: 10.3 参照'},
         ],
         "oshituke": [
-            {"kNum":11, "name":"oshitukeDousaMode", "label":"押付け動作モード", "inputType":"dropdown", "inputs":["連続(片方向)","有限(片方向)","連続(両方向)","有限(両方向)",], "infoText":<>押付動作時の押付方向<br/>連続押付又は有限押付を設定<br/>():トルクが制限される方向<br/>片:動作方向に向かってのみトルク制限動作<br/>両:動作方向にかかわらずトルク制限動作</>},
-            {"kNum":12, "name":"oshitukeDousaTorque", "label":"押付け動作トルク", "inputType":"text", "infoText":<>コマンドＱ又はＺによる押付け動作時の<br/>トルク設定を定格トルクに対する％で設定します。</>},
-            {"kNum":13, "name":"oshitukeDousaTime", "label":"押付け動作保持時間", "inputType":"text", "infoText":'押付動作時間を設定8.6.2 参照'},
+            {"kNum":11, "name":"oshitukeDousaMode", "tanni": "", "label":"押付け動作モード", "inputType":"dropdown", "inputs":["連続(片方向)","有限(片方向)","連続(両方向)","有限(両方向)",], "infoText":<>押付動作時の押付方向<br/>連続押付又は有限押付を設定<br/>():トルクが制限される方向<br/>片:動作方向に向かってのみトルク制限動作<br/>両:動作方向にかかわらずトルク制限動作</>},
+            {"kNum":12, "name":"oshitukeDousaTorque", "tanni": "%", "label":"押付け動作トルク", "inputType":"text", "infoText":<>コマンドＱ又はＺによる押付け動作時の<br/>トルク設定を定格トルクに対する％で設定します。</>},
+            {"kNum":13, "name":"oshitukeDousaTime", "tanni": "msec", "label":"押付け動作保持時間", "inputType":"text", "infoText":'押付動作時間を設定8.6.2 参照'},
         ],
         "genten": [
-            {"kNum":22, "name":"gentenShingou", "label":"原点信号源", "inputType":"dropdown", "inputs":["押当原点検出","押当原点検出(自)","原点センサ","原点センサ(自)"], "infoText":<>原点検出信号源と検出方法を設定<br/>原点センサは、入力点１にのみ割付可能<br/>（自）：電源 ON 時、自動原点検出動作を開始<br/>11.1 参照</>},
-            {"kNum":23, "name":"gentenSpeed", "label":"原点検出速度", "inputType":"text", "infoText":'原点検出動作時の速度を設定'},
-            {"kNum":24, "name":"gentenAccel", "label":"原点検出加速度", "inputType":"text", "infoText":'原点検出動作時の加速度を設定'},
-            {"kNum":25, "name":"gentenDirection", "label":"原点検出方向", "inputType":"dropdown", "inputs":["CW方向","CCW方向"], "infoText":'原点検出動作時の動作方向を設定'},
-            {"kNum":26, "name":"gentenOffset", "label":"原点オフセット距離", "inputType":"text", "infoText":<>検出した原点から座標原点までの<br/>オフセット量を設定</>},
-            {"kNum":27, "name":"gentenUnit", "label":"原点オフセット距離単位", "inputType":"dropdown", "inputs":["100","10","1"], "infoText":'オフセット設定時の単位を設定'},
-            {"kNum":28, "name":"gentenTorque", "label":"押当原点検出トルク", "inputType":"text", "infoText":<>押当原点検出時、機械ストッパを検出するトルクを<br/>定格トルクに対する比率で設定<br/>11.1.1 参照</>},
+            {"kNum":22, "name":"gentenShingou", "tanni": "", "label":"原点信号源", "inputType":"dropdown", "inputs":["押当原点検出","押当原点検出(自)","原点センサ","原点センサ(自)"], "infoText":<>原点検出信号源と検出方法を設定<br/>原点センサは、入力点１にのみ割付可能<br/>（自）：電源 ON 時、自動原点検出動作を開始<br/>11.1 参照</>},
+            {"kNum":23, "name":"gentenSpeed", "tanni": "100pp", "label":"原点検出速度", "inputType":"text", "infoText":'原点検出動作時の速度を設定'},
+            {"kNum":24, "name":"gentenAccel", "tanni": "kpps2", "label":"原点検出加速度", "inputType":"text", "infoText":'原点検出動作時の加速度を設定'},
+            {"kNum":25, "name":"gentenDirection", "tanni": "", "label":"原点検出方向", "inputType":"dropdown", "inputs":["CW方向","CCW方向"], "infoText":'原点検出動作時の動作方向を設定'},
+            {"kNum":26, "name":"gentenOffset", "tanni": "Pulse", "label":"原点オフセット距離", "inputType":"text", "infoText":<>検出した原点から座標原点までの<br/>オフセット量を設定</>},
+            {"kNum":27, "name":"gentenUnit", "tanni": "Pulse", "label":"原点オフセット距離単位", "inputType":"dropdown", "inputs":["100","10","1"], "infoText":'オフセット設定時の単位を設定'},
+            {"kNum":28, "name":"gentenTorque", "tanni": "%", "label":"押当原点検出トルク", "inputType":"text", "infoText":<>押当原点検出時、機械ストッパを検出するトルクを<br/>定格トルクに対する比率で設定<br/>11.1.1 参照</>},
         ],
     }
 
@@ -55,7 +56,7 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
                             <SettingInfo text={ data["infoText"] } />
                         </div>
                         <input className='settings-panel-item-input' placeholder={settings["kNum" + data["kNum"].toString()]} onChange={(e) => setTextInputValue(e.target.value)}/>
-                        {/* <input className='settings-panel-item-input' placeholder={inputValue} onChange={(e) => setTextInputValue(e.target.value)}/> */}
+                        <p className='settings-panel-item-tanni'>{data["tanni"]}</p>
                     </div>
                 )
             case "dropdown":
@@ -68,6 +69,7 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
                         <div className='settings-panel-item-input'>
                             <Dropdown setItem={setDropdownValue} defaultItem={data["inputs"][settings["kNum" + data["kNum"].toString()]]} itemArr={data["inputs"]} />
                         </div>
+                        <p className='settings-panel-item-tanni'>{data["tanni"]}</p>
                     </div>
                 )
             default:
@@ -126,6 +128,8 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
                         デフォルト設定に戻す
                     </Button>
                 </div>
+                <div style={{marginRight: "10px"}}></div>
+                <SettingsDefaultInfo info={settingsPanelData} />
             </div>
         </div>
     )
