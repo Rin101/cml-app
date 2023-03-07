@@ -17,11 +17,10 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
         ],
         "genten": [
             {"kNum":22, "name":"gentenShingou", "tanni": "", "label":"原点信号源", "inputType":"dropdown", "inputs":["押当原点検出","押当原点検出(自)","原点センサ","原点センサ(自)"], "infoText":<>原点検出信号源と検出方法を設定<br/>原点センサは、入力点１にのみ割付可能<br/>（自）：電源 ON 時、自動原点検出動作を開始<br/>11.1 参照</>},
-            {"kNum":23, "name":"gentenSpeed", "tanni": "100pp", "label":"原点検出速度", "inputType":"text", "infoText":'原点検出動作時の速度を設定'},
+            {"kNum":23, "name":"gentenSpeed", "tanni": "100pps", "label":"原点検出速度", "inputType":"text", "infoText":'原点検出動作時の速度を設定'},
             {"kNum":24, "name":"gentenAccel", "tanni": "kpps2", "label":"原点検出加速度", "inputType":"text", "infoText":'原点検出動作時の加速度を設定'},
             {"kNum":25, "name":"gentenDirection", "tanni": "", "label":"原点検出方向", "inputType":"dropdown", "inputs":["CW方向","CCW方向"], "infoText":'原点検出動作時の動作方向を設定'},
-            {"kNum":26, "name":"gentenOffset", "tanni": "Pulse", "label":"原点オフセット距離", "inputType":"text", "infoText":<>検出した原点から座標原点までの<br/>オフセット量を設定</>},
-            {"kNum":27, "name":"gentenUnit", "tanni": "Pulse", "label":"原点オフセット距離単位", "inputType":"dropdown", "inputs":["100","10","1"], "infoText":'オフセット設定時の単位を設定'},
+            {"kNum":26, "name":"gentenOffset", "tanni": "100Pulse", "label":"原点オフセット距離", "inputType":"text", "infoText":<>検出した原点から座標原点までの<br/>オフセット量を設定</>},
             {"kNum":28, "name":"gentenTorque", "tanni": "%", "label":"押当原点検出トルク", "inputType":"text", "infoText":<>押当原点検出時、機械ストッパを検出するトルクを<br/>定格トルクに対する比率で設定<br/>11.1.1 参照</>},
         ],
     }
@@ -86,11 +85,11 @@ export const SettingsPanel = ({ closePanel, settings, setSettings }) => {
         // closePanel()
         setSettingsObj({
             'kNum5': 5, 'kNum11': 0, 'kNum12': 30, 'kNum13': 200, 'kNum14': 0, 'kNum22': 0,
-            'kNum23': 10, 'kNum24': 10, 'kNum25': 0, 'kNum26': 0, 'kNum27': 0, 'kNum28': 30
+            'kNum23': 10, 'kNum24': 10, 'kNum25': 0, 'kNum26': 0, 'kNum28': 30
         })
         setSettings({
             'kNum5': 5, 'kNum11': 0, 'kNum12': 30, 'kNum13': 200, 'kNum14': 0, 'kNum22': 0,
-            'kNum23': 10, 'kNum24': 10, 'kNum25': 0, 'kNum26': 0, 'kNum27': 0, 'kNum28': 30
+            'kNum23': 10, 'kNum24': 10, 'kNum25': 0, 'kNum26': 0, 'kNum28': 30
         })
     }
 
