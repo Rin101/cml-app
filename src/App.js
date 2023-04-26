@@ -221,9 +221,9 @@ export const App = () => {
                 <div className='popup-container'>
                     <div id="close-instruction-popup" onClick={() => close()}><i className="fas fa-times-circle"></i></div>
                     <div className='popup-jikkou-content'>
-                        <p>実行するバンクの番号を選択</p>
+                        <p>入力点を選択</p>
                         <div style={{marginTop: "30px"}}></div>
-                        <select id="test-dropdown" 
+                        <select id="jikkou-dropdown" 
                             defaultValue={jikkouNum}
                             onChange={(e) => setJikkouNum(e.target.value)}
                             >
@@ -234,8 +234,10 @@ export const App = () => {
                             <option value="4">4</option>
                         </select>
                         <div style={{marginTop: "30px"}}></div>
-                        <Button variant="contained" onClick={() => sendJikkou()}>
-                            実行コマンド送信
+                        <p id='jikkou-popup-text'>*実行コマンドを送信すると現在モータ内に書き込まれている<br/>プログラムを実行し、モータが回転します。</p>
+                        <div style={{marginTop: "15px"}}></div>
+                        <Button color='warning' variant="contained" onClick={() => sendJikkou()}>
+                            動作開始
                         </Button>
                     </div>
                 </div>
@@ -340,7 +342,7 @@ export const App = () => {
                 </div>
                 <div style={{marginLeft: "10px"}}></div>
                 <div className='bottom-menu' id="bottom-menu-jikkou-button" onClick={() => openJikkouNumPopup()}>
-                    <p className='bottom-menu-button-text'>実行コマンド送信</p>
+                    <p className='bottom-menu-button-text'>動作開始</p>
                 </div>
             </div>
             <div className='bottom-menu-spacer'></div>
